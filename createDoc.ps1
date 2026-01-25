@@ -1,0 +1,1 @@
+OpenKNXproducer baggages -d doc/Applikationsbeschreibung-ClimateControl.md -b src/Baggages/Help_de -p CLI

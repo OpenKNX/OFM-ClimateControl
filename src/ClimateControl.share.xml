@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="../../Organization/knxprod-support/knx_project_14/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns="http://knx.org/xml/project/14" CreatedBy="KNX MT" ToolVersion="5.1.255.16695">
+  <op:config name="%CLI_NumChannelsDefault%" value="1" />
+
+  <op:config name="%CLI_DeviceName%" value="Klimaanlage" />
+
+  <ManufacturerData>
+    <Manufacturer>
+      <ApplicationPrograms>
+        <ApplicationProgram>
+          <Static>
+            <ParameterTypes>
+              <ParameterType Id="%AID%_PT-CLINumChannels" Name="CLINumChannels">
+								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
+							</ParameterType>  
+              <ParameterType Id="%AID%_PT-CLIControlMode" Name="CLIControlMode">
+              <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="HVAC" Value="0" Id="%ENID%" />
+                  <Enumeration Text="HVAC und Power" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Ein Objekt pro Modus" Value="2" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Sollwertvorgabe" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="2" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+            
+              <ParameterType Id="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CLIWaitTimeAfterPowerUp">
+                <TypeRestriction Base="Value" SizeInBit="7">
+                  <Enumeration Text="1 Sekunde" Value="0" Id="%ENID%" />
+                  <Enumeration Text="5 Sekunden" Value="1" Id="%ENID%" />
+                  <Enumeration Text="10 Sekunden" Value="2" Id="%ENID%" />
+                  <Enumeration Text="20 Sekunden" Value="3" Id="%ENID%" />
+                  <Enumeration Text="30 Sekunden" Value="4" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIAverageTemperatureCalculation" Name="CLIAverageTemperatureCalculation">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Mittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Gerät 1" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Gerät 2" Value="2" Id="%ENID%" />      
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIDeviceSelectionFix" Name="CLIDeviceSelectionFix">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="%CLI_DeviceName%" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Externes Gerät" Value="1" Id="%ENID%" />      
+                </TypeRestriction>
+              </ParameterType>
+              
+              <ParameterType Id="%AID%_PT-CLIAverageTemperatur" Name="CLINumChannels">
+								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="5" maxInclusive="30" />
+							</ParameterType>  
+
+              <ParameterType Id="%AID%_PT-CLIAverageDays" Name="CLIAverageDays">
+								<TypeNumber SizeInBit="4" Type="unsignedInt" minInclusive="1" maxInclusive="10" />
+							</ParameterType>  
+
+
+              <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="OpenKNX Automatik" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Anforderung Gerät 1" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Anforderung Gerät 2" Value="2" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIBehaviorDeviceChange" Name="CLIBehaviorDeviceChange">
+                <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
+                  <Enumeration Text="Verlässt Automatikbetrieb" Value="0" Id="%ENID%" />
+                  <Enumeration Text="OpenKNX überschreibt die Auswahl" Value="1" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+     
+           </ParameterTypes>
+            <Parameters>
+              <Union SizeInBit="56">
+                <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
+                <!-- Number of channels -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Kanäle" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
+                <!-- Summer Winter KO-->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%00001" Name="SummerWinterKo" ParameterType="%AID%_PT-OnOffYesNo" Text="Gruppenobjekt" Value="0" />
+                <!-- Summer Winter Date-->
+                <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%00002" Name="SummerWinterDate" ParameterType="%AID%_PT-OnOffYesNo" Text="Datum" Value="0" />
+                <!-- Summer Winter Day Temp-->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%00003" Name="SummerWinterDayTemp" ParameterType="%AID%_PT-OnOffYesNo" Text="Tagesdurchschnittstemperatur" Value="1" />    
+                <!-- 5 bits free -->
+                <!-- Average Temperature Calculation -->
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%00004" Name="AverageTempCalc" ParameterType="%AID%_PT-CLIAverageTemperatureCalculation" Text="Berechnung" Value="0" />
+                <!-- Send read request -->
+                <Parameter Offset="2" BitOffset="4" Id="%AID%_UP-%TT%00005" Name="SendReadRequest" ParameterType="%AID%_PT-OnOffYesNo" Text="Leseanfrage zum Berechnungszeitpunkt senden" Value="0" />
+                <!-- Average Temperature Summer -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%00006" Name="AverageTempSummer" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Sommer bei ≥" Value="17" />
+                <!-- 4 bits free -->
+                <!-- Average Days Summer -->
+                <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%00007" Name="AverageDays" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
+                <!-- Average Temperature Winter -->
+                <Parameter Offset="5" BitOffset="0" Id="%AID%_UP-%TT%00008" Name="AverageTempWinter" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Winter bei ≤" Value="14" />
+                <!-- Average Days Winter -->
+                <Parameter Offset="6" BitOffset="0" Id="%AID%_UP-%TT%00009" Name="AverageDaysWinter" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
+                <!-- 4 bits free -->
+                 
+
+              </Union>
+
+
+            </Parameters>
+            <ParameterRefs>
+              <!-- Number of channels -->
+              <ParameterRef Id="%AID%_UP-%TT%00000_R-%TT%0000001" RefId="%AID%_UP-%TT%00000" />
+              <!-- Summer Winter KO-->
+              <ParameterRef Id="%AID%_UP-%TT%00001_R-%TT%0000101" RefId="%AID%_UP-%TT%00001" />
+              <!-- Summer Winter Date-->
+              <ParameterRef Id="%AID%_UP-%TT%00002_R-%TT%0000201" RefId="%AID%_UP-%TT%00002" />
+              <!-- Summer Winter Day Temp-->
+              <ParameterRef Id="%AID%_UP-%TT%00003_R-%TT%0000301" RefId="%AID%_UP-%TT%00003" />
+              <!-- Average Temperature Calculation -->
+              <ParameterRef Id="%AID%_UP-%TT%00004_R-%TT%0000401" RefId="%AID%_UP-%TT%00004" />
+              <!-- Send read request -->
+              <ParameterRef Id="%AID%_UP-%TT%00005_R-%TT%0000501" RefId="%AID%_UP-%TT%00005" />
+              <!-- Average Temperature Summer -->
+              <ParameterRef Id="%AID%_UP-%TT%00006_R-%TT%0000601" RefId="%AID%_UP-%TT%00006" />
+              <!-- Average Days Summer -->
+              <ParameterRef Id="%AID%_UP-%TT%00007_R-%TT%0000701" RefId="%AID%_UP-%TT%00007" />
+              <!-- Average Temperature Winter -->
+              <ParameterRef Id="%AID%_UP-%TT%00008_R-%TT%0000801" RefId="%AID%_UP-%TT%00008" />
+              <!-- Average Days Winter -->
+              <ParameterRef Id="%AID%_UP-%TT%00009_R-%TT%0000901" RefId="%AID%_UP-%TT%00009" />
+            </ParameterRefs>
+          </Static>
+          <Dynamic>
+            <Channel Name="MainChannel" Text="Klima Steuerung" Number="%PREFIX%" Id="%AID%_CH-%TT%" Icon="home-thermometer-outline">
+
+              <ParameterBlock Id="%AID%_PB-nnn" Name="ClimateControlSettings" Text="Allgemein" Icon="cog-outline" HelpContext="CLI-KlimaSteuerung">
+
+								<ParameterSeparator Id="%AID%_PS-nnn" Text="Klima Steuerung" UIHint="Headline" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
+
+								<ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+									
+                <!-- Kanalanzahl -->
+								<ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="CLI-Anzahl-der-Kanaele" />
+
+
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Sommer- / Winterbetriebsumschaltung" UIHint="Headline" />
+
+                <!-- Summer Winter KO-->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00001_R-%TT%0000101" HelpContext="%DOC%" />
+                <!-- Summer Winter Date-->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00002_R-%TT%0000201" HelpContext="%DOC%" />
+                <!-- Summer Winter Day Temp-->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00003_R-%TT%0000301" HelpContext="%DOC%" />
+                <choose ParamRefId="%AID%_UP-%TT%00003_R-%TT%0000301">
+                  <when test="1">
+                    <!-- Average Temperature Calculation -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00004_R-%TT%0000401" HelpContext="%DOC%" />
+                    <choose ParamRefId="%AID%_UP-%TT%00004_R-%TT%0000401">
+                      <when test="1 2"> <!-- Jede Stunde, Mannheimer-->
+                        <!-- Send read request -->
+                        <ParameterRefRef IndentLevel="3" RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
+                      </when>
+                    </choose>
+                    <!-- Average Temperature Summer -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00006_R-%TT%0000601" HelpContext="%DOC%" />
+                    <!-- Average Days Summer -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00007_R-%TT%0000701" HelpContext="%DOC%" />
+                    <!-- Average Temperature Winter -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00008_R-%TT%0000801" HelpContext="%DOC%" />
+                    <!-- Average Days Winter -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00009_R-%TT%0000901" HelpContext="%DOC%" />
+                  </when>
+                </choose>
+
+
+              </ParameterBlock>
+
+              <op:include href="ClimateControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="CLI" IsInner="true" />
+           
+              <!-- More Page -->
+						  <choose ParamRefId="%AID%_UP-%TT%00000_R-%TT%0000001">
+                <when test="&lt;%N%">
+                  <ParameterBlock Id="%AID%_PB-nnn" Name="CLIAdditionalChannels" Text="(mehr)" Icon="dots-horizontal" HelpContext="CLI-Mehr-Kanaele" >										<!-- HelpContext="Empty" -->
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Kanäle" UIHint="Headline" />
+                    <!-- Number of channels -->
+                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="CLI-Anzahl-der-Kanaele" />
+                </ParameterBlock>
+              </when>
+              </choose>
+            </Channel>
+
+        </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Baggages>
+				<Baggage TargetPath="" Name="Help_de.zip" Id="%FILE-HELP-de%">
+					<FileInfo TimeInfo="%DATETIME%" />
+				</Baggage>
+				<Baggage TargetPath="" Name="Icons.zip" Id="%FILE-ICONS%">
+					<FileInfo TimeInfo="%DATETIME%" />
+				</Baggage>
+			</Baggages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

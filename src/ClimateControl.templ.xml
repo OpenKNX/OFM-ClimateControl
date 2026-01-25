@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns="http://knx.org/xml/project/20" CreatedBy="KNX MT" ToolVersion="5.1.255.16695">
+  <ManufacturerData>
+    <Manufacturer>
+      <ApplicationPrograms>
+        <ApplicationProgram>
+          <Static>
+            <Parameters>
+              <!-- Channel Name -->
+              <Parameter Id="%AID%_P-%TT%%CC%000" Name="Channel%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Zimmer" Value="" />
+             
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
+                <!-- Channel Disabled -->
+                <Parameter Id="%AID%_UP-%TT%%CC%001" Name="CH%C%ChannelDisabled" ParameterType="%AID%_PT-CheckBox" Offset="1" BitOffset="0" Text="Kanal deaktivieren (zu Testzwecken)" Value="0" />
+
+                <!-- 7 Bits free-->
+              </Union>
+
+
+              <!-- HVAC Name 1 -->
+              <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Gerätname" Value="" />
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%MID%" Offset="1" BitOffset="0" />
+                <!-- Control Mode 1 -->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
+                <!-- Temperature Control 1 -->
+                <Parameter  Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%102" ParameterType="%AID%_PT-CLIControlTemperature" Name="CH%C%ControlTemperature1" Text="Temperaturregelung über" Value="0" />
+                <!-- Full power off -->
+                <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%103" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff1" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
+                <!-- Wait Time after Power Up 1 -->       
+                <Parameter  Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%104" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp1" Text="Wartezeit nach Einschalten" Value="0" />
+                <!-- ^^^ Need 7 bits -->   
+              </Union>
+
+              <!-- HVAC Name 2 -->
+              <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Gerätname" Value="" /> 
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%MID%" Offset="17" BitOffset="0" />
+                <!-- Control Mode 1 -->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
+                <!-- Temperature Control 1 -->
+                <Parameter  Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%202" ParameterType="%AID%_PT-CLIControlTemperature"  Name="CH%C%ControlTemperature2" Text="Temperaturregelung über" Value="0" />
+                <!-- Full power off -->
+                <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
+                <!-- Wait Time after Power Up 1 -->       
+                <Parameter  Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
+                <!-- ^^^ Need 7 bits -->   
+              </Union>
+
+              <!-- Cooling -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%MID%" Offset="33" BitOffset="0" />
+                <!-- Cooling Device Selection-->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="1" />
+               
+              </Union>
+
+              <!-- Heating -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%MID%" Offset="35" BitOffset="0" />
+                <!-- Heating Device Selection-->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="0" />
+               
+              </Union>
+
+              <!-- Dehumidification -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%MID%" Offset="37" BitOffset="0" />
+                <!-- Dehumidification Device Selection-->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
+               
+              </Union>
+
+              <!-- Fan -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
+                <!-- Fan Device Selection-->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="1" />
+               
+              </Union>
+
+              <!-- Auto -->
+              <Union SizeInBit="24">
+                <Memory CodeSegment="%MID%" Offset="41" BitOffset="0" />
+                <!-- Cooling Auto Device Selection-->
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
+                <!-- Heating Auto Device Selection -->
+                <Parameter  Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%902" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoHeatDeviceSelection" Text="Heizen Auswahl durch" Value="0" />
+                <!-- Dehumidification Auto Device Selection -->
+                <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%903" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDehumDeviceSelection" Text="Entfeuchten Auswahl durch" Value="0" />
+                <!-- Fan Auto Device Selection -->
+                <Parameter  Offset="1" BitOffset="4" Id="%AID%_UP-%TT%%CC%904" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoFanDeviceSelection" Text="Lüften Auswahl durch" Value="0" />
+                <!-- Manual change on device -->
+                <Parameter  Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%905" ParameterType="%AID%_PT-CLIBehaviorDeviceChange"  Name="CH%C%BehaviorOnDeviceChange" Text="Manuelle Änderung am Gerät" Value="0" />
+                <!-- 4 bits free -->  
+              </Union>
+
+            </Parameters>
+            <ParameterRefs>
+              <!-- Channel Name  -->
+              <ParameterRef Id="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" RefId="%AID%_P-%TT%%CC%000" />
+              <!-- Channel Disabled -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_UP-%TT%%CC%001" Text="test" />
+           
+               <!-- HVAC Name 1 -->
+              <ParameterRef Id="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_P-%TT%%CC%100" />
+              <!-- Control Mode 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%101_R-%TT%%CC%10101" RefId="%AID%_UP-%TT%%CC%101" />
+              <!-- Temperature Control 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%102_R-%TT%%CC%10201" RefId="%AID%_UP-%TT%%CC%102" />
+              <!-- Full power off 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" RefId="%AID%_UP-%TT%%CC%103" />
+              <!-- Wait Time after Power Up 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" RefId="%AID%_UP-%TT%%CC%104" />
+              <!-- HVAC Name 2 -->
+              <ParameterRef Id="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" RefId="%AID%_P-%TT%%CC%200" /> 
+              <!-- Control Mode 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%201_R-%TT%%CC%20101" RefId="%AID%_UP-%TT%%CC%201" />
+              <!-- Temperature Control 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%202_R-%TT%%CC%20201" RefId="%AID%_UP-%TT%%CC%202" />
+              <!-- Full power off 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" RefId="%AID%_UP-%TT%%CC%203" />
+              <!-- Wait Time after Power Up 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%204_R-%TT%%CC%20401" RefId="%AID%_UP-%TT%%CC%204" />
+
+              <!-- Cooling Device Selection-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" RefId="%AID%_UP-%TT%%CC%501" />
+              <!-- Heating Device Selection-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101" RefId="%AID%_UP-%TT%%CC%601" />
+              <!-- Dehumidification Device Selection-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101" RefId="%AID%_UP-%TT%%CC%701" />
+              <!-- Fan Device Selection-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101" RefId="%AID%_UP-%TT%%CC%801" />
+
+              <!-- Cooling Auto Device Selection-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101" RefId="%AID%_UP-%TT%%CC%901" />
+              <!-- Heating Auto Device Selection -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%902_R-%TT%%CC%90201" RefId="%AID%_UP-%TT%%CC%902" />
+              <!-- Dehumidification Auto Device Selection -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%903_R-%TT%%CC%90301" RefId="%AID%_UP-%TT%%CC%903" />
+              <!-- Fan Auto Device Selection -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%904_R-%TT%%CC%90401" RefId="%AID%_UP-%TT%%CC%904" />
+              <!-- Manual change on device -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%905_R-%TT%%CC%90501" RefId="%AID%_UP-%TT%%CC%905" />
+
+            </ParameterRefs>
+            <ComObjectTable>
+            </ComObjectTable>
+            <ComObjectRefs>
+            </ComObjectRefs>
+          </Static>
+          <Dynamic>
+            <ChannelIndependentBlock> 
+              <!-- Number of channels -->
+              <choose ParamRefId="%AID%_UP-%TT%00000_R-%TT%0000001">
+                <when test="&gt;=%C%">
+                  <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="{{0:Zimmer %C%}}" Icon="home-thermometer-outline" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" HelpContext="CLI-KlimaSteuerung" >
+                  
+                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Zimmer %C%" UIHint="Headline" />
+
+                      <!-- Channel Name -->
+                      <ParameterRefRef  IndentLevel="1" RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" HelpContext="%DOC%" />
+                      <!-- Channel Disabled-->
+                      <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" HelpContext="%DOC%" />
+                      
+
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 1 {{0:}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung" >
+                        <!-- HVAC Name 1 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="%DOC%" />
+
+                        <!-- Control Mode 1 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%101_R-%TT%%CC%10101" HelpContext="%DOC%" />
+                        <!-- Temperature Control 1 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%102_R-%TT%%CC%10201" HelpContext="%DOC%" />
+                        <!-- Full power off 1 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301">
+                          <when test="1">
+                            <!-- Wait Time after Power Up 1 -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
+                      </ParameterBlock>
+
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 2 {{0:}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" >
+                        <!-- HVAC Name 2 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="%DOC%" />
+
+                        <!-- Control Mode 2 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%201_R-%TT%%CC%20101" HelpContext="%DOC%" />
+                        <!-- Temperature Control 2 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%202_R-%TT%%CC%20201" HelpContext="%DOC%" />
+                        <!-- Full power off 2 -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301">
+                          <when test="1">
+                            <!-- Wait Time after Power Up 2 -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%204_R-%TT%%CC%20401" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
+                      </ParameterBlock>
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Modus Auswahl" Icon="sun-snowflake-variant" HelpContext="CLI-KlimaSteuerung" >
+
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
+                        <!-- Cooling Device Selection-->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" HelpContext="%DOC%" />
+                      
+
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Heizen" UIHint="Headline" />
+                        <!-- Heating Device Selection-->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101" HelpContext="%DOC%" />
+                      
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Entfeuchten" UIHint="Headline" />
+
+                        <!-- Dehumidification Device Selection-->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101" HelpContext="%DOC%" />
+                    
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventilator" UIHint="Headline" />
+                        <!-- Fan Device Selection-->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101" HelpContext="%DOC%" />
+                    
+
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatik" UIHint="Headline" />
+
+                        <!-- Cooling Auto Device Selection-->
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
+                          <when test="!=0">
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
+                        <!-- Heating Auto Device Selection -->
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101">
+                          <when test="!=0">
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%902_R-%TT%%CC%90201" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
+                        <!-- Dehumidification Auto Device Selection -->
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101">
+                          <when test="!=0">
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%903_R-%TT%%CC%90301" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
+                        <!-- Fan Auto Device Selection -->
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101">
+                          <when test="!=0">
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%904_R-%TT%%CC%90401" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
+                        <!-- Manual change on device -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%905_R-%TT%%CC%90501" HelpContext="%DOC%" /> 
+
+
+
+                      </ParameterBlock>
+
+                  </ParameterBlock>
+                </when>
+              </choose>
+            </ChannelIndependentBlock>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
