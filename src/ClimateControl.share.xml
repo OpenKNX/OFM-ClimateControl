@@ -45,7 +45,7 @@
                   <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" />
                   <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" />
                   <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" />
-                  <Enumeration Text="Mittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" />
+                  <Enumeration Text="Tagesmittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -57,6 +57,8 @@
                 </TypeRestriction>
               </ParameterType>
 
+
+
               <ParameterType Id="%AID%_PT-CLIDeviceSelectionFix" Name="CLIDeviceSelectionFix">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="%CLI_DeviceName%" Value="0" Id="%ENID%" />
@@ -64,6 +66,14 @@
                 </TypeRestriction>
               </ParameterType>
               
+              <ParameterType Id="%AID%_PT-CLIDate" Name="CLIDate">
+								<!-- <TypeDate DisplayTheYear="false" Encoding="DPT 11" /> -->
+                 <TypeRestriction Base="Value" SizeInBit="24" UIHint="DropDown">
+                  <Enumeration Text="To Do - Date Support in Producer" Value="68096" Id="%ENID%" />
+                  <Enumeration Text="To Do - Date Support in Producer" Value="984320" Id="%ENID%" />
+                </TypeRestriction>
+							</ParameterType>
+
               <ParameterType Id="%AID%_PT-CLIAverageTemperatur" Name="CLINumChannels">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="5" maxInclusive="30" />
 							</ParameterType>  
@@ -75,11 +85,19 @@
 
               <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="OpenKNX Automatik" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Anforderung Gerät 1" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Anforderung Gerät 2" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
+                  <Enumeration Text="OpenKNX Automatik" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDevice">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
 
               <ParameterType Id="%AID%_PT-CLIBehaviorDeviceChange" Name="CLIBehaviorDeviceChange">
                 <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
@@ -90,7 +108,7 @@
      
            </ParameterTypes>
             <Parameters>
-              <Union SizeInBit="56">
+              <Union SizeInBit="104">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Number of channels -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Kanäle" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
@@ -114,9 +132,13 @@
                 <Parameter Offset="5" BitOffset="0" Id="%AID%_UP-%TT%00008" Name="AverageTempWinter" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Winter bei ≤" Value="14" />
                 <!-- Average Days Winter -->
                 <Parameter Offset="6" BitOffset="0" Id="%AID%_UP-%TT%00009" Name="AverageDaysWinter" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
-                <!-- 4 bits free -->
-                 
-
+                <!-- 2 Targettemperature storages -->
+                <Parameter Offset="6" BitOffset="5" Id="%AID%_UP-%TT%00010" Name="TwoTargetTemp" ParameterType="%AID%_PT-OnOffYesNo" Text="Getrennte Solltemperaturspeicherung für Sommer- und Winterbetrieb" Value="1" />
+                <!-- 3 bits free -->
+                <Parameter Offset="7" BitOffset="0" Id="%AID%_UP-%TT%00011" Name="SummerTimeStart" ParameterType="%AID%_PT-CLIDate" Text="Sommerbetrieb ab" Value="984320" />
+                <!-- ^^^ need 3 bytes --> 
+                <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%00012" Name="WinterTimeStart" ParameterType="%AID%_PT-CLIDate" Text="Winterbetrieb ab" Value="68096" />
+                <!-- ^^^ need 3 bytes -->
               </Union>
 
 
@@ -142,14 +164,43 @@
               <ParameterRef Id="%AID%_UP-%TT%00008_R-%TT%0000801" RefId="%AID%_UP-%TT%00008" />
               <!-- Average Days Winter -->
               <ParameterRef Id="%AID%_UP-%TT%00009_R-%TT%0000901" RefId="%AID%_UP-%TT%00009" />
+              <!-- 2 Targettemperature storages  -->
+              <ParameterRef Id="%AID%_UP-%TT%00010_R-%TT%0001001" RefId="%AID%_UP-%TT%00010" />
+              <!-- Summer Time Start -->
+              <ParameterRef Id="%AID%_UP-%TT%00011_R-%TT%0001101" RefId="%AID%_UP-%TT%00011" />
+              <!-- Winter Time Start -->
+              <ParameterRef Id="%AID%_UP-%TT%00012_R-%TT%0001201" RefId="%AID%_UP-%TT%00012" />
             </ParameterRefs>
+            <ComObjectTable>
+              <!-- Winter- Sommerbetrieb -->
+              <ComObject Id="%AID%_O-%TT%00000" Number="0" Name="Summer"       ObjectSize="1 Bit"   DatapointType="DPST-1-100"   Text="Winter- / Sommerbetrieb"  FunctionText="HVAC: Eingang, Winter=0 / Sommer=1"         CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"   />
+              <!-- Winter- Sommerbetrieb Status -->
+              <ComObject Id="%AID%_O-%TT%00001" Number="1" Name="SummerStatus" ObjectSize="1 Bit"   DatapointType="DPST-1-11"    Text="Winter- / Sommerbetrieb Status"  FunctionText="HVAC: Ausgang, Winter=0 / Sommer=1"  CommunicationFlag="Enabled" ReadFlag="Enabled" WriteFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"  />
+              <!-- Außentemperatur -->
+              <ComObject Id="%AID%_O-%TT%00002" Number="2" Name="OutsideTemp"  ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text="Außentemperatur"  FunctionText="HVAC: Eingang, °C"  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" />
+              <!-- Tagesmittelwert -->
+              <ComObject Id="%AID%_O-%TT%00003" Number="3" Name="DayAverageIn" ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text=""  FunctionText=""  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+            </ComObjectTable>
+            <ComObjectRefs>
+              <!-- Summer -->
+              <ComObjectRef Id="%AID%_O-%TT%00000_R-%TT%0000000" RefId="%AID%_O-%TT%00000"  />
+              <!-- Summer State -->
+              <ComObjectRef Id="%AID%_O-%TT%00001_R-%TT%0000100" RefId="%AID%_O-%TT%00001"  />
+              <!-- Outsite temperature -->
+              <ComObjectRef Id="%AID%_O-%TT%00002_R-%TT%0000200" RefId="%AID%_O-%TT%00002"  />
+              <!-- Average Temperature -->
+              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000300" RefId="%AID%_O-%TT%00003" Text="Tagesmittelwert"  FunctionText="HVAC: Eingang, Temperatur, °C"   WriteFlag="Enabled" UpdateFlag="Enabled" />
+              <!-- Calculated Average Temperature -->
+              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000301" RefId="%AID%_O-%TT%00003" Text="Berechneter Tagesmittelwert"  FunctionText="HVAC: Ausgang, Temperatur, °C"  ReadFlag="Enabled"  TransmitFlag="Enabled" />
+         
+            </ComObjectRefs>
           </Static>
           <Dynamic>
-            <Channel Name="MainChannel" Text="Klima Steuerung" Number="%PREFIX%" Id="%AID%_CH-%TT%" Icon="home-thermometer-outline">
+            <Channel Name="MainChannel" Text="HVAC Steuerung" Number="%PREFIX%" Id="%AID%_CH-%TT%" Icon="home-thermometer-outline">
 
-              <ParameterBlock Id="%AID%_PB-nnn" Name="ClimateControlSettings" Text="Allgemein" Icon="cog-outline" HelpContext="CLI-KlimaSteuerung">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="ClimateControlSettings" Text="Allgemein" Icon="cog-outline" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
 
-								<ParameterSeparator Id="%AID%_PS-nnn" Text="Klima Steuerung" UIHint="Headline" />
+								<ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC Steuerung" UIHint="Headline" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
 
 								<ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
@@ -163,18 +214,45 @@
 
                 <!-- Summer Winter KO-->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00001_R-%TT%0000101" HelpContext="%DOC%" />
+                <choose ParamRefId="%AID%_UP-%TT%00001_R-%TT%0000101">
+                  <when test="1">
+                    <!-- Summer -->
+                    <ComObjectRefRef RefId="%AID%_O-%TT%00000_R-%TT%0000000" />
+                  </when>
+                </choose>
+                <!-- Summer State -->
+                <ComObjectRefRef RefId="%AID%_O-%TT%00001_R-%TT%0000100" />
+
                 <!-- Summer Winter Date-->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00002_R-%TT%0000201" HelpContext="%DOC%" />
+                <choose ParamRefId="%AID%_UP-%TT%00002_R-%TT%0000201">
+                  <when test="1">
+                    <!-- Summer Time Start -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00011_R-%TT%0001101" HelpContext="%DOC%" />
+                    <!-- Winter Time Start -->
+                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00012_R-%TT%0001201" HelpContext="%DOC%" />
+                  </when>
+                </choose>
                 <!-- Summer Winter Day Temp-->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00003_R-%TT%0000301" HelpContext="%DOC%" />
                 <choose ParamRefId="%AID%_UP-%TT%00003_R-%TT%0000301">
                   <when test="1">
+
                     <!-- Average Temperature Calculation -->
                     <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00004_R-%TT%0000401" HelpContext="%DOC%" />
                     <choose ParamRefId="%AID%_UP-%TT%00004_R-%TT%0000401">
                       <when test="1 2"> <!-- Jede Stunde, Mannheimer-->
+                        <!-- Outsite temperature -->
+                        <ComObjectRefRef RefId="%AID%_O-%TT%00002_R-%TT%0000200" />
+                        <!-- Calculated Average Temperature -->
+                        <ComObjectRefRef RefId="%AID%_O-%TT%00003_R-%TT%0000301" />
+
                         <!-- Send read request -->
-                        <ParameterRefRef IndentLevel="3" RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
+                        <ParameterRefRef RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
+                      </when>
+                      <when test="3"> <!-- Tagesmittelwert Temperatur Gruppenobjekt -->
+                        <!-- Average Temperature -->
+                        <ComObjectRefRef RefId="%AID%_O-%TT%00003_R-%TT%0000300" />
                       </when>
                     </choose>
                     <!-- Average Temperature Summer -->
@@ -187,7 +265,8 @@
                     <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00009_R-%TT%0000901" HelpContext="%DOC%" />
                   </when>
                 </choose>
-
+                <!-- 2 Targettemperature storages  -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00010_R-%TT%0001001" HelpContext="%DOC%" />
 
               </ParameterBlock>
 

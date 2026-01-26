@@ -8,7 +8,7 @@
           <Static>
             <Parameters>
               <!-- Channel Name -->
-              <Parameter Id="%AID%_P-%TT%%CC%000" Name="Channel%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Zimmer" Value="" />
+              <Parameter Id="%AID%_P-%TT%%CC%000" Name="Channel%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Raum" Value="" />
              
               <Union SizeInBit="8">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
@@ -61,7 +61,7 @@
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="35" BitOffset="0" />
                 <!-- Heating Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="0" />
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="2" />
                
               </Union>
 
@@ -77,7 +77,7 @@
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
                 <!-- Fan Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="1" />
+                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
                
               </Union>
 
@@ -91,7 +91,7 @@
                 <!-- Dehumidification Auto Device Selection -->
                 <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%903" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDehumDeviceSelection" Text="Entfeuchten Auswahl durch" Value="0" />
                 <!-- Fan Auto Device Selection -->
-                <Parameter  Offset="1" BitOffset="4" Id="%AID%_UP-%TT%%CC%904" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoFanDeviceSelection" Text="Lüften Auswahl durch" Value="0" />
+                <Parameter  Offset="1" BitOffset="4" Id="%AID%_UP-%TT%%CC%904" ParameterType="%AID%_PT-CLIAutomaticDeviceWithoutAuto"  Name="CH%C%AutoFanDeviceSelection" Text="Ventilator Auswahl durch" Value="0" />
                 <!-- Manual change on device -->
                 <Parameter  Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%905" ParameterType="%AID%_PT-CLIBehaviorDeviceChange"  Name="CH%C%BehaviorOnDeviceChange" Text="Manuelle Änderung am Gerät" Value="0" />
                 <!-- 4 bits free -->  
@@ -147,8 +147,58 @@
 
             </ParameterRefs>
             <ComObjectTable>
+							<ComObject Id="%AID%_O-%TT%%CC%000" Number="%K0%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko0" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+							<ComObject Id="%AID%_O-%TT%%CC%001" Number="%K1%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko1" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%002" Number="%K2%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko2" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%003" Number="%K3%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko3" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%004" Number="%K4%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko4" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%005" Number="%K5%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko5" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%006" Number="%K6%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko6" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%007" Number="%K7%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko7" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%008" Number="%K8%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko8" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
             </ComObjectTable>
             <ComObjectRefs>
+              <!-- Dev 1 HVAC Ausgang -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00000" RefId="%AID%_O-%TT%%CC%000" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: HVAC %C%}}: HVAC Steuerung" FunctionText="HVAC: Ausgang, Steuern, HVAC" ReadFlag="Enabled" TransmitFlag="Enabled" />
+						  <!-- Dev 1 HVAC Rückmeldung -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%001_R-%TT%%CC%00100" RefId="%AID%_O-%TT%%CC%001" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: HVAC %C%}}: HVAC Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, HVAC" WriteFlag="Enabled" UpdateFlag="Enabled" />
+              <!-- Dev 1 On -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%002_R-%TT%%CC%00200" RefId="%AID%_O-%TT%%CC%002" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					
+
+              <!-- Dev 1 Kühlen -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" RefId="%AID%_O-%TT%%CC%000" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 1 Kühlen Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_O-%TT%%CC%001" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Kühlen Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Kühlen=1" WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 1 Heizen -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" RefId="%AID%_O-%TT%%CC%002" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Heizen" FunctionText="HVAC: Ausgang, Anfordern, Heizen=1" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 1 Heizen -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%003_R-%TT%%CC%00301" RefId="%AID%_O-%TT%%CC%003" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Heizen Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Heizen=1" WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 1 Entfeuchten -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%004_R-%TT%%CC%00401" RefId="%AID%_O-%TT%%CC%004" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Entfeuchten" FunctionText="HVAC: Ausgang, Anfordern, Entfeuchten=1" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 1 Entfeuchten Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%005_R-%TT%%CC%00501" RefId="%AID%_O-%TT%%CC%005" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Entfeuchten Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Entfeuchten=1" WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 1 Ventilator -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%006_R-%TT%%CC%00601" RefId="%AID%_O-%TT%%CC%006" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Ventilator" FunctionText="HVAC: Ausgang, Anfordern, Ventilator=1" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 1 Ventilator Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%007_R-%TT%%CC%00701" RefId="%AID%_O-%TT%%CC%007" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Ventilator Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Ventilator=1" WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 1 Power -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%008_R-%TT%%CC%00801" RefId="%AID%_O-%TT%%CC%008" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC %C%}}: Strom" FunctionText="HVAC: Ausgang, Schalten, Aus=0 / Ein=1" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					  
+ 
+              <!-- Dev 1 Target Temp-->
+              <!-- Dev 1 Target Temp Feedback --> 
+              <!-- Dev 1 Room Temp Feedback -->
+
+              <!-- Mode Selection -->
+              <!-- Mode Selection Feedback -->
+              <!-- Power --> 
+              <!-- Power Feedback --> 
+              <!-- Target Temp -->
+              <!-- Target Temp Feedback -->
+              <!-- Room Temp -->
+
+
             </ComObjectRefs>
           </Static>
           <Dynamic>
@@ -156,9 +206,9 @@
               <!-- Number of channels -->
               <choose ParamRefId="%AID%_UP-%TT%00000_R-%TT%0000001">
                 <when test="&gt;=%C%">
-                  <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="{{0:Zimmer %C%}}" Icon="home-thermometer-outline" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" HelpContext="CLI-KlimaSteuerung" >
+                  <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="{{0:Raum %C%}}" Icon="home-thermometer-outline" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true">  >
                   
-                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Zimmer %C%" UIHint="Headline" />
+                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Raum %C%" UIHint="Headline" />
 
                       <!-- Channel Name -->
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" HelpContext="%DOC%" />
@@ -166,25 +216,58 @@
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" HelpContext="%DOC%" />
                       
 
-                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 1 {{0:}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung" >
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 1 {{0:}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung"  ShowInComObjectTree="true">
                         <!-- HVAC Name 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="%DOC%" />
 
                         <!-- Control Mode 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%101_R-%TT%%CC%10101" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%101_R-%TT%%CC%10101">
+                          <when test="0 1"> <!-- HVAC -->
+                            <!-- Dev 1 HVAC Ausgang -->
+						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00000" />
+						                <!-- Dev 1 HVAC Rückmeldung -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%001_R-%TT%%CC%00100" />
+                          </when>
+                          <when test="1"> <!-- HVAC und Power -->
+                            <!-- Dev 1 On -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00200" />
+                          </when>
+                          <when test="2"> <!-- Ein Objekt pro Modus -->
+                            <!-- Dev 1 Kühlen -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" />
+                            <!-- Dev 1 Kühlen Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" />
+                            <!-- Dev 1 Heizen -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" />
+                            <!-- Dev 1 Heizen Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00301" />
+                            <!-- Dev 1 Entfeuchten -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00401" />
+                            <!-- Dev 1 Entfeuchten Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00501" />
+                            <!-- Dev 1 Ventilator -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00601" />
+                            <!-- Dev 1 Ventilator Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00701" />
+                          </when>
+                        </choose>  
+
                         <!-- Temperature Control 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%102_R-%TT%%CC%10201" HelpContext="%DOC%" />
                         <!-- Full power off 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301">
                           <when test="1">
+                            <!-- Dev 1 Power -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%008_R-%TT%%CC%00801" />
                             <!-- Wait Time after Power Up 1 -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" HelpContext="%DOC%" />
                           </when>
                         </choose>
                       </ParameterBlock>
 
-                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 2 {{0:}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" >
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 2 {{0:}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
                         <!-- HVAC Name 2 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="%DOC%" />
 

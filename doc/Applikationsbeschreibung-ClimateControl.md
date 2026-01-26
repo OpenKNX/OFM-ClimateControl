@@ -4,6 +4,7 @@
 # Applikationsbeschreibung Klimasteuerung
 
 
+
 <!-- DOC HelpContext="KlimaSteuerung" -->
 ## Klima Steuerung
 
@@ -11,7 +12,7 @@
 ### Anzahl der Kanäle
 
 <!-- DOC  -->
-### Zimmer
+### Raum
 
 <!-- DOC  -->
 ### Gerätname
@@ -29,6 +30,13 @@ Ermöglicht weitere Kanäle hinzuzufügen.
 
 <!-- DOC  -->
 ### Modusauswahl über
+
+- HVAC 
+  HVAC mit Auto=0 / Heizen=1 / Kühlen=3 / Aus=6 / Lüfter=9 / Entfeuchten=14
+- HVAC und Power
+  HVAC mit Auto=0 / Heizen=1 / Kühlen=3 / Lüfter=9 / Entfeuchten=14 und ein Zusätzliche Schalt KO
+- Ein Objekt pro Modus
+  Für jeden Modus wird ein Objekt bereit gestellt
 
 <!-- DOC  -->
 ### Temperaturregelung über
@@ -58,11 +66,20 @@ Umschaltung durch ein Gruppentelegram ausgelöst.
 
 Umschaltung anhand von einem Datumsbereich.
 
+<!-- DOC -->
+### Sommerbetrieb ab
+
+<!-- DOC -->
+### Winterbetrieb ab
 
 <!-- DOC  -->
 ### Tagesdurchschnittstemperatur
 
 Umschaltung auf basis der Tagesdurchschnittstemperatur
+
+<!-- DOC  -->
+### Getrennte Solltemperaturspeicherung für Sommer und Winterbetrieb
+
 
 <!-- DOC  -->
 ### Berechnung
@@ -115,7 +132,7 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 ### Entfeuchten Auswahl durch
 
 <!-- DOC  -->
-### Lüften Auswahl durch
+### Ventilator Auswahl durch
 
 <!-- DOC  -->
 ### Manuelle Änderung am Gerät
