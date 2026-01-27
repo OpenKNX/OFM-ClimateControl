@@ -25,7 +25,7 @@
               <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Sollwertvorgabe" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" />
                   <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="2" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
@@ -66,13 +66,13 @@
                 </TypeRestriction>
               </ParameterType>
               
-              <ParameterType Id="%AID%_PT-CLIDate" Name="CLIDate">
-								<!-- <TypeDate DisplayTheYear="false" Encoding="DPT 11" /> -->
-                 <TypeRestriction Base="Value" SizeInBit="24" UIHint="DropDown">
-                  <Enumeration Text="To Do - Date Support in Producer" Value="68096" Id="%ENID%" />
-                  <Enumeration Text="To Do - Date Support in Producer" Value="984320" Id="%ENID%" />
-                </TypeRestriction>
-							</ParameterType>
+              <ParameterType Id="%AID%_PT-CLIMonth" Name="CLIMonth">
+                <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="12" />
+              </ParameterType> 
+
+              <ParameterType Id="%AID%_PT-CLIDay" Name="CLIDay">
+                <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="31" />
+              </ParameterType> 
 
               <ParameterType Id="%AID%_PT-CLIAverageTemperatur" Name="CLINumChannels">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="5" maxInclusive="30" />
@@ -108,7 +108,7 @@
      
            </ParameterTypes>
             <Parameters>
-              <Union SizeInBit="104">
+              <Union SizeInBit="88">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Number of channels -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Kanäle" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
@@ -135,10 +135,14 @@
                 <!-- 2 Targettemperature storages -->
                 <Parameter Offset="6" BitOffset="5" Id="%AID%_UP-%TT%00010" Name="TwoTargetTemp" ParameterType="%AID%_PT-OnOffYesNo" Text="Getrennte Solltemperaturspeicherung für Sommer- und Winterbetrieb" Value="1" />
                 <!-- 3 bits free -->
-                <Parameter Offset="7" BitOffset="0" Id="%AID%_UP-%TT%00011" Name="SummerTimeStart" ParameterType="%AID%_PT-CLIDate" Text="Sommerbetrieb ab" Value="984320" />
-                <!-- ^^^ need 3 bytes --> 
-                <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%00012" Name="WinterTimeStart" ParameterType="%AID%_PT-CLIDate" Text="Winterbetrieb ab" Value="68096" />
-                <!-- ^^^ need 3 bytes -->
+                <!-- Summer time start month -->
+                <Parameter Offset="7" BitOffset="0" Id="%AID%_UP-%TT%00011" Name="SummerTimeStartDay" ParameterType="%AID%_PT-CLIDay" Text="Sommerbetrieb ab" Value="25" SuffixText="." />
+                <!-- Summer time start day -->
+                <Parameter Offset="8" BitOffset="0" Id="%AID%_UP-%TT%00012" Name="SummerTimeStartMonth" ParameterType="%AID%_PT-CLIMonth" Text="Sommerbetrieb ab" Value="3" />
+                <!-- Winter time start month -->
+                <Parameter Offset="9" BitOffset="0" Id="%AID%_UP-%TT%00013" Name="WinterTimeStartDay" ParameterType="%AID%_PT-CLIDay" Text="Winterbetrieb ab" Value="1" SuffixText="." />
+                <!-- Winter time start day -->
+                <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%00014" Name="WinterTimeStartMonth" ParameterType="%AID%_PT-CLIMonth" Text="Winterbetrieb ab" Value="10" />
               </Union>
 
 
@@ -166,10 +170,16 @@
               <ParameterRef Id="%AID%_UP-%TT%00009_R-%TT%0000901" RefId="%AID%_UP-%TT%00009" />
               <!-- 2 Targettemperature storages  -->
               <ParameterRef Id="%AID%_UP-%TT%00010_R-%TT%0001001" RefId="%AID%_UP-%TT%00010" />
-              <!-- Summer Time Start -->
+              <!-- Summer time start day -->
               <ParameterRef Id="%AID%_UP-%TT%00011_R-%TT%0001101" RefId="%AID%_UP-%TT%00011" />
-              <!-- Winter Time Start -->
+              <!-- Summer time start month -->
               <ParameterRef Id="%AID%_UP-%TT%00012_R-%TT%0001201" RefId="%AID%_UP-%TT%00012" />
+              <!-- Winter time start day -->
+              <ParameterRef Id="%AID%_UP-%TT%00013_R-%TT%0001301" RefId="%AID%_UP-%TT%00013" />
+              <!-- Winter time start month -->
+              <ParameterRef Id="%AID%_UP-%TT%00014_R-%TT%0001401" RefId="%AID%_UP-%TT%00014" />
+
+
             </ParameterRefs>
             <ComObjectTable>
               <!-- Winter- Sommerbetrieb -->
@@ -227,10 +237,44 @@
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00002_R-%TT%0000201" HelpContext="%DOC%" />
                 <choose ParamRefId="%AID%_UP-%TT%00002_R-%TT%0000201">
                   <when test="1">
-                    <!-- Summer Time Start -->
-                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00011_R-%TT%0001101" HelpContext="%DOC%" />
-                    <!-- Winter Time Start -->
-                    <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00012_R-%TT%0001201" HelpContext="%DOC%" />
+
+                    <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%SummerTimeStart" Inline="true" Layout="Grid" HelpContext="FCB-Ablaufzeit">
+                          <Rows>
+                            <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                          </Rows>
+                          <Columns>
+                            <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                            <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                            <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="10%" />
+                            <Column Id="%AID%_PB-nnn_C-4" Name="Col5" Width="30%" />
+                          </Columns>
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="  Sommerbetrieb ab" Cell="1,1" />
+                      
+                          <!-- Summer time start day-->
+                          <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%00011_R-%TT%0001101" Cell="1,2" HelpContext="%DOC%" />
+                          <!-- Summer time start month-->
+                          <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%00012_R-%TT%0001201" Cell="1,3" HelpContext="%DOC%" />
+                    </ParameterBlock>
+
+                    <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%SummerTimeStart" Inline="true" Layout="Grid" HelpContext="FCB-Ablaufzeit">
+                          <Rows>
+                            <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                          </Rows>
+                          <Columns>
+                            <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                            <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                            <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="10%" />
+                            <Column Id="%AID%_PB-nnn_C-4" Name="Col5" Width="30%" />
+                          </Columns>
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text=" Winterbetrieb ab" Cell="1,1" />
+                      
+                          <!-- Winter time start day-->
+                          <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%00013_R-%TT%0001301" Cell="1,2" HelpContext="%DOC%" />
+                          <!-- Winter time start month-->
+                          <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%00014_R-%TT%0001401" Cell="1,3" HelpContext="%DOC%" />
+                    </ParameterBlock>
+
+
                   </when>
                 </choose>
                 <!-- Summer Winter Day Temp-->
