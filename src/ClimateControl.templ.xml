@@ -13,39 +13,42 @@
               <Union SizeInBit="8">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Channel Disabled -->
-                <Parameter Id="%AID%_UP-%TT%%CC%001" Name="CH%C%ChannelDisabled" ParameterType="%AID%_PT-CheckBox" Offset="1" BitOffset="0" Text="Kanal deaktivieren (zu Testzwecken)" Value="0" />
-
-                <!-- 7 Bits free-->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%001" Name="CH%C%ChannelDisabled" ParameterType="%AID%_PT-CheckBox" Text="Kanal deaktivieren (zu Testzwecken)" Value="0" />
+                <!-- KO for relativ Temperature change -->
+                <Parameter Offset="0" BitOffset="1" Id="%AID%_UP-%TT%%CC%002" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%KOForRelativTempChange" Text="Objekt für relative Sollemperaturänderung" Value="0" />
+                <!-- 6 Bits free-->
+                <!-- Relativ temperature change value --> 
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeValue" Text="Erhöhren / Verrringern um" Value="10" /> 
               </Union>
 
 
               <!-- HVAC Name 1 -->
-              <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Gerätname" Value="" />
+              <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Klima-/Heizsystemname" Value="" />
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="1" BitOffset="0" />
                 <!-- Control Mode 1 -->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 1 -->
-                <Parameter  Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%102" ParameterType="%AID%_PT-CLIControlTemperature" Name="CH%C%ControlTemperature1" Text="Temperaturregelung über" Value="0" />
+                <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%102" ParameterType="%AID%_PT-CLIControlTemperature" Name="CH%C%ControlTemperature1" Text="Temperaturregelung über" Value="0" />
                 <!-- Full power off -->
-                <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%103" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff1" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%103" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff1" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
                 <!-- Wait Time after Power Up 1 -->       
-                <Parameter  Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%104" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp1" Text="Wartezeit nach Einschalten" Value="0" />
+                <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%104" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp1" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
               </Union>
 
               <!-- HVAC Name 2 -->
-              <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Gerätname" Value="" /> 
+              <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Klima-/Heizsystemname" Value="" /> 
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="17" BitOffset="0" />
                 <!-- Control Mode 1 -->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 1 -->
-                <Parameter  Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%202" ParameterType="%AID%_PT-CLIControlTemperature"  Name="CH%C%ControlTemperature2" Text="Temperaturregelung über" Value="0" />
+                <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%202" ParameterType="%AID%_PT-CLIControlTemperature"  Name="CH%C%ControlTemperature2" Text="Temperaturregelung über" Value="0" />
                 <!-- Full power off -->
-                <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
                 <!-- Wait Time after Power Up 1 -->       
-                <Parameter  Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
+                <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
               </Union>
 
@@ -53,23 +56,25 @@
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="33" BitOffset="0" />
                 <!-- Cooling Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="1" />
-               
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="1" />
+                <!-- Cooling Deactive in Winter -->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%502" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%CoolDeactiveInWinter" Text="Kühlen im Winterbetrieb nicht verwenden" Value="1" />
               </Union>
 
               <!-- Heating -->
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="35" BitOffset="0" />
                 <!-- Heating Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="2" />
-               
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="2" />
+                <!-- Heating Deactive in Summer -->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%602" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%HeatDeactiveInSummer" Text="Heizen im Sommerbetrieb nicht verwenden" Value="1" />
               </Union>
 
               <!-- Dehumidification -->
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="37" BitOffset="0" />
                 <!-- Dehumidification Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
                
               </Union>
 
@@ -77,7 +82,7 @@
               <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
                 <!-- Fan Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
                
               </Union>
 
@@ -85,24 +90,102 @@
               <Union SizeInBit="24">
                 <Memory CodeSegment="%MID%" Offset="41" BitOffset="0" />
                 <!-- Cooling Auto Device Selection-->
-                <Parameter  Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
                 <!-- Heating Auto Device Selection -->
-                <Parameter  Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%902" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoHeatDeviceSelection" Text="Heizen Auswahl durch" Value="0" />
+                <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%902" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoHeatDeviceSelection" Text="Heizen Auswahl durch" Value="0" />
                 <!-- Dehumidification Auto Device Selection -->
-                <Parameter  Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%903" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDehumDeviceSelection" Text="Entfeuchten Auswahl durch" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%903" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDehumDeviceSelection" Text="Entfeuchten Auswahl durch" Value="0" />
                 <!-- Fan Auto Device Selection -->
-                <Parameter  Offset="1" BitOffset="4" Id="%AID%_UP-%TT%%CC%904" ParameterType="%AID%_PT-CLIAutomaticDeviceWithoutAuto"  Name="CH%C%AutoFanDeviceSelection" Text="Ventilator Auswahl durch" Value="0" />
+                <Parameter Offset="1" BitOffset="4" Id="%AID%_UP-%TT%%CC%904" ParameterType="%AID%_PT-CLIAutomaticDeviceWithoutAuto"  Name="CH%C%AutoFanDeviceSelection" Text="Ventilator Auswahl durch" Value="0" />
                 <!-- Manual change on device -->
-                <Parameter  Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%905" ParameterType="%AID%_PT-CLIBehaviorDeviceChange"  Name="CH%C%BehaviorOnDeviceChange" Text="Manuelle Änderung am Gerät" Value="0" />
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%905" ParameterType="%AID%_PT-CLIBehaviorDeviceChange"  Name="CH%C%BehaviorOnDeviceChange" Text="Manuelle Änderung am Klima-/Heizsystem" Value="0" />
                 <!-- 4 bits free -->  
               </Union>
 
+
+              <!-- Window open -->
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%MID%" Offset="44" BitOffset="0" />
+                <!-- Window open handling -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-OnOffYesNo" Text="Fenster offen Behandlung" Value="0" />
+              </Union>
+
+              <!-- Window open 1 -->
+              <Union SizeInBit="32">
+                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
+                <!-- Window open action 1 -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
+                <!-- Window open action time delay 1 DelayBase-->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%411" Name="CH%C%CountDownDelayBase1"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <!-- Window open action time delay 1 DelayTime -->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%412" Name="CH%C%CountDownDelayTime1"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
+                <!-- Window open temp correction 1 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%413" Name="CH%C%WindowOpenTempCorrection1"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />        
+              </Union>
+
+              <!-- Window open 2 -->
+              <Union SizeInBit="32">
+                <Memory CodeSegment="%MID%" Offset="49" BitOffset="0" />
+                <!-- Window open action 2 -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
+                <!-- Window open action time delay 2 DelayBase-->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%421" Name="CH%C%CountDownDelayBase2"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <!-- Window open action time delay 2 DelayTime -->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%422" Name="CH%C%CountDownDelayTime2"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <!-- Window open temp correction 2 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%423" Name="CH%C%WindowOpenTempCorrection2"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />        
+              </Union>
+
+              <!-- Window open 3 -->
+              <Union SizeInBit="32">
+                <Memory CodeSegment="%MID%" Offset="53" BitOffset="0" />
+                <!-- Window open action 3 -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
+                <!-- Window open action time delay 3 DelayBase-->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%431" Name="CH%C%CountDownDelayBase3"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <!-- Window open action time delay 3 DelayTime -->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%432" Name="CH%C%CountDownDelayTime3"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <!-- Window open temp correction 3 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%433" Name="CH%C%WindowOpenTempCorrection3"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />        
+              </Union>
+
+              <!-- Window open 4 -->
+              <Union SizeInBit="32">
+                <Memory CodeSegment="%MID%" Offset="57" BitOffset="0" />
+                <!-- Window open action 4 -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
+                <!-- Window open action time delay 4 DelayBase-->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%441" Name="CH%C%CountDownDelayBase4"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <!-- Window open action time delay 4 DelayTime -->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%442" Name="CH%C%CountDownDelayTime4"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <!-- Window open temp correction 4 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%443" Name="CH%C%WindowOpenTempCorrection4"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />
+              </Union>
+
+              <!-- Window open 5 -->
+              <Union SizeInBit="32">
+                <Memory CodeSegment="%MID%" Offset="61" BitOffset="0" />
+                <!-- Window open action 5 -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
+                <!-- Window open action time delay 5 DelayBase-->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%451" Name="CH%C%CountDownDelayBase5"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <!-- Window open action time delay 5 DelayTime -->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%452" Name="CH%C%CountDownDelayTime5"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <!-- Window open temp correction 5 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%453" Name="CH%C%WindowOpenTempCorrection5"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" /> 
+              </Union>
+    
             </Parameters>
             <ParameterRefs>
               <!-- Channel Name  -->
               <ParameterRef Id="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" RefId="%AID%_P-%TT%%CC%000" />
               <!-- Channel Disabled -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_UP-%TT%%CC%001" />
+              <!-- KO for relativ Temperature change -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" RefId="%AID%_UP-%TT%%CC%002" />
+              <!-- Relativ temperature change value-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" RefId="%AID%_UP-%TT%%CC%003" />
+
            
                <!-- HVAC Name 1 -->
               <ParameterRef Id="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_P-%TT%%CC%100" />
@@ -127,12 +210,20 @@
 
               <!-- Cooling Device Selection-->
               <ParameterRef Id="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" RefId="%AID%_UP-%TT%%CC%501" />
+              <!-- Cooling Deactive in Winter -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%502_R-%TT%%CC%50201" RefId="%AID%_UP-%TT%%CC%502" />
+
               <!-- Heating Device Selection-->
               <ParameterRef Id="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101" RefId="%AID%_UP-%TT%%CC%601" />
+              <!-- Heating Deactive in Summer -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%602_R-%TT%%CC%60201" RefId="%AID%_UP-%TT%%CC%602" />
+
               <!-- Dehumidification Device Selection-->
               <ParameterRef Id="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101" RefId="%AID%_UP-%TT%%CC%701" />
+
               <!-- Fan Device Selection-->
               <ParameterRef Id="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101" RefId="%AID%_UP-%TT%%CC%801" />
+
 
               <!-- Cooling Auto Device Selection-->
               <ParameterRef Id="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101" RefId="%AID%_UP-%TT%%CC%901" />
@@ -144,6 +235,59 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%904_R-%TT%%CC%90401" RefId="%AID%_UP-%TT%%CC%904" />
               <!-- Manual change on device -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%905_R-%TT%%CC%90501" RefId="%AID%_UP-%TT%%CC%905" />
+
+              <!-- Window open handling -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%400_R-%TT%%CC%40001" RefId="%AID%_UP-%TT%%CC%400" />
+
+              <!-- Window open 1 -->
+              <!-- Window open action 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001" RefId="%AID%_UP-%TT%%CC%410" />
+              <!-- Window open action time delay 1 DelayBase-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%411_R-%TT%%CC%41101" RefId="%AID%_UP-%TT%%CC%411" />
+              <!-- Window open action time delay 1 DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%412_R-%TT%%CC%41201" RefId="%AID%_UP-%TT%%CC%412" />
+              <!-- Window open temp correction 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%413_R-%TT%%CC%41301" RefId="%AID%_UP-%TT%%CC%413" />
+
+              <!-- Window open 2 -->
+              <!-- Window open action 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001" RefId="%AID%_UP-%TT%%CC%420" />
+              <!-- Window open action time delay 2 DelayBase-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%421_R-%TT%%CC%42101" RefId="%AID%_UP-%TT%%CC%421" />
+              <!-- Window open action time delay 2 DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%422_R-%TT%%CC%42201" RefId="%AID%_UP-%TT%%CC%422" />
+              <!-- Window open temp correction 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%423_R-%TT%%CC%42301" RefId="%AID%_UP-%TT%%CC%423" />
+
+              <!-- Window open 3 -->
+              <!-- Window open action 3 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001" RefId="%AID%_UP-%TT%%CC%430" />
+              <!-- Window open action time delay 3 DelayBase-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%431_R-%TT%%CC%43101" RefId="%AID%_UP-%TT%%CC%431" />
+              <!-- Window open action time delay 3 DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%432_R-%TT%%CC%43201" RefId="%AID%_UP-%TT%%CC%432" />
+              <!-- Window open temp correction 3 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%433_R-%TT%%CC%43301" RefId="%AID%_UP-%TT%%CC%433" />
+
+              <!-- Window open 4 -->
+              <!-- Window open action 4 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001" RefId="%AID%_UP-%TT%%CC%440" />
+              <!-- Window open action time delay 4 DelayBase-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%441_R-%TT%%CC%44101" RefId="%AID%_UP-%TT%%CC%441" />
+              <!-- Window open action time delay 4 DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%442_R-%TT%%CC%44201" RefId="%AID%_UP-%TT%%CC%442" />
+              <!-- Window open temp correction 4 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%443_R-%TT%%CC%44301" RefId="%AID%_UP-%TT%%CC%443" />
+
+              <!-- Window open 5 -->
+              <!-- Window open action 5 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001" RefId="%AID%_UP-%TT%%CC%450" />
+              <!-- Window open action time delay 5 DelayBase-->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%451_R-%TT%%CC%45101" RefId="%AID%_UP-%TT%%CC%451" />
+              <!-- Window open action time delay 5 DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%452_R-%TT%%CC%45201" RefId="%AID%_UP-%TT%%CC%452" />
+              <!-- Window open temp correction 5 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%453_R-%TT%%CC%45301" RefId="%AID%_UP-%TT%%CC%453" />
 
             </ParameterRefs>
             <ComObjectTable>
@@ -159,30 +303,56 @@
               <ComObject Id="%AID%_O-%TT%%CC%004" Number="%K4%" ObjectSize="1 Byte" DatapointType="DPST-9-1" Name="C%C%TargetTemp" Text="{{0: HVAC %C%}}: Solltemperatur" FunctionText="HVAC: Eingang, Vorgabe, Temperatur °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
               <!-- Target Temp Feedback -->
               <ComObject Id="%AID%_O-%TT%%CC%005" Number="%K5%" ObjectSize="1 Byte" DatapointType="DPST-9-1" Name="C%C%TargetTempFb" Text="{{0: HVAC %C%}}: Aktuelle Solltemperatur" FunctionText="HVAC: Ausgang, Rückmeldung, Temperatur, °C" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <!-- Relative temp change-->
+              <ComObject Id="%AID%_O-%TT%%CC%006" Number="%K6%" ObjectSize="1 Bit" DatapointType="DPST-1-7" Name="C%C%TargetTempRelativ" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Solltemperatur verringern/erhöhen" FunctionText="HVAC: Eingang, verringern=0 / erhöhen=1" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
               <!-- Room Temp -->
-              <ComObject Id="%AID%_O-%TT%%CC%006" Number="%K6%" ObjectSize="1 Byte" DatapointType="DPST-9-1" Name="C%C%RoomTemp" Text="{{0: HVAC %C%}}: Raumtemperatur" FunctionText="HVAC: Eingang, Messwert, Temperatur °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" /> 
+              <ComObject Id="%AID%_O-%TT%%CC%007" Number="%K7%" ObjectSize="1 Byte" DatapointType="DPST-9-1" Name="C%C%RoomTemp" Text="{{0: HVAC %C%}}: Raumtemperatur" FunctionText="HVAC: Eingang, Messwert, Temperatur °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" /> 
               
               <!--- Device Kos -->
               
               <!-- Multible used KOs-->
-							<ComObject Id="%AID%_O-%TT%%CC%007" Number="%K7%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko7" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-							<ComObject Id="%AID%_O-%TT%%CC%008" Number="%K8%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko8" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <ComObject Id="%AID%_O-%TT%%CC%009" Number="%K9%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko9" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <ComObject Id="%AID%_O-%TT%%CC%010" Number="%K10%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko10" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <ComObject Id="%AID%_O-%TT%%CC%011" Number="%K11%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko11" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <ComObject Id="%AID%_O-%TT%%CC%012" Number="%K12%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko12" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <ComObject Id="%AID%_O-%TT%%CC%013" Number="%K13%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko13" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <ComObject Id="%AID%_O-%TT%%CC%014" Number="%K14%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko14" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-    
+							<ComObject Id="%AID%_O-%TT%%CC%100" Number="%K8%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko8" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+							<ComObject Id="%AID%_O-%TT%%CC%101" Number="%K9%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko9" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%102" Number="%K10%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko10" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%103" Number="%K11%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko11" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%104" Number="%K12%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko12" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%105" Number="%K13%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko13" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%106" Number="%K14%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko14" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%107" Number="%K15%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko15" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
               <!-- Dev 1 Power -->
-							<ComObject Id="%AID%_O-%TT%%CC%015" Number="%K15%" ObjectSize="1 Bit"   DatapointType="DPST-1-1" Name="C%C%Dev1Power" Text="{{0: HVAC Gerät 1 %C%}}: Strom" FunctionText="HVAC: Ausgang, Schalten, Aus=0 / Ein=1" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+							<ComObject Id="%AID%_O-%TT%%CC%108" Number="%K16%" ObjectSize="1 Bit"   DatapointType="DPST-1-1" Name="C%C%Dev1Power" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Strom" FunctionText="HVAC: Ausgang, Schalten, Aus=0 / Ein=1" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
               <!-- Dev 1 Target Temp-->
-              <ComObject Id="%AID%_O-%TT%%CC%016" Number="%K16%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1Set" Text="{{0: HVAC Gerät 1 %C%}}: Solltemperatur" FunctionText="HVAC: Ausgang, Solltemperatur, °C" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"/>
+              <ComObject Id="%AID%_O-%TT%%CC%109" Number="%K17%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1Set" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Solltemperatur" FunctionText="HVAC: Ausgang, Solltemperatur, °C" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"/>
               <!-- Dev 1 Target Temp Feedback --> 
-              <ComObject Id="%AID%_O-%TT%%CC%017" Number="%K17%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1SetFb" Text="{{0: HVAC Gerät 1 %C%}}: Solltemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-              <!-- Dev 1 Room Temp Feedback -->
-              <ComObject Id="%AID%_O-%TT%%CC%018" Number="%K18%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1RoomTempFb" Text="{{0: HVAC Gerät 1 %C%}}: Raumtemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
-    
+              <ComObject Id="%AID%_O-%TT%%CC%110" Number="%K18%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1SetFb" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Solltemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <!-- Dev 1 Room Temp -->
+              <ComObject Id="%AID%_O-%TT%%CC%111" Number="%K19%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1RoomTemp" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+
+
+              <!-- Multible used KOs-->
+							<ComObject Id="%AID%_O-%TT%%CC%200" Number="%K20%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko20" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+							<ComObject Id="%AID%_O-%TT%%CC%201" Number="%K21%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko21" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%202" Number="%K22%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko22" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%203" Number="%K23%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko23" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%204" Number="%K24%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko24" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%205" Number="%K25%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko25" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%206" Number="%K26%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko26" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%207" Number="%K27%" ObjectSize="1 Byte" DatapointType="DPST-17-1" Name="C%C%Ko27" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <!-- Dev 2 Power -->
+							<ComObject Id="%AID%_O-%TT%%CC%208" Number="%K28%" ObjectSize="1 Bit"   DatapointType="DPST-1-1" Name="C%C%Dev2Power" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Strom" FunctionText="HVAC: Ausgang, Schalten, Aus=0 / Ein=1" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <!-- Dev 2 Target Temp-->
+              <ComObject Id="%AID%_O-%TT%%CC%209" Number="%K29%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev2Set" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Solltemperatur" FunctionText="HVAC: Ausgang, Solltemperatur, °C" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"/>
+              <!-- Dev 2 Target Temp Feedback --> 
+              <ComObject Id="%AID%_O-%TT%%CC%210" Number="%K30%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev2SetFb" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Solltemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <!-- Dev 2 Room Temp -->
+              <ComObject Id="%AID%_O-%TT%%CC%211" Number="%K31%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev2RoomTemp" Text="" FunctionText="" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+
+
+              <!-- Window open -->
+              <ComObject Id="%AID%_O-%TT%%CC%400" Number="%K32%" ObjectSize="1 Bit" DatapointType="DPST-1-19" Name="C%C%WindowOpen" Text="{{0: HVAC %C%}}: Fenster Offen" FunctionText="HVAC: Eingang, Kontakt, Geschlossen=0 / Offen=1" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" /> 
+              <!-- Window open alarm -->
+              <ComObject Id="%AID%_O-%TT%%CC%401" Number="%K33%" ObjectSize="1 Bit" DatapointType="DPST-1-5" Name="C%C%WindowOpenAlarm" Text="{{0: HVAC %C%}}: Fenster Offen Alarm" FunctionText="HVAC: Ausgang, Alarm, Kein Alarm=0 / Alarm=1" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+
             </ComObjectTable>
             <ComObjectRefs>
               <!-- Mode Selection -->
@@ -197,49 +367,102 @@
               <ComObjectRef Id="%AID%_O-%TT%%CC%004_R-%TT%%CC%00400" RefId="%AID%_O-%TT%%CC%004" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001"/>
               <!-- Target Temp Feedback -->
               <ComObjectRef Id="%AID%_O-%TT%%CC%005_R-%TT%%CC%00500" RefId="%AID%_O-%TT%%CC%005" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001"/>
-              <!-- Room Temp -->
+              <!-- Relative temp change -->
               <ComObjectRef Id="%AID%_O-%TT%%CC%006_R-%TT%%CC%00600" RefId="%AID%_O-%TT%%CC%006" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001"/>
+              <!-- Room Temp -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" RefId="%AID%_O-%TT%%CC%007" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001"/>
 
               <!-- Dev 1 HVAC Ausgang -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" RefId="%AID%_O-%TT%%CC%007" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: Gerät 1 HVAC %C%}}: HVAC Steuerung" FunctionText="HVAC: Ausgang, Steuern, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%100_R-%TT%%CC%10000" RefId="%AID%_O-%TT%%CC%100" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: Klima-/Heizsystem 1 HVAC %C%}}: HVAC Steuerung" FunctionText="HVAC: Ausgang, Steuern, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
 						  <!-- Dev 1 HVAC Rückmeldung -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%008_R-%TT%%CC%00800" RefId="%AID%_O-%TT%%CC%008" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: Gerät 1 HVAC %C%}}: HVAC Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%101_R-%TT%%CC%10100" RefId="%AID%_O-%TT%%CC%101" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: Klima-/Heizsystem 1 HVAC %C%}}: HVAC Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
               <!-- Dev 1 On -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%009_R-%TT%%CC%00900" RefId="%AID%_O-%TT%%CC%009" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-				
+							<ComObjectRef Id="%AID%_O-%TT%%CC%102_R-%TT%%CC%10200" RefId="%AID%_O-%TT%%CC%102" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+              
               <!-- Dev 1 Kühlen -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%007_R-%TT%%CC%00701" RefId="%AID%_O-%TT%%CC%007" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_O-%TT%%CC%100" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
 					    <!-- Dev 1 Kühlen Status -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%008_R-%TT%%CC%00801" RefId="%AID%_O-%TT%%CC%008" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1%C%}}: Kühlen Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001"  WriteFlag="Enabled" UpdateFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%101_R-%TT%%CC%10101" RefId="%AID%_O-%TT%%CC%101" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1%C%}}: Kühlen Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001"  WriteFlag="Enabled" UpdateFlag="Enabled" />
 					    <!-- Dev 1 Heizen -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%009_R-%TT%%CC%00901" RefId="%AID%_O-%TT%%CC%009" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Heizen" FunctionText="HVAC: Ausgang, Anfordern, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 1 Heizen -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%010_R-%TT%%CC%01001" RefId="%AID%_O-%TT%%CC%010" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Heizen Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%102_R-%TT%%CC%10201" RefId="%AID%_O-%TT%%CC%102" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Heizen" FunctionText="HVAC: Ausgang, Anfordern, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 1 Heizen Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%103_R-%TT%%CC%10301" RefId="%AID%_O-%TT%%CC%103" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Heizen Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
 					    <!-- Dev 1 Entfeuchten -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%011_R-%TT%%CC%01101" RefId="%AID%_O-%TT%%CC%011" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Entfeuchten" FunctionText="HVAC: Ausgang, Anfordern, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%104_R-%TT%%CC%10401" RefId="%AID%_O-%TT%%CC%104" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Entfeuchten" FunctionText="HVAC: Ausgang, Anfordern, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
 					    <!-- Dev 1 Entfeuchten Status -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%012_R-%TT%%CC%01201" RefId="%AID%_O-%TT%%CC%012" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Entfeuchten Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%105_R-%TT%%CC%10501" RefId="%AID%_O-%TT%%CC%105" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Entfeuchten Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
 					    <!-- Dev 1 Ventilator -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%013_R-%TT%%CC%01301" RefId="%AID%_O-%TT%%CC%013" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Ventilator" FunctionText="HVAC: Ausgang, Anfordern, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+							<ComObjectRef Id="%AID%_O-%TT%%CC%106_R-%TT%%CC%10601" RefId="%AID%_O-%TT%%CC%106" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Ventilator" FunctionText="HVAC: Ausgang, Anfordern, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
 					    <!-- Dev 1 Ventilator Status -->
-							<ComObjectRef Id="%AID%_O-%TT%%CC%014_R-%TT%%CC%01401" RefId="%AID%_O-%TT%%CC%014" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Gerät 1 %C%}}: Ventilator Gerätrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    
+							<ComObjectRef Id="%AID%_O-%TT%%CC%107_R-%TT%%CC%10701" RefId="%AID%_O-%TT%%CC%107" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Ventilator Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />  
+              
               <!-- Dev 1 Power -->
-              <ComObjectRef Id="%AID%_O-%TT%%CC%015_R-%TT%%CC%01500" RefId="%AID%_O-%TT%%CC%015" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%108_R-%TT%%CC%10800" RefId="%AID%_O-%TT%%CC%108" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />      
               
               <!-- Dev 1 Target Temp-->
-              <ComObjectRef Id="%AID%_O-%TT%%CC%016_R-%TT%%CC%01600" RefId="%AID%_O-%TT%%CC%016" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001"/>
+              <ComObjectRef Id="%AID%_O-%TT%%CC%109_R-%TT%%CC%10900" RefId="%AID%_O-%TT%%CC%109" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001"/>
               <!-- Dev 1 Target Set Value-->
-              <ComObjectRef Id="%AID%_O-%TT%%CC%016_R-%TT%%CC%01601" RefId="%AID%_O-%TT%%CC%016" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ObjectSize="1 Byte" DatapointType="DPST-5-1" Text="{{0: HVAC Gerät 1 %C%}}: Stellwert" FunctionText="HVAC: Ausgang, Prozent" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%109_R-%TT%%CC%10901" RefId="%AID%_O-%TT%%CC%109" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ObjectSize="1 Byte" DatapointType="DPST-5-1" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Stellwert" FunctionText="HVAC: Ausgang, Steuerung, Prozent" />
+              <!-- Dev 1 Target On/Off -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%109_R-%TT%%CC%10902" RefId="%AID%_O-%TT%%CC%109" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ObjectSize="1 Bit" DatapointType="DPST-1-0" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Pulsweitenmodulation" FunctionText="HVAC: Ausgang, Steuerung, Aus=0 / Ein=1" />       
               
               <!-- Dev 1 Target Temp Feedback --> 
-              <ComObjectRef Id="%AID%_O-%TT%%CC%017_R-%TT%%CC%01700" RefId="%AID%_O-%TT%%CC%017" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />
-              
+              <ComObjectRef Id="%AID%_O-%TT%%CC%110_R-%TT%%CC%10000" RefId="%AID%_O-%TT%%CC%110" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />
               
               <!-- Dev 1 Room Temp Feedback -->
-              <ComObjectRef Id="%AID%_O-%TT%%CC%018_R-%TT%%CC%01800" RefId="%AID%_O-%TT%%CC%018" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%111_R-%TT%%CC%11100" RefId="%AID%_O-%TT%%CC%111" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Raumtemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" UpdateFlag="Enabled" WriteFlag="Enabled"  />
+               <!-- Dev 1 Room Temp -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%111_R-%TT%%CC%11101" RefId="%AID%_O-%TT%%CC%111" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Raumtemperatur Vorgabe" FunctionText="HVAC: Ausgang, Vorgabe, °C" ReadFlag="Enabled" TransmitFlag="Enabled" />
               
 
+
+              <!-- Dev 2 HVAC Ausgang -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%200_R-%TT%%CC%20000" RefId="%AID%_O-%TT%%CC%200" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: Klima-/Heizsystem 2 HVAC %C%}}: HVAC Steuerung" FunctionText="HVAC: Ausgang, Steuern, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+						  <!-- Dev 2 HVAC Rückmeldung -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%201_R-%TT%%CC%20100" RefId="%AID%_O-%TT%%CC%201" ObjectSize="1 Byte" DatapointType="DPST-17-1" Text="{{0: Klima-/Heizsystem 2 HVAC %C%}}: HVAC Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+              <!-- Dev 2 On -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%202_R-%TT%%CC%20200" RefId="%AID%_O-%TT%%CC%202" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+              
+              <!-- Dev 2 Kühlen -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%200_R-%TT%%CC%20001" RefId="%AID%_O-%TT%%CC%200" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 2 Kühlen Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%201_R-%TT%%CC%20101" RefId="%AID%_O-%TT%%CC%201" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2%C%}}: Kühlen Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001"  WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 2 Heizen -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%202_R-%TT%%CC%20201" RefId="%AID%_O-%TT%%CC%202" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Heizen" FunctionText="HVAC: Ausgang, Anfordern, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+							<!-- Dev 2 Heizen Status -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%203_R-%TT%%CC%20301" RefId="%AID%_O-%TT%%CC%203" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Heizen Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 2 Entfeuchten -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%204_R-%TT%%CC%20401" RefId="%AID%_O-%TT%%CC%204" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Entfeuchten" FunctionText="HVAC: Ausgang, Anfordern, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 2 Entfeuchten Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%205_R-%TT%%CC%20501" RefId="%AID%_O-%TT%%CC%205" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Entfeuchten Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+					    <!-- Dev 2 Ventilator -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%206_R-%TT%%CC%20601" RefId="%AID%_O-%TT%%CC%206" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Ventilator" FunctionText="HVAC: Ausgang, Anfordern, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
+					    <!-- Dev 2 Ventilator Status -->
+							<ComObjectRef Id="%AID%_O-%TT%%CC%207_R-%TT%%CC%20701" RefId="%AID%_O-%TT%%CC%207" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Ventilator Klima-/Heizsystemrückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />  
+              
+              <!-- Dev 2 Power -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%208_R-%TT%%CC%20800" RefId="%AID%_O-%TT%%CC%208" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" />      
+              
+              <!-- Dev 2 Target Temp-->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%209_R-%TT%%CC%20900" RefId="%AID%_O-%TT%%CC%209" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001"/>
+              <!-- Dev 2 Target Set Value-->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%209_R-%TT%%CC%20901" RefId="%AID%_O-%TT%%CC%209" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ObjectSize="1 Byte" DatapointType="DPST-5-1" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Stellwert" FunctionText="HVAC: Ausgang, Steuerung, Prozent" />
+              <!-- Dev 2 Target On/Off -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%209_R-%TT%%CC%20902" RefId="%AID%_O-%TT%%CC%209" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ObjectSize="1 Bit" DatapointType="DPST-1-0" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Pulsweitenmodulation" FunctionText="HVAC: Ausgang, Steuerung, Aus=0 / Ein=1" />       
+              
+              <!-- Dev 2 Target Temp Feedback --> 
+              <ComObjectRef Id="%AID%_O-%TT%%CC%210_R-%TT%%CC%21000" RefId="%AID%_O-%TT%%CC%210" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" />
+              
+              <!-- Dev 2 Room Temp Feedback -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%211_R-%TT%%CC%21100" RefId="%AID%_O-%TT%%CC%211" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Raumtemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" UpdateFlag="Enabled" WriteFlag="Enabled"  />
+               <!-- Dev 2 Room Temp -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%211_R-%TT%%CC%21101" RefId="%AID%_O-%TT%%CC%211" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" Text="{{0: HVAC Klima-/Heizsystem 2 %C%}}: Raumtemperatur Vorgabe" FunctionText="HVAC: Ausgang, Vorgabe, °C" ReadFlag="Enabled" TransmitFlag="Enabled" />
+              
+
+              <!-- Window open -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%400_R-%TT%%CC%40000" RefId="%AID%_O-%TT%%CC%400" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
+              <!-- Window open alarm -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%401_R-%TT%%CC%40100" RefId="%AID%_O-%TT%%CC%401" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
             </ComObjectRefs>
           </Static>
           <Dynamic>
@@ -255,6 +478,11 @@
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" HelpContext="%DOC%" />
                       <!-- Channel Disabled-->
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" HelpContext="%DOC%" />
+                      
+                      
+                      <!-- Window open handling -->
+                      <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%400_R-%TT%%CC%40001" HelpContext="%DOC%" />
+                      
                       <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Vorgaben" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung" Inline="true" ShowInComObjectTree="true">
                         <!-- Mode Selection -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00000" />
@@ -268,111 +496,191 @@
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00400" />
                         <!-- Target Temp Feedback -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00500" />
-                        <!-- Room Temp -->
-                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00600" />
+                       
+
+                        <!-- KO for relativ Temperature change -->
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
+                          <when test="1"> <!-- Relative Temperature Change Enabled -->
+                            <!-- Relative temp change -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00600" />
+                          </when>
+                        </choose>
                       </ParameterBlock>
 
-                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 1 ({{0:}})" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung"  ShowInComObjectTree="true">
+                       <!-- Room Temp -->
+                      <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" />
+
+                      <!-- KO for relativ Temperature change -->
+                      <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" HelpContext="%DOC%" />
+                      <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
+                        <when test="1"> <!-- Relative Temperature Change Enabled -->
+                          <!-- Relativ temperature change value -->
+                          <ParameterRefRef  IndentLevel="2" RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" HelpContext="%DOC%" />                       
+                        </when>
+                      </choose>
+
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="1: {{0:Klima-/Heizsystem 1}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung"  ShowInComObjectTree="true">
                         <!-- HVAC Name 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="%DOC%" />
-
                         <!-- Control Mode 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%101_R-%TT%%CC%10101" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%101_R-%TT%%CC%10101">
                           <when test="0"> <!-- HVAC -->
                             <!-- Dev 1 HVAC Ausgang -->
-						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" />
+						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%100_R-%TT%%CC%10000" />
 						                <!-- Dev 1 HVAC Rückmeldung -->
-							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%008_R-%TT%%CC%00800" />
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%101_R-%TT%%CC%10100" />
                           </when>
                           <when test="1"> <!-- HVAC und Power -->
                             <!-- Dev 1 HVAC Ausgang -->
-						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" />
+						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%100_R-%TT%%CC%10000" />
 						                <!-- Dev 1 HVAC Rückmeldung -->
-							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%008_R-%TT%%CC%00800" />
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%101_R-%TT%%CC%10100" />
                             <!-- Dev 1 On -->
-							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%009_R-%TT%%CC%00900" />
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%102_R-%TT%%CC%10200" />
                           </when>
                           <when test="2"> <!-- Ein Objekt pro Modus -->
                             <!-- Dev 1 Kühlen -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00701" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%100_R-%TT%%CC%10001" />
                             <!-- Dev 1 Kühlen Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%008_R-%TT%%CC%00801" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%101_R-%TT%%CC%10101" />
                             <!-- Dev 1 Heizen -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%009_R-%TT%%CC%00901" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%102_R-%TT%%CC%10201" />
                             <!-- Dev 1 Heizen Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%010_R-%TT%%CC%01001" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%103_R-%TT%%CC%10301" />
                             <!-- Dev 1 Entfeuchten -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%011_R-%TT%%CC%01101" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%104_R-%TT%%CC%10401" />
                             <!-- Dev 1 Entfeuchten Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%012_R-%TT%%CC%01201" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%105_R-%TT%%CC%10501" />
                             <!-- Dev 1 Ventilator -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%013_R-%TT%%CC%01301" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%106_R-%TT%%CC%10601" />
                             <!-- Dev 1 Ventilator Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%014_R-%TT%%CC%01401" />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%107_R-%TT%%CC%10701" />
                           </when>
                         </choose>  
-
                         <!-- Temperature Control 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%102_R-%TT%%CC%10201" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%102_R-%TT%%CC%10201">
                           <when test="0"> <!-- Solltemperaturvorgabe -->
                             <!-- Dev 1 Target Temp-->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%016_R-%TT%%CC%01600"  />
-
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%109_R-%TT%%CC%10900"  />
                             <!-- Dev 1 Target Temp Feedback --> 
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%017_R-%TT%%CC%01700"  />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%110_R-%TT%%CC%11000"  />
+                             <!-- Dev 1 Room Temp -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%111_R-%TT%%CC%11101"  />
                           </when>
                           <when test="1"> <!-- Stellwertvorgabe -->
                              <!-- Dev 1 Target Set Value-->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%016_R-%TT%%CC%01601"  />
-
-                            <!-- Dev 1 Target Temp Feedback --> 
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%017_R-%TT%%CC%01700"  />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%109_R-%TT%%CC%10901"  />
                           </when>
-                          <when test="2"> <!-- Regelung durch OpenKNX über angepasste Solltemperaturvorgabe -->
+                          <when test="2"> <!-- Pulsweitenmodulation -->
+                            <!-- Dev 1 Target On/Off -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%109_R-%TT%%CC%10902"  />
+                             </when>
+                          <when test="3"> <!-- Regelung durch OpenKNX über angepasste Solltemperaturvorgabe -->
                              <!-- Dev 1 Target Temp-->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%016_R-%TT%%CC%01600"  />
-                            
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%109_R-%TT%%CC%10900"  />       
                             <!-- Dev 1 Room Temp Feedback -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%018_R-%TT%%CC%01800"  />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%111_R-%TT%%CC%11100"  />
                           </when>
                         </choose>
                         <!-- Full power off 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301">
                           <when test="1">
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" />
                             <!-- Dev 1 Power -->
-							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%015_R-%TT%%CC%01500" />
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%108_R-%TT%%CC%10800" />
                             <!-- Wait Time after Power Up 1 -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" HelpContext="%DOC%" />
                           </when>
                         </choose>
                       </ParameterBlock>
 
-                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Gerät 2 {{0:-}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="2: {{0:Klima-/Heizsystem 2}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
                         <!-- HVAC Name 2 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="%DOC%" />
-
                         <!-- Control Mode 2 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%201_R-%TT%%CC%20101" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%201_R-%TT%%CC%20101">
+                          <when test="0"> <!-- HVAC -->
+                            <!-- Dev 2 HVAC Ausgang -->
+						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%200_R-%TT%%CC%20000" />
+						                <!-- Dev 2 HVAC Rückmeldung -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%201_R-%TT%%CC%20100" />
+                          </when>
+                          <when test="1"> <!-- HVAC und Power -->
+                            <!-- Dev 2 HVAC Ausgang -->
+						                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%200_R-%TT%%CC%20000" />
+						                <!-- Dev 2 HVAC Rückmeldung -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%201_R-%TT%%CC%20100" />
+                            <!-- Dev 2 On -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%202_R-%TT%%CC%20200" />
+                          </when>
+                          <when test="2"> <!-- Ein Objekt pro Modus -->
+                            <!-- Dev 2 Kühlen -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%200_R-%TT%%CC%20001" />
+                            <!-- Dev 2 Kühlen Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%201_R-%TT%%CC%20101" />
+                            <!-- Dev 2 Heizen -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%202_R-%TT%%CC%20201" />
+                            <!-- Dev 2 Heizen Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%203_R-%TT%%CC%20301" />
+                            <!-- Dev 2 Entfeuchten -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%204_R-%TT%%CC%20401" />
+                            <!-- Dev 2 Entfeuchten Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%205_R-%TT%%CC%20501" />
+                            <!-- Dev 2 Ventilator -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%206_R-%TT%%CC%20601" />
+                            <!-- Dev 2 Ventilator Status -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%207_R-%TT%%CC%20701" />
+                          </when>
+                        </choose>  
                         <!-- Temperature Control 2 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%202_R-%TT%%CC%20201" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%202_R-%TT%%CC%20201">
+                          <when test="0"> <!-- Solltemperaturvorgabe -->
+                            <!-- Dev 2 Target Temp-->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%209_R-%TT%%CC%20900"  />
+                            <!-- Dev 2 Target Temp Feedback --> 
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%210_R-%TT%%CC%21000"  />
+                             <!-- Dev 2 Room Temp -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%211_R-%TT%%CC%21101"  />
+                          </when>
+                          <when test="1"> <!-- Stellwertvorgabe -->
+                             <!-- Dev 2 Target Set Value-->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%209_R-%TT%%CC%20901"  />
+                          </when>
+                          <when test="2"> <!-- Pulsweitenmodulation -->
+                            <!-- Dev 2 Target On/Off -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%209_R-%TT%%CC%20902"  />
+                             </when>
+                          <when test="3"> <!-- Regelung durch OpenKNX über angepasste Solltemperaturvorgabe -->
+                             <!-- Dev 2 Target Temp-->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%209_R-%TT%%CC%20900"  />       
+                            <!-- Dev 2 Room Temp Feedback -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%211_R-%TT%%CC%21100"  />
+                          </when>
+                        </choose>
                         <!-- Full power off 2 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301">
                           <when test="1">
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" />
+                            <!-- Dev 2 Power -->
+							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%208_R-%TT%%CC%20800" />
                             <!-- Wait Time after Power Up 2 -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%204_R-%TT%%CC%20401" HelpContext="%DOC%" />
                           </when>
                         </choose>
                       </ParameterBlock>
+
                       <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Modus Auswahl" Icon="sun-snowflake-variant" HelpContext="CLI-KlimaSteuerung" >
 
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
                         <!-- Cooling Device Selection-->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" HelpContext="%DOC%" />
-                      
+                  
 
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Heizen" UIHint="Headline" />
@@ -398,12 +706,17 @@
                         <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
                           <when test="!=0">
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101" HelpContext="%DOC%" />
+                            <!-- Cooling deactivated in Winter -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%502_R-%TT%%CC%50201" HelpContext="%DOC%" />
                           </when>
                         </choose>
+                      
                         <!-- Heating Auto Device Selection -->
                         <choose ParamRefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101">
                           <when test="!=0">
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%902_R-%TT%%CC%90201" HelpContext="%DOC%" />
+                            <!-- Heating deactivated in Summer -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%602_R-%TT%%CC%60201" HelpContext="%DOC%" />
                           </when>
                         </choose>
                         <!-- Dehumidification Auto Device Selection -->
@@ -422,9 +735,174 @@
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%905_R-%TT%%CC%90501" HelpContext="%DOC%" /> 
 
 
-
                       </ParameterBlock>
+                      <!-- Window open handling -->
+                      <choose ParamRefId="%AID%_UP-%TT%%CC%400_R-%TT%%CC%40001">
+                        <when test="1">
+                          <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Fenster offen" Icon="window-open-variant" ShowInComObjectTree="true" HelpContext="CLI-FensterOffen" >
+                         
+                            <!-- Window open -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%400_R-%TT%%CC%40000" />
+                            <!-- Window open alarm -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%401_R-%TT%%CC%40100" />
+            
 
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 1" UIHint="Headline" />
+                            <!-- Window open action 1 -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001">
+                              <when test="!=0">
+                                <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action1" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
+                                  <Rows>
+                                    <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                                  </Rows>
+                                  <Columns>
+                                    <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                    <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                    <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                                  </Columns>
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" />
+                              
+                                  <!-- Window open action time delay 1 DelayTime -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%412_R-%TT%%CC%41201" Cell="1,2" HelpContext="CLI-Aktionnach" />
+                                  <!-- Window open action time delay 1 DelayBase-->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%411_R-%TT%%CC%41101" Cell="1,3" HelpContext="CLI-Aktionnach" />
+                                </ParameterBlock>
+                              </when>
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001">
+                              <when test="4"> <!-- Solltemperaturanpassung -->
+                                <!-- Window open temp correction 1 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%413_R-%TT%%CC%41301" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
+             
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 2" UIHint="Headline" />
+                            <!-- Window open action 1 -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001">
+                              <when test="!=0">
+                                <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action2" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
+                                  <Rows>
+                                    <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                                  </Rows>
+                                  <Columns>
+                                    <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                    <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                    <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                                  </Columns>
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" />
+                              
+                                  <!-- Window open action time delay 1 DelayTime -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%422_R-%TT%%CC%42201" Cell="1,2" HelpContext="CLI-Aktionnach" />
+                                  <!-- Window open action time delay 1 DelayBase-->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%421_R-%TT%%CC%42101" Cell="1,3" HelpContext="CLI-Aktionnach" />
+                                </ParameterBlock>
+                              </when>
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001">
+                              <when test="4"> <!-- Solltemperaturanpassung -->
+                                <!-- Window open temp correction 1 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%423_R-%TT%%CC%42301" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
+
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 3" UIHint="Headline" />
+                            <!-- Window open action 3 -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001">
+                              <when test="!=0">
+                                <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action3" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
+                                  <Rows>
+                                    <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                                  </Rows>
+                                  <Columns>
+                                    <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                    <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                    <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                                  </Columns>
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" /> 
+                                  <!-- Window open action time delay 1 DelayTime -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%432_R-%TT%%CC%43201" Cell="1,2" HelpContext="CLI-Aktionnach" />
+                                  <!-- Window open action time delay 1 DelayBase-->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%431_R-%TT%%CC%43101" Cell="1,3" HelpContext="CLI-Aktionnach" />
+                                </ParameterBlock>
+                              </when>
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001">
+                              <when test="4"> <!-- Solltemperaturanpassung -->
+                                <!-- Window open temp correction 1 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%433_R-%TT%%CC%43301" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
+
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 4" UIHint="Headline" />
+                            <!-- Window open action 4 -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001">
+                              <when test="!=0">
+                                <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action4" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
+                                  <Rows>
+                                    <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                                  </Rows>
+                                  <Columns>
+                                    <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                    <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                    <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                                  </Columns>
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" /> 
+                                  <!-- Window open action time delay 1 DelayTime -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%442_R-%TT%%CC%44201" Cell="1,2" HelpContext="CLI-Aktionnach" />
+                                  <!-- Window open action time delay 1 DelayBase-->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%441_R-%TT%%CC%44101" Cell="1,3" HelpContext="CLI-Aktionnach" />
+                                </ParameterBlock>
+                              </when>
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001">
+                              <when test="4"> <!-- Solltemperaturanpassung -->
+                                <!-- Window open temp correction 1 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%443_R-%TT%%CC%44301" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
+
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 5" UIHint="Headline" />
+                            <!-- Window open action 5 -->
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001">
+                              <when test="!=0">
+                                <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action5" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
+                                  <Rows>
+                                    <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                                  </Rows>
+                                  <Columns>
+                                    <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                    <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                    <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                                  </Columns>
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" /> 
+                                  <!-- Window open action time delay 1 DelayTime -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%452_R-%TT%%CC%45201" Cell="1,2" HelpContext="CLI-Aktionnach" />
+                                  <!-- Window open action time delay 1 DelayBase-->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%451_R-%TT%%CC%45101" Cell="1,3" HelpContext="CLI-Aktionnach" />
+                                </ParameterBlock>
+                              </when>
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001">
+                              <when test="4"> <!-- Solltemperaturanpassung -->
+                                <!-- Window open temp correction 1 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%453_R-%TT%%CC%45301" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
+
+                          </ParameterBlock>
+
+                        </when>
+                      </choose>
+                    
                   </ParameterBlock>
                 </when>
               </choose>

@@ -1,3 +1,0 @@
-﻿### Manuelle Änderung am Gerät
-
-

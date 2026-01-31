@@ -26,7 +26,8 @@
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" />
                   <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="3" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
             
@@ -52,8 +53,8 @@
               <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Gerät 1" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Gerät 2" Value="2" Id="%ENID%" />      
+                  <Enumeration Text="Klima-/Heizsystem 1" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Klima-/Heizsystem 2" Value="2" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
 
@@ -62,7 +63,7 @@
               <ParameterType Id="%AID%_PT-CLIDeviceSelectionFix" Name="CLIDeviceSelectionFix">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="%CLI_DeviceName%" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Externes Gerät" Value="1" Id="%ENID%" />      
+                  <Enumeration Text="Externes Klima-/Heizsystem" Value="1" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
               
@@ -78,6 +79,31 @@
 								<TypeNumber SizeInBit="4" Type="unsignedInt" minInclusive="1" maxInclusive="10" />
 							</ParameterType>  
 
+              <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Nichts" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="1" Id="%ENID%" />     
+                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren" Value="2" Id="%ENID%" />     
+                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="3" Id="%ENID%" />     
+                  <Enumeration Text="Solltemperaturanpassung" Value="4" Id="%ENID%" />   
+                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="5" Id="%ENID%" />   
+                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="6" Id="%ENID%" />   
+                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="7" Id="%ENID%" />   
+                  <Enumeration Text="Fenster offen Alarm" Value="8" Id="%ENID%" />
+                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="9" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLITemperaturCorrection" Name="CLITemperaturCorrection">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" />
+                  <Enumeration Text="1°" Value="10" Id="%ENID%" />      
+                  <Enumeration Text="2°" Value="20" Id="%ENID%" />   
+                  <Enumeration Text="3°" Value="30" Id="%ENID%" />
+                  <Enumeration Text="4°" Value="35" Id="%ENID%" />
+                  <Enumeration Text="5°" Value="40" Id="%ENID%" />     
+                </TypeRestriction>
+              </ParameterType>
 
               <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice">
                 <TypeRestriction Base="Value" SizeInBit="4">
@@ -140,8 +166,7 @@
                 <!-- ^^^ need 3 bytes -->
             </Union>
 
-
-            </Parameters>
+          </Parameters>
             <ParameterRefs>
               <!-- Number of channels -->
               <ParameterRef Id="%AID%_UP-%TT%00000_R-%TT%0000001" RefId="%AID%_UP-%TT%00000" />

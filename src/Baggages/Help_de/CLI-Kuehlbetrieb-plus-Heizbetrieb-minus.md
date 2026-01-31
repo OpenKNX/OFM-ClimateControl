@@ -1,0 +1,2 @@
+﻿### Kühlbetrieb plus Heizbetrieb minus
+

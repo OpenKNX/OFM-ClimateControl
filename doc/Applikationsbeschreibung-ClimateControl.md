@@ -14,8 +14,8 @@
 <!-- DOC  -->
 ### Raum
 
-<!-- DOC  -->
-### Gerätname
+<!-- DOC HelpContext="Klima-Heizsystemname" -->
+### Klima-/Heizsystemname
 
 <!-- DOC  -->
 ### Durch
@@ -44,12 +44,12 @@ Ermöglicht weitere Kanäle hinzuzufügen.
 <!-- DOC  -->
 ### Objekt zum vollständigen Ein/-Ausschalten
 
-Mithilfe dieses Gruppenobjektes kann ein Schaltaktor angesteuert werden, der das Klimagerät vollständig vom Strom trennt, wenn es nicht benötigt wird.
+Mithilfe dieses Gruppenobjektes kann ein Schaltaktor angesteuert werden, der das KlimaKlima-/Heizsystem vollständig vom Strom trennt, wenn es nicht benötigt wird.
 
 <!-- DOC  -->
 ### Wartezeit nach Einschalten
 
-Zeit die nach dem Einschalten des Stromes gewartet wird, bis das Gerät angesprochen wird
+Zeit die nach dem Einschalten des Stromes gewartet wird, bis das Klima-/Heizsystem angesprochen wird
 
 <!-- DOCEND -->
 ## Sommer- / Winterbetriebsumschaltung
@@ -86,7 +86,7 @@ Umschaltung auf basis der Tagesdurchschnittstemperatur
 
 - Jede Stunde
   Jede volle Stunde wird der Messwert genommen und daraus über 24h der Mittelwert gebildet.
-  Ist die Uhrzeit nicht bekannt, wird jede volle Stunde ab Gerätstart verwendet.
+  Ist die Uhrzeit nicht bekannt, wird jede volle Stunde ab Klima-/Heizsystemstart verwendet.
 - Mannheimer Stunden (T7+T14+T21*2)/4
   Frühere in Deutschland übliche Berechnungsformel.
   Um 7:00, 14:00, 21:00 wird die Temperatur gemessen und über die Formel (T7+T14+T21*2)/4 der Mittelwert berechnet.
@@ -134,8 +134,36 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 <!-- DOC  -->
 ### Ventilator Auswahl durch
 
-<!-- DOC  -->
-### Manuelle Änderung am Gerät
+<!-- DOC HelpContext="Manuelle-Aenderung-am-Klima-Heizsystem" -->
+### Manuelle Änderung am Klima-/Heizsystem
 
+
+<!-- DOC -->
+### Fenster-offen-Behandlung 
+
+<!-- DOC -->
+### Kühlen im Winterbetrieb nicht verwenden
+
+<!-- DOC -->
+### Heizen im Sommerbetrieb nicht verwenden
+
+<!-- DOC HelpContext="FensterOffen" -->
+### Fenster Offen 
+
+<!-- DOC -->
+### Aktion
+
+<!-- DOC HelpContext="Aktionnach" -->
+### nach
+
+
+<!-- DOC -->
+### Objekt für relative Sollemperaturänderung
+
+<!-- DOC -->
+### Erhöhren / Verrringern um
+
+<!-- DOC -->
+### Kühlbetrieb plus Heizbetrieb minus
 
 
