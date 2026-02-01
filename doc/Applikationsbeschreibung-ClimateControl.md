@@ -14,7 +14,7 @@
 <!-- DOC  -->
 ### Raum
 
-<!-- DOC HelpContext="Klima-Heizsystemname" -->
+<!-- DOC HelpContext="Kuehl-Heizsystemname" -->
 ### Kühl-/Heizsystemname
 
 <!-- DOC  -->
@@ -134,7 +134,7 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 <!-- DOC  -->
 ### Ventilator Auswahl durch
 
-<!-- DOC HelpContext="Manuelle-Aenderung-am-Klima-Heizsystem" -->
+<!-- DOC HelpContext="Manuelle-Aenderung-am-Kuehl-Heizsystem" -->
 ### Manuelle Änderung am Kühl-/Heizsystem
 
 
