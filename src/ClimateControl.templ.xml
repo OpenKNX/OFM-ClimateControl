@@ -505,11 +505,13 @@
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00600" />
                           </when>
                         </choose>
+
+                        <!-- Room Temp -->
+                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" />
+
                       </ParameterBlock>
 
-                       <!-- Room Temp -->
-                      <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" />
-
+                     
                       <!-- KO for relativ Temperature change -->
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" HelpContext="%DOC%" />
                       <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
