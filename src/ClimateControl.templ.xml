@@ -709,8 +709,8 @@
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101">
                               <when test="!=0"> <!-- Not deactivated -->
-                                <!-- Cooling deactivated in Summer -->
-                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50102" HelpContext="%DOC%" />
+                                <!-- Cooling deactivated in Winter -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%502_R-%TT%%CC%50201" HelpContext="%DOC%" />
                               </when>
                             </choose>
                           </when>
