@@ -116,9 +116,9 @@
                 <!-- Window open action 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 1 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%411" Name="CH%C%CountDownDelayBase1"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%411" Name="CH%C%WindowOpenDelayBase1"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
                 <!-- Window open action time delay 1 DelayTime -->
-                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%412" Name="CH%C%CountDownDelayTime1"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%412" Name="CH%C%WindowOpenDelayTime1"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 1 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%413" Name="CH%C%WindowOpenTempCorrection1"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />        
               </Union>
@@ -129,9 +129,9 @@
                 <!-- Window open action 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 2 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%421" Name="CH%C%CountDownDelayBase2"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%421" Name="CH%C%WindowOpenDelayBase2"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
                 <!-- Window open action time delay 2 DelayTime -->
-                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%422" Name="CH%C%CountDownDelayTime2"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%422" Name="CH%C%WindowOpenDelayTime2"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 2 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%423" Name="CH%C%WindowOpenTempCorrection2"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />        
               </Union>
@@ -142,9 +142,9 @@
                 <!-- Window open action 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 3 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%431" Name="CH%C%CountDownDelayBase3"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%431" Name="CH%C%WindowOpenDelayBase3"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
                 <!-- Window open action time delay 3 DelayTime -->
-                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%432" Name="CH%C%CountDownDelayTime3"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%432" Name="CH%C%WindowOpenDelayTime3"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 3 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%433" Name="CH%C%WindowOpenTempCorrection3"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />        
               </Union>
@@ -155,9 +155,9 @@
                 <!-- Window open action 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 4 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%441" Name="CH%C%CountDownDelayBase4"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%441" Name="CH%C%WindowOpenDelayBase4"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
                 <!-- Window open action time delay 4 DelayTime -->
-                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%442" Name="CH%C%CountDownDelayTime4"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%442" Name="CH%C%WindowOpenDelayTime4"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 4 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%443" Name="CH%C%WindowOpenTempCorrection4"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" />
               </Union>
@@ -168,9 +168,9 @@
                 <!-- Window open action 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 5 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%451" Name="CH%C%CountDownDelayBase5"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%451" Name="CH%C%WindowOpenDelayBase5"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
                 <!-- Window open action time delay 5 DelayTime -->
-                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%452" Name="CH%C%CountDownDelayTime5"   ParameterType="%AID%_PT-DelayTimeMin1" Text="Nach" Value="0" />
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%452" Name="CH%C%WindowOpenDelayTime5"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 5 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%453" Name="CH%C%WindowOpenTempCorrection5"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" /> 
               </Union>
@@ -407,7 +407,7 @@
               <ComObjectRef Id="%AID%_O-%TT%%CC%109_R-%TT%%CC%10902" RefId="%AID%_O-%TT%%CC%109" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ObjectSize="1 Bit" DatapointType="DPST-1-0" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Pulsweitenmodulation" FunctionText="HVAC: Ausgang, Steuerung, Aus=0 / Ein=1" />       
               
               <!-- Dev 1 Target Temp Feedback --> 
-              <ComObjectRef Id="%AID%_O-%TT%%CC%110_R-%TT%%CC%10000" RefId="%AID%_O-%TT%%CC%110" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%110_R-%TT%%CC%11000" RefId="%AID%_O-%TT%%CC%110" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" />
               
               <!-- Dev 1 Room Temp Feedback -->
               <ComObjectRef Id="%AID%_O-%TT%%CC%111_R-%TT%%CC%11100" RefId="%AID%_O-%TT%%CC%111" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" Text="{{0: HVAC Klima-/Heizsystem 1 %C%}}: Raumtemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" UpdateFlag="Enabled" WriteFlag="Enabled"  />
@@ -705,18 +705,28 @@
                         <!-- Cooling Auto Device Selection-->
                         <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
                           <when test="!=0">
+                            <!-- Cooling Auto Device Selection-->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101" HelpContext="%DOC%" />
-                            <!-- Cooling deactivated in Winter -->
-                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%502_R-%TT%%CC%50201" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%901_R-%TT%%CC%90101">
+                              <when test="!=0"> <!-- Not deactivated -->
+                                <!-- Cooling deactivated in Summer -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50102" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
                           </when>
                         </choose>
                       
                         <!-- Heating Auto Device Selection -->
                         <choose ParamRefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101">
                           <when test="!=0">
+                            <!-- Heating Auto Device Selection -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%902_R-%TT%%CC%90201" HelpContext="%DOC%" />
-                            <!-- Heating deactivated in Summer -->
-                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%602_R-%TT%%CC%60201" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%902_R-%TT%%CC%90201">
+                              <when test="!=0"> <!-- Not deactivated -->
+                                <!-- Heating deactivated in Summer -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%602_R-%TT%%CC%60201" HelpContext="%DOC%" />
+                              </when>
+                            </choose>
                           </when>
                         </choose>
                         <!-- Dehumidification Auto Device Selection -->
