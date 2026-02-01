@@ -1,2 +1,2 @@
-﻿### Klima-/Heizsystemname
+﻿### Kühl-/Heizsystemname
 

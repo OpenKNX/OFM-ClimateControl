@@ -1,3 +1,3 @@
-﻿### Manuelle Änderung am Klima-/Heizsystem
+﻿### Manuelle Änderung am Kühl-/Heizsystem
 
 

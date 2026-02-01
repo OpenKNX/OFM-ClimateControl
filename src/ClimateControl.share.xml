@@ -53,8 +53,8 @@
               <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Klima-/Heizsystem 1" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Klima-/Heizsystem 2" Value="2" Id="%ENID%" />      
+                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
 
@@ -63,7 +63,7 @@
               <ParameterType Id="%AID%_PT-CLIDeviceSelectionFix" Name="CLIDeviceSelectionFix">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="%CLI_DeviceName%" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Externes Klima-/Heizsystem" Value="1" Id="%ENID%" />      
+                  <Enumeration Text="Externes Kühl-/Heizsystem" Value="1" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
               
@@ -221,11 +221,11 @@
             </ComObjectRefs>
           </Static>
           <Dynamic>
-            <Channel Name="MainChannel" Text="Klima Steuerung (HVAC)" Number="%PREFIX%" Id="%AID%_CH-%TT%" Icon="home-thermometer-outline">
+            <Channel Name="MainChannel" Text="Klimasteuerung (HVAC)" Number="%PREFIX%" Id="%AID%_CH-%TT%" Icon="home-thermometer-outline">
 
               <ParameterBlock Id="%AID%_PB-nnn" Name="ClimateControlSettings" Text="Allgemein" Icon="cog-outline" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
 
-								<ParameterSeparator Id="%AID%_PS-nnn" Text="Klima Steuerung (HVAC)" UIHint="Headline" />
+								<ParameterSeparator Id="%AID%_PS-nnn" Text="Klimasteuerung (HVAC)" UIHint="Headline" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
 
 								<ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
