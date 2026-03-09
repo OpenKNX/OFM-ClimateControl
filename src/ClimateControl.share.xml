@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-model href="../../../../Organization/knxprod-support/knx_project_14/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns="http://knx.org/xml/project/14" CreatedBy="KNX MT" ToolVersion="5.1.255.16695">
+<?xml-model href="../../../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns="http://knx.org/xml/project/20" CreatedBy="KNX MT" ToolVersion="5.1.255.16695">
   <op:config name="%CLI_NumChannelsDefault%" value="0" />
 
   <op:config name="%CLI_DeviceName%" value="Klimaanlage" />
@@ -14,56 +14,56 @@
               <ParameterType Id="%AID%_PT-CLINumChannels" Name="CLINumChannels">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>  
-              <ParameterType Id="%AID%_PT-CLIControlMode" Name="CLIControlMode">
-              <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="HVAC" Value="0" Id="%ENID%" />
-                  <Enumeration Text="HVAC und Power" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Ein Objekt pro Modus" Value="2" Id="%ENID%" />
+              <ParameterType Id="%AID%_PT-CLIControlMode" Name="CLIControlMode" op:headerExport="enum">
+              <TypeRestriction Base="Value" SizeInBit="4" >
+                  <Enumeration Text="HVAC" Value="0" Id="%ENID%" op:headerName="HVAC" />
+                  <Enumeration Text="HVAC und Power" Value="1" Id="%ENID%" op:headerName="HVAC_AND_POWER" />
+                  <Enumeration Text="Ein Objekt pro Modus" Value="2" Id="%ENID%" op:headerName="ONE_OBJECT_PER_MODE" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature">
+              <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" />
-                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="3" Id="%ENID%" />
+                  <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
+                  <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" op:headerName="Setpoint" />
+                  <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
+                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="3" Id="%ENID%" op:headerName="OpenKNXControl" />
                 </TypeRestriction>
               </ParameterType>
             
-              <ParameterType Id="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CLIWaitTimeAfterPowerUp">
+              <ParameterType Id="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CLIWaitTimeAfterPowerUp" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="7">
-                  <Enumeration Text="1 Sekunde" Value="0" Id="%ENID%" />
-                  <Enumeration Text="5 Sekunden" Value="1" Id="%ENID%" />
-                  <Enumeration Text="10 Sekunden" Value="2" Id="%ENID%" />
-                  <Enumeration Text="20 Sekunden" Value="3" Id="%ENID%" />
-                  <Enumeration Text="30 Sekunden" Value="4" Id="%ENID%" />
+                  <Enumeration Text="1 Sekunde" Value="0" Id="%ENID%" op:headerName="WaitTime1s" />
+                  <Enumeration Text="5 Sekunden" Value="1" Id="%ENID%" op:headerName="WaitTime5s" />
+                  <Enumeration Text="10 Sekunden" Value="2" Id="%ENID%" op:headerName="WaitTime10s" />
+                  <Enumeration Text="20 Sekunden" Value="3" Id="%ENID%" op:headerName="WaitTime20s" />
+                  <Enumeration Text="30 Sekunden" Value="4" Id="%ENID%" op:headerName="WaitTime30s" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLIAverageTemperatureCalculation" Name="CLIAverageTemperatureCalculation">
+              <ParameterType Id="%AID%_PT-CLIAverageTemperatureCalculation" Name="CLIAverageTemperatureCalculation" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" />
-                  <Enumeration Text="Tagesmittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" />
+                  <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" op:headerName="EveryHour" />
+                  <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" op:headerName="MannheimHours" />
+                  <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" op:headerName="MinMaxAverage" />
+                  <Enumeration Text="Tagesmittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" op:headerName="DailyAverageTemperature" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection">
+              <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
+                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" op:headerName="CoolingHeatingSystem1" />
+                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" op:headerName="CoolingHeatingSystem2" />      
                 </TypeRestriction>
               </ParameterType>
 
 
 
-              <ParameterType Id="%AID%_PT-CLIDeviceSelectionFix" Name="CLIDeviceSelectionFix">
+              <ParameterType Id="%AID%_PT-CLIDeviceSelectionFix" Name="CLIDeviceSelectionFix" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="%CLI_DeviceName%" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Externes Kühl-/Heizsystem" Value="1" Id="%ENID%" />      
+                  <Enumeration Text="%CLI_DeviceName%" Value="0" Id="%ENID%" op:headerName="CLI_DeviceName" />
+                  <Enumeration Text="Externes Kühl-/Heizsystem" Value="1" Id="%ENID%" op:headerName="ExternalCoolingHeatingSystem" />      
                 </TypeRestriction>
               </ParameterType>
               
@@ -79,52 +79,52 @@
 								<TypeNumber SizeInBit="4" Type="unsignedInt" minInclusive="1" maxInclusive="10" />
 							</ParameterType>  
 
-              <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction">
+              <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Nichts" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="1" Id="%ENID%" />     
-                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren" Value="2" Id="%ENID%" />     
-                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="3" Id="%ENID%" />     
-                  <Enumeration Text="Solltemperaturanpassung" Value="4" Id="%ENID%" />   
-                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="5" Id="%ENID%" />   
-                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="6" Id="%ENID%" />   
-                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="7" Id="%ENID%" />   
-                  <Enumeration Text="Fenster offen Alarm" Value="8" Id="%ENID%" />
-                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="9" Id="%ENID%" />
+                  <Enumeration Text="Nichts" Value="0" Id="%ENID%" op:headerName="Nothing" />
+                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="1" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
+                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren" Value="2" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
+                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="3" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
+                  <Enumeration Text="Solltemperaturanpassung" Value="4" Id="%ENID%" op:headerName="SetpointAdjustment" />   
+                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="5" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
+                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="6" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="7" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Fenster offen Alarm" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarm" />
+                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="9" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLITemperaturCorrection" Name="CLITemperaturCorrection">
+              <ParameterType Id="%AID%_PT-CLITemperaturCorrection" Name="CLITemperaturCorrection" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" />
-                  <Enumeration Text="1°" Value="10" Id="%ENID%" />      
-                  <Enumeration Text="2°" Value="20" Id="%ENID%" />   
-                  <Enumeration Text="3°" Value="30" Id="%ENID%" />
-                  <Enumeration Text="4°" Value="35" Id="%ENID%" />
-                  <Enumeration Text="5°" Value="40" Id="%ENID%" />     
+                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" op:headerName="T0.5"/>
+                  <Enumeration Text="1°" Value="10" Id="%ENID%" op:headerName="T1"/>
+                  <Enumeration Text="2°" Value="20" Id="%ENID%" op:headerName="T2"/>
+                  <Enumeration Text="3°" Value="30" Id="%ENID%" op:headerName="T3"/>
+                  <Enumeration Text="4°" Value="40" Id="%ENID%" op:headerName="T4"/>
+                  <Enumeration Text="5°" Value="50" Id="%ENID%" op:headerName="T5"/>
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice">
+              <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice" op:headerExport="enum">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
+                  <Enumeration Text="OpenKNX Automatik" Value="1" Id="%ENID%" op:headerName="OpenKNXAutomatic" />
+                  <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" op:headerName="RequestByGroupObject" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDeviceWithoutAuto" op:headerExport="none">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="OpenKNX Automatik" Value="1" Id="%ENID%" />
                   <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDevice">
-                <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" />
-                </TypeRestriction>
-              </ParameterType>
 
-
-              <ParameterType Id="%AID%_PT-CLIBehaviorDeviceChange" Name="CLIBehaviorDeviceChange">
+              <ParameterType Id="%AID%_PT-CLIBehaviorDeviceChange" Name="CLIBehaviorDeviceChange" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
-                  <Enumeration Text="Verlässt Automatikbetrieb" Value="0" Id="%ENID%" />
-                  <Enumeration Text="OpenKNX überschreibt die Auswahl" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Verlässt Automatikbetrieb" Value="0" Id="%ENID%" op:headerName="LeavesAutomaticMode" />
+                  <Enumeration Text="OpenKNX überschreibt die Auswahl" Value="1" Id="%ENID%" op:headerName="OpenKNXOverridesSelection" />
                 </TypeRestriction>
               </ParameterType>
      

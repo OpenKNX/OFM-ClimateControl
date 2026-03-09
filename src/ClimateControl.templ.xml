@@ -10,7 +10,7 @@
               <!-- Channel Name -->
               <Parameter Id="%AID%_P-%TT%%CC%000" Name="Channel%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Raum" Value="" />
              
-              <Union SizeInBit="8">
+              <Union SizeInBit="16">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Channel Disabled -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%001" Name="CH%C%ChannelDisabled" ParameterType="%AID%_PT-CheckBox" Text="Kanal deaktivieren (zu Testzwecken)" Value="0" />
@@ -25,7 +25,7 @@
               <!-- HVAC Name 1 -->
               <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" />
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="1" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="2" BitOffset="0" />
                 <!-- Control Mode 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 1 -->
@@ -40,7 +40,7 @@
               <!-- HVAC Name 2 -->
               <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" /> 
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="17" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="18" BitOffset="0" />
                 <!-- Control Mode 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 1 -->
@@ -54,7 +54,7 @@
 
               <!-- Cooling -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="33" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="34" BitOffset="0" />
                 <!-- Cooling Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="1" />
                 <!-- Cooling Deactive in Winter -->
@@ -63,7 +63,7 @@
 
               <!-- Heating -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="35" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="36" BitOffset="0" />
                 <!-- Heating Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="2" />
                 <!-- Heating Deactive in Summer -->
@@ -72,7 +72,7 @@
 
               <!-- Dehumidification -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="38" BitOffset="0" />
                 <!-- Dehumidification Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
                
@@ -80,7 +80,7 @@
 
               <!-- Fan -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
                 <!-- Fan Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
                
@@ -88,7 +88,7 @@
 
               <!-- Auto -->
               <Union SizeInBit="24">
-                <Memory CodeSegment="%MID%" Offset="41" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="42" BitOffset="0" />
                 <!-- Cooling Auto Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
                 <!-- Heating Auto Device Selection -->
@@ -105,14 +105,14 @@
 
               <!-- Window open -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%MID%" Offset="44" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
                 <!-- Window open handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-OnOffYesNo" Text="Fenster offen Behandlung" Value="0" />
               </Union>
 
               <!-- Window open 1 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="46" BitOffset="0" />
                 <!-- Window open action 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 1 DelayBase-->
@@ -125,7 +125,7 @@
 
               <!-- Window open 2 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="49" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="50" BitOffset="0" />
                 <!-- Window open action 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 2 DelayBase-->
@@ -138,7 +138,7 @@
 
               <!-- Window open 3 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="53" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="54" BitOffset="0" />
                 <!-- Window open action 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 3 DelayBase-->
@@ -151,7 +151,7 @@
 
               <!-- Window open 4 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="57" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="58" BitOffset="0" />
                 <!-- Window open action 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 4 DelayBase-->
@@ -164,7 +164,7 @@
 
               <!-- Window open 5 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="61" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="62" BitOffset="0" />
                 <!-- Window open action 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 5 DelayBase-->
