@@ -14,6 +14,9 @@
 <!-- DOC  -->
 ### Raum
 
+<!-- DOC -->
+### Modusauswahl schaltet ein
+
 <!-- DOC HelpContext="Kuehl-Heizsystemname" -->
 ### Kühl-/Heizsystemname
 

@@ -14,8 +14,11 @@
               <ParameterType Id="%AID%_PT-CLINumChannels" Name="CLINumChannels">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>  
+
+
+
               <ParameterType Id="%AID%_PT-CLIControlMode" Name="CLIControlMode" op:headerExport="enum">
-              <TypeRestriction Base="Value" SizeInBit="4" >
+                <TypeRestriction Base="Value" SizeInBit="4" >
                   <Enumeration Text="HVAC" Value="0" Id="%ENID%" op:headerName="HVAC" />
                   <Enumeration Text="HVAC und Power" Value="1" Id="%ENID%" op:headerName="HVAC_AND_POWER" />
                   <Enumeration Text="Ein Objekt pro Modus" Value="2" Id="%ENID%" op:headerName="ONE_OBJECT_PER_MODE" />
