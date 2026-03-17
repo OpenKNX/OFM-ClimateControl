@@ -49,7 +49,7 @@
                   <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" op:headerName="EveryHour" />
                   <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" op:headerName="MannheimHours" />
                   <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" op:headerName="MinMaxAverage" />
-                  <Enumeration Text="Tagesmittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" op:headerName="DailyAverageTemperature" />
+                  <Enumeration Text="Tagesmittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" op:headerName="GroupObjectDailyAverage" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -153,7 +153,7 @@
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%00006" Name="AverageTempSummer" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Sommer bei ≥" Value="17" />
                 <!-- 4 bits free -->
                 <!-- Average Days Summer -->
-                <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%00007" Name="AverageDays" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
+                <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%00007" Name="AverageDaysSummer" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
                 <!-- Average Temperature Winter -->
                 <Parameter Offset="5" BitOffset="0" Id="%AID%_UP-%TT%00008" Name="AverageTempWinter" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Winter bei ≤" Value="14" />
                 <!-- Average Days Winter -->
@@ -201,18 +201,18 @@
             </ParameterRefs>
             <ComObjectTable>
               <!-- Winter- Sommerbetrieb -->
-              <ComObject Id="%AID%_O-%TT%00000" Number="0" Name="Summer"       ObjectSize="1 Bit"   DatapointType="DPST-1-100"   Text="Winter- / Sommerbetrieb"  FunctionText="HVAC: Eingang, Winter=0 / Sommer=1"         CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"   />
+              <ComObject Id="%AID%_O-%TT%00000" Number="0" Name="Winter"       ObjectSize="1 Bit"   DatapointType="DPST-1-100"   Text="Sommer- / Winterbetrieb"  FunctionText="HVAC: Eingang, Sommer=0 / Winter=1"         CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"   />
               <!-- Winter- Sommerbetrieb Status -->
-              <ComObject Id="%AID%_O-%TT%00001" Number="1" Name="SummerStatus" ObjectSize="1 Bit"   DatapointType="DPST-1-11"    Text="Winter- / Sommerbetrieb Status"  FunctionText="HVAC: Ausgang, Winter=0 / Sommer=1"  CommunicationFlag="Enabled" ReadFlag="Enabled" WriteFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"  />
+              <ComObject Id="%AID%_O-%TT%00001" Number="1" Name="WinterStatus" ObjectSize="1 Bit"   DatapointType="DPST-1-11"    Text="Sommer- / Winterbetrieb Status"  FunctionText="HVAC: Ausgang, Sommer=0 / Winter=1"  CommunicationFlag="Enabled" ReadFlag="Enabled" WriteFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"  />
               <!-- Außentemperatur -->
               <ComObject Id="%AID%_O-%TT%00002" Number="2" Name="OutsideTemp"  ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text="Außentemperatur"  FunctionText="HVAC: Eingang, °C"  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" />
               <!-- Tagesmittelwert -->
-              <ComObject Id="%AID%_O-%TT%00003" Number="3" Name="DayAverageIn" ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text=""  FunctionText=""  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%00003" Number="3" Name="DayAverage" ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text=""  FunctionText=""  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
             </ComObjectTable>
             <ComObjectRefs>
-              <!-- Summer -->
+              <!-- Winter -->
               <ComObjectRef Id="%AID%_O-%TT%00000_R-%TT%0000000" RefId="%AID%_O-%TT%00000"  />
-              <!-- Summer State -->
+              <!-- Winter State -->
               <ComObjectRef Id="%AID%_O-%TT%00001_R-%TT%0000100" RefId="%AID%_O-%TT%00001"  />
               <!-- Outsite temperature -->
               <ComObjectRef Id="%AID%_O-%TT%00002_R-%TT%0000200" RefId="%AID%_O-%TT%00002"  />
@@ -244,11 +244,11 @@
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00001_R-%TT%0000101" HelpContext="%DOC%" />
                 <choose ParamRefId="%AID%_UP-%TT%00001_R-%TT%0000101">
                   <when test="1">
-                    <!-- Summer -->
+                    <!-- Winter -->
                     <ComObjectRefRef RefId="%AID%_O-%TT%00000_R-%TT%0000000" />
                   </when>
                 </choose>
-                <!-- Summer State -->
+                <!-- Winter State -->
                 <ComObjectRefRef RefId="%AID%_O-%TT%00001_R-%TT%0000100" />
 
                 <!-- Summer Winter Date-->
@@ -269,14 +269,14 @@
                     <!-- Average Temperature Calculation -->
                     <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00004_R-%TT%0000401" HelpContext="%DOC%" />
                     <choose ParamRefId="%AID%_UP-%TT%00004_R-%TT%0000401">
-                      <when test="1 2"> <!-- Jede Stunde, Mannheimer-->
+                      <when test="0 1 2"> <!-- Jede Stunde, Mannheimer, Minimum / Maximum Mittelwert-->
                         <!-- Outsite temperature -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%00002_R-%TT%0000200" />
                         <!-- Calculated Average Temperature -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%00003_R-%TT%0000301" />
 
                         <!-- Send read request -->
-                        <ParameterRefRef RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
                       </when>
                       <when test="3"> <!-- Tagesmittelwert Temperatur Gruppenobjekt -->
                         <!-- Average Temperature -->

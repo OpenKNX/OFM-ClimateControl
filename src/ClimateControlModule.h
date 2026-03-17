@@ -22,9 +22,25 @@ class ClimateModeSelection
 class ClimateControlModule : public ClimateControlChannelOwnerModule
 {
     bool _waitForValidDate = true;
-    bool _isSummer = true;
+    bool _isWinter = false;
+    float _hourlyTemperatures[24];
+    bool _hourlyTemperaturesWithValidTime = false;
+    float _currentAverageTemperature = std::numeric_limits<float>::quiet_NaN();
+    const char* _calculationMethod = "";
+    unsigned long _waitForIsWinterValid = 0;
+    unsigned long _timeStampIsWinterPossibleForCurrentAverageTemperature = 0;
+    unsigned long _timeStampIsSummerPossibleForCurrentAverageTemperature = 0;
+    unsigned long _waitForTemperatureResponse = 0;
+    int getCurrentHourlyTemperatureIndex();
+    void handleWinterSummerMode(OpenKNX::DateTime localTime);
+    void handleAverageTemperatureCalculation(OpenKNX::Time::TimeChangedArgs args);
+    void setIsWinter(bool isWinter, const char* diagnosticMessage);
+    void processOutsideTemperatureChange(float outsideTemp);
+    void recalculateDayAverageTemperature();
+    void setAverageTemperature(float averageTemp, const char* calculationMethod);
   public:
     ClimateControlModule();
+    void loop() override;
     const std::string name() override;
     void showInformations() override;
     const std::string version() override;
@@ -32,9 +48,8 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     OpenKNX::Channel* createChannel(uint8_t _channelIndex /* this parameter is used in macros, do not rename */) override;
     void showHelp() override;
     bool processCommand(const std::string cmd, bool diagnoseKo) override;
-    void handleWinterSummerMode(OpenKNX::DateTime ocalTime);
-    void setIsSummer(bool isSummer);
     void processInputKo(GroupObject &ko) override;
+ 
     
 };
 

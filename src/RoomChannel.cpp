@@ -116,11 +116,6 @@ void RoomChannel::handleModeChange(uint8_t mode)
             break;
         }
         KoCLI_CModeSelectionFb.value(mode, DPT_DecimalFactor);
-        if (mode != ClimateModeSelection::Off && !ParamCLI_CHModeSelectionTurnOn && !KoCLI_CPower.value(DPT_Switch))
-        {
-            logInfoP("Power is off, not changing mode");
-            return;       
-        }
         KoCLI_CPower.valueCompare(mode != ClimateModeSelection::Off, DPT_Switch);
         _currentMode = mode;
     }
