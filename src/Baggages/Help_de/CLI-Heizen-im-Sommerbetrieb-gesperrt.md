@@ -1,0 +1,2 @@
+﻿### Heizen im Sommerbetrieb gesperrt
+

@@ -5,19 +5,8 @@
 #endif
 #include "OpenKNX.h"
 #include "ChannelOwnerModule.h"
+#include "ClimateModeSelection.h"
 
-class ClimateModeSelection
-{
-  private:
-    ClimateModeSelection() {}
-  public: 
-    const static uint8_t Auto = 0;
-    const static uint8_t Heating = 1;
-    const static uint8_t Cooling = 3;
-    const static uint8_t Off = 6;
-    const static uint8_t Fan = 9;
-    const static uint8_t Dehumification = 14;
-};
 
 class ClimateControlModule : public ClimateControlChannelOwnerModule
 {
@@ -49,6 +38,8 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     void showHelp() override;
     bool processCommand(const std::string cmd, bool diagnoseKo) override;
     void processInputKo(GroupObject &ko) override;
+    bool isWinter();
+    bool isSummer();
  
     
 };

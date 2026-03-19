@@ -145,10 +145,18 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 ### Fenster-offen-Behandlung 
 
 <!-- DOC -->
-### Kühlen im Winterbetrieb nicht verwenden
+### Kühlen im Winterbetrieb gesperrt
 
 <!-- DOC -->
-### Heizen im Sommerbetrieb nicht verwenden
+### Heizen im Sommerbetrieb gesperrt
+
+<!-- DOC -->
+### Kühlen im Winterbetrieb erlaubt
+
+<!-- DOC -->
+### Heizen im Sommerbetrieb erlaubt
+
+
 
 <!-- DOC HelpContext="FensterOffen" -->
 ### Fenster Offen 

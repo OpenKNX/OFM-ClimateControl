@@ -53,11 +53,21 @@
                 </TypeRestriction>
               </ParameterType>
 
+
               <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
                   <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" op:headerName="CoolingHeatingSystem1" />
                   <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" op:headerName="CoolingHeatingSystem2" />      
+                  <Enumeration Text="Kühl-/Heizsystem 1 und 2" Value="3" Id="%ENID%" op:headerName="CoolingHeatingSystem1And2" />     
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIDeviceSelectionWithoutBoth" Name="CLIDeviceSelectionWithoutBoth" op:headerExport="base" op:headerName="CLIDeviceSelection">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
 
@@ -203,7 +213,7 @@
               <!-- Winter- Sommerbetrieb -->
               <ComObject Id="%AID%_O-%TT%00000" Number="0" Name="Winter"       ObjectSize="1 Bit"   DatapointType="DPST-1-100"   Text="Sommer- / Winterbetrieb"  FunctionText="HVAC: Eingang, Sommer=0 / Winter=1"         CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"   />
               <!-- Winter- Sommerbetrieb Status -->
-              <ComObject Id="%AID%_O-%TT%00001" Number="1" Name="WinterStatus" ObjectSize="1 Bit"   DatapointType="DPST-1-11"    Text="Sommer- / Winterbetrieb Status"  FunctionText="HVAC: Ausgang, Sommer=0 / Winter=1"  CommunicationFlag="Enabled" ReadFlag="Enabled" WriteFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"  />
+              <ComObject Id="%AID%_O-%TT%00001" Number="1" Name="WinterStatus" ObjectSize="1 Bit"   DatapointType="DPST-1-100"    Text="Sommer- / Winterbetrieb Status"  FunctionText="HVAC: Ausgang, Sommer=0 / Winter=1"  CommunicationFlag="Enabled" ReadFlag="Enabled" WriteFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"  />
               <!-- Außentemperatur -->
               <ComObject Id="%AID%_O-%TT%00002" Number="2" Name="OutsideTemp"  ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text="Außentemperatur"  FunctionText="HVAC: Eingang, °C"  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" />
               <!-- Tagesmittelwert -->

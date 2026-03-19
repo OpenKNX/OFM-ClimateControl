@@ -32,9 +32,10 @@ const std::string ClimateControlModule::version()
 void ClimateControlModule::setup()
 {
     _waitForIsWinterValid = max(1UL, millis());
-    ClimateControlChannelOwnerModule::setup();
+ 
     ClimateControlChannelOwnerModule::initialize(ParamCLI_VisibleChannels);
-
+    ClimateControlChannelOwnerModule::setup();
+ 
   
     if (ParamCLI_SummerWinterDayTemp && ParamCLI_AverageTempCalc != PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage)
     {
@@ -124,6 +125,14 @@ void ClimateControlModule::setIsWinter(bool isWinter, const char* diagnosticMess
         _waitForIsWinterValid = 0;
         logInfoP("Switching to %s mode because of %s", _isWinter ? "winter" : "summer", diagnosticMessage);
         KoCLI_WinterStatus.value(_isWinter, DPT_Switch);
+        for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfUsedChannels(); _channelIndex++)
+        {
+            RoomChannel* channel = (RoomChannel*) getChannel(_channelIndex);
+            if (channel != nullptr)
+            {
+                channel->handle();
+            }
+        }
     }
     else
     {
@@ -169,28 +178,29 @@ void ClimateControlModule::loop()
 void ClimateControlModule::showHelp()
 {
     openknx.console.printHelpLine("hvac", "Shows the state of the climate control");
+    openknx.console.printHelpLine("hvac<channel>", "Shows the state of the channel");
 }
 
 bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo)
 {
     if (cmd == "hvac")
     {
-        logDebugP("Mode: %s", _isWinter ? "winter" : "summer");
+        logInfoP("Mode: %s", _isWinter ? "winter" : "summer");
         if (ParamCLI_SummerWinterDayTemp)
         {
             switch (ParamCLI_AverageTempCalc)
             {
                 case PT_CLIAverageTemperatureCalculation::EveryHour:
-                    logDebugP("Average temperature calculation: Every hour");
+                    logInfoP("Average temperature calculation: Every hour");
                     break;
                 case PT_CLIAverageTemperatureCalculation::MannheimHours:
-                    logDebugP("Average temperature calculation: Mannheim hours (T7+T14+T21*2)/4");
+                    logInfoP("Average temperature calculation: Mannheim hours (T7+T14+T21*2)/4");
                     break;
                 case PT_CLIAverageTemperatureCalculation::MinMaxAverage:
-                    logDebugP("Average temperature calculation: Minimum-Maximum-Mittel");
+                    logInfoP("Average temperature calculation: Minimum-Maximum-Mittel");
                     break;
                 case PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage:
-                    logDebugP("Average temperature calculation: Tagesmittelwert Temperatur Gruppenobjekt");
+                    logInfoP("Average temperature calculation: Tagesmittelwert Temperatur Gruppenobjekt");
                     break;
             }
             if (_currentAverageTemperature != std::numeric_limits<float>::quiet_NaN())
@@ -200,11 +210,11 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
                 {
                     if (std::isnan(_hourlyTemperatures[i]))
                     {
-                        logDebugP("Hourly temperature for hour %d: not available", i);
+                        logDebugP("hour %d: -", i);
                     }
                     else
                     {
-                        logDebugP("Hourly temperature for hour %d: %f °C", i, _hourlyTemperatures[i]);
+                        logDebugP("hour %d: %f °C", i, _hourlyTemperatures[i]);
                     }
                 }
             }
@@ -217,7 +227,7 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
     }
     else if (cmd.rfind("hvac", 0) == 0)
     {
-        auto channelString = cmd.substr(2);
+        auto channelString = cmd.substr(4);
         if (channelString.length() > 0)
         {
             auto pos = channelString.find_first_of(' ');
@@ -244,6 +254,11 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
             {
                 if (roomChannel->processCommand(channelCmd, diagnoseKo))
                     return true;
+            }
+            else
+            {
+                logInfoP("Channel %d not found", channel);
+                return true;
             }
         }
     }
@@ -401,7 +416,7 @@ void ClimateControlModule::setAverageTemperature(float averageTemp, const char* 
     logDebugP("Setting average temperature to %f calculated by %s", averageTemp, _calculationMethod);
     if (ParamCLI_SummerWinterDayTemp && ParamCLI_AverageTempCalc != PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage)
     {
-        KoCLI_DayAverage.value(averageTemp, DPT_Value_Temp);
+        KoCLI_DayAverage.valueCompare(averageTemp, DPT_Value_Temp);
     }
     if (averageTemp != _currentAverageTemperature)
     {
@@ -488,13 +503,23 @@ void ClimateControlModule::processOutsideTemperatureChange(float outsideTemp)
 
 OpenKNX::Channel* ClimateControlModule::createChannel(uint8_t _channelIndex)
 {
-
     if (ParamCLI_CHChannelDisabled)
     {
-        logDebugP("Channel %d is disabled", _channelIndex);
+        logDebugP("Channel %d is disabled", _channelIndex + 1);
         return nullptr;
     }
+    logDebugP("Creating channel %d", _channelIndex + 1);
     return new RoomChannel(_channelIndex);
+}
+
+bool ClimateControlModule::isWinter()
+{
+    return _isWinter;
+}
+
+bool ClimateControlModule::isSummer()
+{
+    return !_isWinter;
 }
 
 ClimateControlModule openknxClimateControlModule;

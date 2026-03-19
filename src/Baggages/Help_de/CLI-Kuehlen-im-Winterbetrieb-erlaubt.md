@@ -1,0 +1,2 @@
+﻿### Kühlen im Winterbetrieb erlaubt
+
