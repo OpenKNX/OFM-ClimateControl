@@ -11,8 +11,8 @@ class RoomChannel : public OpenKNX::Channel
     const static ClimateModeSelection DefaultMode = ClimateModeSelection::Auto;
     int _channelIndex;
     std::string _name;
-    int16_t _targetTemperatureCooling = 32767;
-    int16_t _targetTemperatureHeating = 32767;
+    uint16_t _targetTemperatureCoolingRawKnx = std::numeric_limits<uint16_t>::max();
+    uint16_t _targetTemperatureHeatingRawKnx = std::numeric_limits<uint16_t>::max();
     ClimateModeSelection _currentMode = ClimateModeSelection::Undefined;
     ClimateModeSelection _currentActiveMode = ClimateModeSelection::Undefined;
     ClimateDevice _climateDevice1;

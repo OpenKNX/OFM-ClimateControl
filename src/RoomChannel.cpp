@@ -14,8 +14,8 @@ const std::string RoomChannel::name()
 
 void RoomChannel::writeFlash()
 {
-    openknx.flash.write((uint8_t*) &_targetTemperatureCooling, sizeof(uint16_t));
-    openknx.flash.write((uint8_t*) &_targetTemperatureHeating, sizeof(uint16_t));
+    openknx.flash.write((uint8_t*) &_targetTemperatureCoolingRawKnx, sizeof(uint16_t));
+    openknx.flash.write((uint8_t*) &_targetTemperatureHeatingRawKnx, sizeof(uint16_t));
     openknx.flash.writeByte((uint8_t) _currentMode);
     openknx.flash.writeByte(KoCLI_CPowerFb.value(DPT_Switch) ? 1 : 0);
 }
@@ -27,8 +27,8 @@ uint16_t RoomChannel::flashSize()
 
 void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_t version)
 {
-    _targetTemperatureCooling = (int16_t) openknx.flash.readInt();
-    _targetTemperatureHeating = (int16_t) openknx.flash.readInt();
+    _targetTemperatureCoolingRawKnx = openknx.flash.readWord();
+    _targetTemperatureHeatingRawKnx = openknx.flash.readWord();
     _currentMode = (ClimateModeSelection) openknx.flash.readByte();
     auto power = openknx.flash.readByte();
     if (!KoCLI_CPower.initialized())

@@ -16,7 +16,8 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     unsigned long _waitForInitialized = 0;
     uint8_t _versionReadFromFlash = 0;
     bool _isWinter = false;
-    int16_t _hourlyTemperatures[24];
+    bool _isWinterFallbackActive = false;
+    uint16_t _hourlyTemperaturesRawKnx[24];
     bool _hourlyTemperaturesWithValidTime = false;
     float _currentAverageTemperature = std::numeric_limits<float>::quiet_NaN();
     const char* _calculationMethod = "";
@@ -25,9 +26,10 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     unsigned long _waitForTemperatureResponse = 0;
     int getCurrentHourlyTemperatureIndex();
     void handleWinterSummerMode(OpenKNX::Time::TimeChangedArgs args);
+    void initializeIsWinterFromDate();
     void handleAverageTemperatureCalculation(OpenKNX::Time::TimeChangedArgs args);
     void setIsWinter(bool isWinter, const char* diagnosticMessage);
-    void processOutsideTemperatureChange(int16_t outsideTemp);
+    void processOutsideTemperatureChange(uint16_t outsideTempRawKnx);
     void recalculateDayAverageTemperature();
     void setAverageTemperature(float averageTemp, const char* calculationMethod);
     void start();
@@ -50,6 +52,7 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     bool isWinter();
     bool isSummer();
     bool isStarted();
+    float getTemperatureFromRawKnx(uint16_t rawKnx);
    
  
     
