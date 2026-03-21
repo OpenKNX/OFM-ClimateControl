@@ -26,7 +26,7 @@
 
 ClimateDevice::ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel) : _channelIndex(channelIndex), _deviceIndex(deviceIndex), _roomChannel(roomChannel)
 {
-    _name = openknx.logger.buildPrefix(roomChannel.name(), _channelIndex + 1); + "Dev" + std::to_string(deviceIndex + 1);
+    _name = openknx.logger.buildPrefix(roomChannel.name(), _channelIndex + 1) + "Dev" + std::to_string(deviceIndex + 1);
 }
 
 const std::string& ClimateDevice::logPrefix()

@@ -15,7 +15,53 @@
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>  
 
+              <ParameterType Id="%AID%_PT-CLITemperature" Name="CLITemperatureDefault">
+								<TypeFloat Encoding="DPT 9" minInclusive="10" maxInclusive="30" />
+							</ParameterType>
 
+              <ParameterType Id="%AID%_PT-CLIInit" Name="CLIInit" op:headerExport="enum">
+								 <TypeRestriction Base="Value" SizeInBit="4" >
+                  <Enumeration Text="Gespeicherter Wert, sonst Initialwert" Value="0" Id="%ENID%" op:headerName="Saved" />
+                  <Enumeration Text="Vom Bus lesen, sonst Initialwert" Value="1" Id="%ENID%" op:headerName="ReadFromBus" />
+                  <Enumeration Text="Vom Bus lesen, sonst gespeicherter Wert, sonst Initialwert" Value="2" Id="%ENID%" op:headerName="ReadFromBusOrSaved" />
+                </TypeRestriction>
+							</ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIHVAC" Name="CLIHVAC" op:headerExport="enum">
+								 <TypeRestriction Base="Value" SizeInBit="8" >
+                  <Enumeration Text="Aus" Value="6" Id="%ENID%" op:headerName="Off" />
+                  <Enumeration Text="Auto" Value="0" Id="%ENID%" op:headerName="Auto" />
+                  <Enumeration Text="Heizen" Value="1" Id="%ENID%" op:headerName="Heating" />
+                  <Enumeration Text="Kühlen" Value="3" Id="%ENID%" op:headerName="Cooling" />
+                  <Enumeration Text="Lüften" Value="9" Id="%ENID%" op:headerName="Fan" />
+                  <Enumeration Text="Entfeuchten" Value="14" Id="%ENID%" op:headerName="Dehumification" />
+                </TypeRestriction>
+							</ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIDefaultHVAC" Name="CLIDefaultHVAC" op:headerExport="enum">
+								 <TypeRestriction Base="Value" SizeInBit="8" >
+                  <Enumeration Text="Abhängig Sommer/Winterbetrieb (Einstellung aus Sommer- Winterbetriebstart)" Value="255" Id="%ENID%" op:headerName="DependentOnSeason" />
+                  <Enumeration Text="Aus" Value="6" Id="%ENID%" op:headerName="Off" />
+                  <Enumeration Text="Auto" Value="0" Id="%ENID%" op:headerName="Auto" />
+                  <Enumeration Text="Heizen" Value="1" Id="%ENID%" op:headerName="Heating" />
+                  <Enumeration Text="Kühlen" Value="3" Id="%ENID%" op:headerName="Cooling" />
+                  <Enumeration Text="Lüften" Value="9" Id="%ENID%" op:headerName="Fan" />
+                  <Enumeration Text="Entfeuchten" Value="14" Id="%ENID%" op:headerName="Dehumification" /> 
+                </TypeRestriction>
+							</ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIModeChange" Name="CLIModeChange" op:headerExport="enum">
+								 <TypeRestriction Base="Value" SizeInBit="8" >
+                  <Enumeration Text="Deaktiviert" Value="255" Id="%ENID%" op:headerName="Deactivated" />
+                  <Enumeration Text="Aus" Value="6" Id="%ENID%" op:headerName="Off" />
+                  <Enumeration Text="Auto" Value="0" Id="%ENID%" op:headerName="Auto" />
+                  <Enumeration Text="Heizen" Value="1" Id="%ENID%" op:headerName="Heating" />
+                  <Enumeration Text="Kühlen" Value="3" Id="%ENID%" op:headerName="Cooling" />
+                  <Enumeration Text="Lüften" Value="9" Id="%ENID%" op:headerName="Fan" />
+                  <Enumeration Text="Entfeuchten" Value="14" Id="%ENID%" op:headerName="Dehumification" />
+                </TypeRestriction>
+							</ParameterType>
+            
 
               <ParameterType Id="%AID%_PT-CLIControlMode" Name="CLIControlMode" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" >
@@ -144,7 +190,7 @@
 
            </ParameterTypes>
             <Parameters>
-              <Union SizeInBit="104">
+              <Union SizeInBit="120">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Number of channels -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Kanäle" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
@@ -160,12 +206,12 @@
                 <!-- Send read request -->
                 <Parameter Offset="2" BitOffset="4" Id="%AID%_UP-%TT%00005" Name="SendReadRequest" ParameterType="%AID%_PT-OnOffYesNo" Text="Leseanfrage zum Berechnungszeitpunkt senden" Value="0" />
                 <!-- Average Temperature Summer -->
-                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%00006" Name="AverageTempSummer" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Sommer bei ≥" Value="17" />
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%00006" Name="AverageTempSummer" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Sommer bei ≥" Value="17" SuffixText="°C" />
                 <!-- 4 bits free -->
                 <!-- Average Days Summer -->
                 <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%00007" Name="AverageDaysSummer" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
                 <!-- Average Temperature Winter -->
-                <Parameter Offset="5" BitOffset="0" Id="%AID%_UP-%TT%00008" Name="AverageTempWinter" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Winter bei ≤" Value="14" />
+                <Parameter Offset="5" BitOffset="0" Id="%AID%_UP-%TT%00008" Name="AverageTempWinter" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Winter bei ≤" Value="14" SuffixText="°C" />
                 <!-- Average Days Winter -->
                 <Parameter Offset="6" BitOffset="0" Id="%AID%_UP-%TT%00009" Name="AverageDaysWinter" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
                 <!-- 2 Targettemperature storages -->
@@ -177,7 +223,11 @@
                 <!-- Winter time start -->
                 <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%00012" Name="WinterTimeStartDay" ParameterType="%AID%_PT-CLIDate" Text="Winterbetrieb ab" Value="2024-10-01" />
                 <!-- ^^^ need 3 bytes -->
-            </Union>
+                <!-- Summer start mode-->  
+                <Parameter Offset="13" BitOffset="0" Id="%AID%_UP-%TT%00013" Name="SummerModeChange" ParameterType="%AID%_PT-CLIModeChange" Text="Bei Sommerstart Wechsel auf" Value="3" />
+                <!-- Winter start mode -->
+                <Parameter Offset="14" BitOffset="0" Id="%AID%_UP-%TT%00014" Name="WinterModeChange" ParameterType="%AID%_PT-CLIModeChange" Text="Bei Winterstart Wechsel auf" Value="1" />
+              </Union>
 
           </Parameters>
             <ParameterRefs>
@@ -207,6 +257,10 @@
               <ParameterRef Id="%AID%_UP-%TT%00011_R-%TT%0001101" RefId="%AID%_UP-%TT%00011" />
               <!-- Winter time start -->
               <ParameterRef Id="%AID%_UP-%TT%00012_R-%TT%0001201" RefId="%AID%_UP-%TT%00012" />
+              <!-- Summer start mode -->
+              <ParameterRef Id="%AID%_UP-%TT%00013_R-%TT%0001301" RefId="%AID%_UP-%TT%00013" />
+              <!-- Winter start mode -->
+              <ParameterRef Id="%AID%_UP-%TT%00014_R-%TT%0001401" RefId="%AID%_UP-%TT%00014" />
 
             </ParameterRefs>
             <ComObjectTable>
@@ -303,6 +357,11 @@
                     <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00009_R-%TT%0000901" HelpContext="%DOC%" />
                   </when>
                 </choose>
+
+                <!-- Summer start mode -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00013_R-%TT%0001301" HelpContext="%DOC%" />            
+                <!-- Winter start mode -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00014_R-%TT%0001401" HelpContext="%DOC%" />
                 <!-- 2 Targettemperature storages  -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00010_R-%TT%0001001" HelpContext="%DOC%" />
 

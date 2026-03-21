@@ -12,6 +12,36 @@ const std::string RoomChannel::name()
     return _name;
 }
 
+void RoomChannel::writeFlash()
+{
+    openknx.flash.write((uint8_t*) &_targetTemperatureCooling, sizeof(uint16_t));
+    openknx.flash.write((uint8_t*) &_targetTemperatureHeating, sizeof(uint16_t));
+    openknx.flash.writeByte((uint8_t) _currentMode);
+    openknx.flash.writeByte(KoCLI_CPowerFb.value(DPT_Switch) ? 1 : 0);
+}
+
+uint16_t RoomChannel::flashSize()
+{
+    return 2 /* _targetTemperatureCooling */ + 2 /* _targetTemperatureHeating */ + 1 /* _currentMode */ + 1 /* power */;
+}
+
+void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_t version)
+{
+    _targetTemperatureCooling = (int16_t) openknx.flash.readInt();
+    _targetTemperatureHeating = (int16_t) openknx.flash.readInt();
+    _currentMode = (ClimateModeSelection) openknx.flash.readByte();
+    auto power = openknx.flash.readByte();
+    if (!KoCLI_CPower.initialized())
+        KoCLI_CPower.valueNoSend(power != 0, DPT_Switch);
+    if (!KoCLI_CModeSelection.initialized())
+        KoCLI_CModeSelection.valueNoSend((uint8_t)_currentMode, DPT_DecimalFactor);
+}
+
+void RoomChannel::afterReadFlash(uint8_t version)
+{
+
+}
+
 bool RoomChannel::processCommand(const std::string cmd, bool diagnoseKo)
 {
     if (cmd == "")
@@ -57,28 +87,15 @@ void RoomChannel::processInputKo(GroupObject &ko)
     }
 }
 
-void RoomChannel::setup()
-{
-    OpenKNX::Channel::setup();
 
-    if (KoCLI_CModeSelection.initialized())
-    {
-        KoCLI_CModeSelection.valueNoSend((uint8_t)DefaultMode, DPT_DecimalFactor);
-        KoCLI_CModeSelection.requestObjectRead();
-    }
-    else
-    {
-        handleModeChange((ClimateModeSelection)(uint8_t)KoCLI_CModeSelection.value(DPT_DecimalFactor));
-    }
+
+void RoomChannel::start()
+{
+    handleModeChange((ClimateModeSelection)(uint8_t)KoCLI_CModeSelection.value(DPT_DecimalFactor));
     KoCLI_CPowerFb.value(KoCLI_CPower.value(DPT_Switch), DPT_Switch);
     if (KoCLI_CPower.initialized())
     {
         handle();
-    }
-    else
-    {
-        KoCLI_CPower.valueNoSend(DefaultMode != ClimateModeSelection::Off, DPT_Switch);
-        KoCLI_CPower.requestObjectRead();
     }
 }
 

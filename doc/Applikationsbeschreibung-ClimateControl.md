@@ -156,7 +156,23 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 <!-- DOC -->
 ### Heizen im Sommerbetrieb erlaubt
 
+<!-- DOC -->
+### Bei Sommerstart Wechsel auf
 
+<!-- DOC -->
+### Bei Winterstart Wechsel auf
+
+<!-- DOC -->
+### Nach Gerätestart
+
+<!-- DOC -->
+### Initialwert 
+
+<!-- DOC -->
+### Minimal 
+
+<!-- DOC -->
+### Maximal 
 
 <!-- DOC HelpContext="FensterOffen" -->
 ### Fenster Offen 

@@ -10,25 +10,34 @@
 
 class ClimateControlModule : public ClimateControlChannelOwnerModule
 {
-    bool _waitForValidDate = true;
+    bool _started = false;
+    bool _waitForValidDate = false;
+    bool _waitForIsWinterValid = false;
+    unsigned long _waitForInitialized = 0;
+    uint8_t _versionReadFromFlash = 0;
     bool _isWinter = false;
-    float _hourlyTemperatures[24];
+    int16_t _hourlyTemperatures[24];
     bool _hourlyTemperaturesWithValidTime = false;
     float _currentAverageTemperature = std::numeric_limits<float>::quiet_NaN();
     const char* _calculationMethod = "";
-    unsigned long _waitForIsWinterValid = 0;
     unsigned long _timeStampIsWinterPossibleForCurrentAverageTemperature = 0;
     unsigned long _timeStampIsSummerPossibleForCurrentAverageTemperature = 0;
     unsigned long _waitForTemperatureResponse = 0;
     int getCurrentHourlyTemperatureIndex();
-    void handleWinterSummerMode(OpenKNX::DateTime localTime);
+    void handleWinterSummerMode(OpenKNX::Time::TimeChangedArgs args);
     void handleAverageTemperatureCalculation(OpenKNX::Time::TimeChangedArgs args);
     void setIsWinter(bool isWinter, const char* diagnosticMessage);
-    void processOutsideTemperatureChange(float outsideTemp);
+    void processOutsideTemperatureChange(int16_t outsideTemp);
     void recalculateDayAverageTemperature();
     void setAverageTemperature(float averageTemp, const char* calculationMethod);
+    void start();
   public:
     ClimateControlModule();
+    void readFlash(const uint8_t *iBuffer, const uint16_t iSize) override;
+    void writeFlash() override;
+    uint16_t flashSize() override;
+    uint8_t getVersionFromFlash();
+    void afterFlashRead(uint8_t dataVersion);
     void loop() override;
     const std::string name() override;
     void showInformations() override;
@@ -40,6 +49,8 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     void processInputKo(GroupObject &ko) override;
     bool isWinter();
     bool isSummer();
+    bool isStarted();
+   
  
     
 };

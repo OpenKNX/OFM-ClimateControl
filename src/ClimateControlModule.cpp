@@ -29,30 +29,99 @@ const std::string ClimateControlModule::version()
 #endif
 }
 
+void ClimateControlModule::writeFlash()
+{
+    logDebugP("Write data to flash");
+    openknx.flash.writeByte(2); // Version
+    openknx.flash.writeByte(_hourlyTemperaturesWithValidTime ? 1 : 0);
+    openknx.flash.write((uint8_t*)_hourlyTemperatures, sizeof(_hourlyTemperatures));
+    openknx.flash.writeWord(RoomChannel::flashSize());
+    auto numberOfChannels = getNumberOfChannels();
+    openknx.flash.writeByte(numberOfChannels);
+    for (uint8_t index = 0; index < numberOfChannels; index++)
+    {
+        auto channel = (RoomChannel*)getChannel(index);
+        openknx.flash.writeByte(channel != nullptr ? 1 : 0);
+        if (channel != nullptr)
+            channel->writeFlash();
+    }
+}
+
+uint16_t ClimateControlModule::flashSize()
+{
+    return 1                             /* Version */
+           + 1                           /* hourlyTemperaturesWithValidTime */
+           + sizeof(_hourlyTemperatures) /* hourlyTemperatures */
+           + 2                           /* channel flash size */
+           + 1                           /* numChannels */
+           + getNumberOfChannels()       /* channel presence */
+           + getNumberOfUsedChannels() * RoomChannel::flashSize();
+}
+
+void ClimateControlModule::readFlash(const uint8_t* iBuffer, const uint16_t iSize)
+{
+    if (iSize != 0)
+    {
+        _versionReadFromFlash = openknx.flash.readByte(); // Version
+        if (_versionReadFromFlash != 2)
+        {
+            logWarningP("Unknown flash version %d, ignoring flash data", _versionReadFromFlash);
+        }
+        else
+        {
+            _hourlyTemperaturesWithValidTime = openknx.flash.readByte() != 0;
+            memcpy(_hourlyTemperatures, openknx.flash.read(sizeof(_hourlyTemperatures)), sizeof(_hourlyTemperatures));
+            auto channelFlashSize = openknx.flash.readWord();
+            auto usedChannels = openknx.flash.readByte();
+            for (uint8_t index = 0; index < usedChannels; index++)
+            {
+                auto channelPresent = openknx.flash.readByte();
+                if (channelPresent)
+                {
+                    auto channel = (RoomChannel*)getChannel(index);
+                    if (channel != nullptr)
+                    {
+                        channel->readFlash(iBuffer, iSize, _versionReadFromFlash);
+                    }
+                    else
+                    {
+                        openknx.flash.read(channelFlashSize);
+                    }
+                }
+            }
+            logDebugP("Read successfully data from flash");
+        }
+          
+    }
+    afterFlashRead(_versionReadFromFlash);
+}
+
+void ClimateControlModule::afterFlashRead(uint8_t dataVersion)
+{
+    for (uint8_t index = 0; index < getNumberOfChannels(); index++)
+    {
+        auto channel = (RoomChannel*)getChannel(index);
+        if (channel != nullptr)
+        {
+            channel->afterReadFlash(dataVersion);
+        }
+    }
+}
+
+uint8_t ClimateControlModule::getVersionFromFlash()
+{
+    return _versionReadFromFlash;
+}
+
 void ClimateControlModule::setup()
 {
-    _waitForIsWinterValid = max(1UL, millis());
- 
+    logDebugP("Setup ClimateControlModule");
+    _waitForIsWinterValid = ParamCLI_SummerWinterDate || ParamCLI_SummerWinterKo || ParamCLI_SummerWinterDayTemp;
+    _waitForValidDate = ParamCLI_SummerWinterDate || (ParamCLI_SummerWinterDayTemp && ParamCLI_AverageTempCalc != PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage);
+    _waitForInitialized = max(1UL, millis());
+
     ClimateControlChannelOwnerModule::initialize(ParamCLI_VisibleChannels);
     ClimateControlChannelOwnerModule::setup();
- 
-  
-    if (ParamCLI_SummerWinterDayTemp && ParamCLI_AverageTempCalc != PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage)
-    {
-        _hourlyTemperaturesWithValidTime = openknx.time.isValid();
-        openknx.time.registerCallback((OpenKNX::Time::TimeChangedEvents)(OpenKNX::Time::TimeChangedEvents::TimeChangedEventValidChanged | OpenKNX::Time::TimeChangedEvents::TimeChangedEventHourChanged), [this](OpenKNX::Time::TimeChangedArgs args) {
-            handleAverageTemperatureCalculation(args);
-        });
-    }
-    if (ParamCLI_SummerWinterDate)
-    {
-        openknx.time.registerCallback((OpenKNX::Time::TimeChangedEvents)(OpenKNX::Time::TimeChangedEvents::TimeChangedEventValidChanged | OpenKNX::Time::TimeChangedEvents::TimeChangedEventHourChanged | OpenKNX::Time::TimeChangedEvents::TimeChangedEventDayChanged), [this](OpenKNX::Time::TimeChangedArgs args) {
-            if (args.isValid)
-            {
-                handleWinterSummerMode(args.localTime);
-            }
-        });
-    }
     if (ParamCLI_SummerWinterKo)
     {
         if (!KoCLI_Winter.initialized())
@@ -66,8 +135,6 @@ void ClimateControlModule::setup()
         {
             if (!KoCLI_DayAverage.initialized())
                 KoCLI_DayAverage.requestObjectRead();
-            else
-                processInputKo(KoCLI_DayAverage);
         }
         else
         {
@@ -79,18 +146,59 @@ void ClimateControlModule::setup()
     }
 }
 
-void ClimateControlModule::handleWinterSummerMode(OpenKNX::DateTime localTime)
+void ClimateControlModule::start()
+{
+    _started = true;
+    if (_hourlyTemperaturesWithValidTime != openknx.time.isValid())
+    {
+        // resset restored temperatures
+        for (int i = 0; i < 24; i++)
+        {
+            _hourlyTemperatures[i] = 32767;
+        }
+        _hourlyTemperaturesWithValidTime = openknx.time.isValid();
+        if (ParamCLI_SummerWinterDayTemp && KoCLI_DayAverage.initialized())
+        {
+            processInputKo(KoCLI_DayAverage);
+        }
+    }
+    if (ParamCLI_SummerWinterDayTemp && ParamCLI_AverageTempCalc != PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage)
+    {
+        openknx.time.registerCallback((OpenKNX::Time::TimeChangedEvents)(OpenKNX::Time::TimeChangedEvents::TimeChangedEventValidChanged | OpenKNX::Time::TimeChangedEvents::TimeChangedEventHourChanged), [this](OpenKNX::Time::TimeChangedArgs args) {
+            handleAverageTemperatureCalculation(args);
+        });
+    }
+    if (ParamCLI_SummerWinterDate)
+    {
+        openknx.time.registerCallback((OpenKNX::Time::TimeChangedEvents)(OpenKNX::Time::TimeChangedEvents::TimeChangedEventValidChanged | OpenKNX::Time::TimeChangedEvents::TimeChangedEventHourChanged | OpenKNX::Time::TimeChangedEvents::TimeChangedEventDayChanged), [this](OpenKNX::Time::TimeChangedArgs args) {
+            handleWinterSummerMode(args);
+        });
+    }
+
+    
+    recalculateDayAverageTemperature();
+    for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfChannels(); _channelIndex++)
+    {
+        RoomChannel* channel = (RoomChannel*)getChannel(_channelIndex);
+        if (channel != nullptr)
+        {
+            channel->start();
+        }
+    }
+}
+
+void ClimateControlModule::handleWinterSummerMode(OpenKNX::Time::TimeChangedArgs args)
 {
     int summerStartMonth = (ParamCLI_SummerTimeStartDay & 0x00FF00) >> 8;
     int summerStartDay = (ParamCLI_SummerTimeStartDay & 0xFF0000) >> 16;
     int winterStartMonth = (ParamCLI_WinterTimeStartDay & 0x00FF00) >> 8;
     int winterStartDay = (ParamCLI_WinterTimeStartDay & 0xFF0000) >> 16;
-    if (_waitForValidDate)
+    auto localTime = args.localTime;
+    if (args.isValid)
     {
-        _waitForValidDate = false;
         logDebugP("Summer: %02d.%02d, Winter: %02d.%02d", summerStartDay, summerStartMonth, winterStartDay, winterStartMonth);
-        if ((localTime.month > summerStartMonth && localTime.month < winterStartMonth) || 
-            (localTime.month == summerStartMonth && localTime.day >= summerStartDay) || 
+        if ((localTime.month > summerStartMonth && localTime.month < winterStartMonth) ||
+            (localTime.month == summerStartMonth && localTime.day >= summerStartDay) ||
             (localTime.month == winterStartMonth && localTime.day < winterStartDay))
         {
             // Summer time
@@ -125,12 +233,15 @@ void ClimateControlModule::setIsWinter(bool isWinter, const char* diagnosticMess
         _waitForIsWinterValid = 0;
         logInfoP("Switching to %s mode because of %s", _isWinter ? "winter" : "summer", diagnosticMessage);
         KoCLI_WinterStatus.value(_isWinter, DPT_Switch);
-        for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfUsedChannels(); _channelIndex++)
+        if (_started)
         {
-            RoomChannel* channel = (RoomChannel*) getChannel(_channelIndex);
-            if (channel != nullptr)
+            for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfChannels(); _channelIndex++)
             {
-                channel->handle();
+                RoomChannel* channel = (RoomChannel*)getChannel(_channelIndex);
+                if (channel != nullptr)
+                {
+                    channel->handle();
+                }
             }
         }
     }
@@ -138,19 +249,25 @@ void ClimateControlModule::setIsWinter(bool isWinter, const char* diagnosticMess
     {
         logDebugP("Already in %s mode, no change needed for %s", _isWinter ? "winter" : "summer", diagnosticMessage);
     }
-    if (!KoCLI_WinterStatus.initialized())
-    {
-        KoCLI_WinterStatus.valueCompare(!_isWinter, DPT_Switch);
-    }
+    KoCLI_WinterStatus.valueCompare(!_isWinter, DPT_Switch);
+   
 }
 
 void ClimateControlModule::loop()
 {
-    if (_waitForIsWinterValid != 0 && millis() - _waitForIsWinterValid >= 10000)
+    bool everythingValid = _waitForIsWinterValid && _waitForValidDate;
+    if (_waitForInitialized != 0 && (millis() - _waitForInitialized >= 10000 || everythingValid))
     {
-        _waitForIsWinterValid = 0;
-        logDebugP("Is winter not valid after 10 seconds, setting it to winter");
-        setIsWinter(true, "Fallback");
+        _waitForInitialized = 0;
+        if (everythingValid)
+            logDebugP("ClimateControlModule initialized, starting module");
+        else
+        {
+            logDebugP("ClimateControlModule not initialized after 10 seconds, starting module");
+            if (_waitForIsWinterValid)
+                setIsWinter(true, "Fallback");
+        }
+        start();
     }
     if (_waitForTemperatureResponse != 0 && millis() - _waitForTemperatureResponse >= 5000)
     {
@@ -159,7 +276,7 @@ void ClimateControlModule::loop()
         int index = getCurrentHourlyTemperatureIndex();
         if (index != -1 && KoCLI_OutsideTemp.initialized())
         {
-            _hourlyTemperatures[index] = KoCLI_OutsideTemp.value(DPT_Value_Temp);
+            _hourlyTemperatures[index] = KoCLI_OutsideTemp.value(DPT_Value_2_Count);
             recalculateDayAverageTemperature();
         }
     }
@@ -208,13 +325,13 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
                 logInfoP("Current average temperature: %f °C (%s)", _currentAverageTemperature, _calculationMethod);
                 for (int i = 0; i < 24; i++)
                 {
-                    if (std::isnan(_hourlyTemperatures[i]))
+                    if (_hourlyTemperatures[i] == 32767)
                     {
                         logDebugP("hour %d: -", i);
                     }
                     else
                     {
-                        logDebugP("hour %d: %f °C", i, _hourlyTemperatures[i]);
+                        logDebugP("hour %d: %f °C", i, ((float) _hourlyTemperatures[i]) / 100.0f);
                     }
                 }
             }
@@ -274,7 +391,6 @@ void ClimateControlModule::processInputKo(GroupObject& ko)
         {
             if (ParamCLI_SummerWinterKo)
             {
-                _waitForValidDate = false;
                 bool isWinter = ko.value(DPT_Switch);
                 setIsWinter(isWinter, "group object");
             }
@@ -293,16 +409,11 @@ void ClimateControlModule::processInputKo(GroupObject& ko)
 void ClimateControlModule::handleAverageTemperatureCalculation(OpenKNX::Time::TimeChangedArgs args)
 {
     if (args.events & OpenKNX::Time::TimeChangedEvents::TimeChangedEventValidChanged && args.isValid)
-    {
-        for (int i = 0; i < 24; i++)
-        {
-            _hourlyTemperatures[i] = std::numeric_limits<float>::quiet_NaN();
-        }
-        _hourlyTemperaturesWithValidTime = true;
+    {  
         int index = getCurrentHourlyTemperatureIndex();
         if (index != -1 && KoCLI_OutsideTemp.initialized())
         {
-            _hourlyTemperatures[index] = KoCLI_OutsideTemp.value(DPT_Value_Temp);
+            _hourlyTemperatures[index] = KoCLI_OutsideTemp.value(DPT_Value_2_Count);
         }
     }
     if (args.events & OpenKNX::Time::TimeChangedEvents::TimeChangedEventHourChanged)
@@ -320,7 +431,7 @@ void ClimateControlModule::handleAverageTemperatureCalculation(OpenKNX::Time::Ti
             if (KoCLI_OutsideTemp.initialized())
             {
 
-                _hourlyTemperatures[index] = KoCLI_OutsideTemp.value(DPT_Value_Temp);
+                _hourlyTemperatures[index] = KoCLI_OutsideTemp.value(DPT_Value_2_Count);
             }
         }
     }
@@ -329,6 +440,8 @@ void ClimateControlModule::handleAverageTemperatureCalculation(OpenKNX::Time::Ti
 
 void ClimateControlModule::recalculateDayAverageTemperature()
 {
+    if (!isStarted())
+        return;
     logDebugP("Recalculating average temperature");
     bool useEveryHour = ParamCLI_AverageTempCalc == PT_CLIAverageTemperatureCalculation::EveryHour;
     if (ParamCLI_AverageTempCalc == PT_CLIAverageTemperatureCalculation::MannheimHours)
@@ -341,9 +454,9 @@ void ClimateControlModule::recalculateDayAverageTemperature()
         else
         {
             //  (T7+T14+T21*2)/4
-            float t7 = _hourlyTemperatures[7];
-            float t14 = _hourlyTemperatures[14];
-            float t21 = _hourlyTemperatures[21];
+            float t7 = ((float) _hourlyTemperatures[7]) / 100.f;
+            float t14 = ((float) _hourlyTemperatures[14]) / 100.f;
+            float t21 = ((float) _hourlyTemperatures[21]) / 100.f;
             if (std::isnan(t7) || std::isnan(t14) || std::isnan(t21))
             {
                 useEveryHour = true;
@@ -363,9 +476,9 @@ void ClimateControlModule::recalculateDayAverageTemperature()
         int count = 0;
         for (int i = 0; i < 24; i++)
         {
-            if (!std::isnan(_hourlyTemperatures[i]))
+            if (_hourlyTemperatures[i] != 32767)
             {
-                sum += _hourlyTemperatures[i];
+                sum += ((float) _hourlyTemperatures[i]) / 100.f;
                 count++;
             }
         }
@@ -375,7 +488,7 @@ void ClimateControlModule::recalculateDayAverageTemperature()
             logDebugP("Calculated average temperature from every hour: %f", average);
             if (ParamCLI_AverageTempCalc == PT_CLIAverageTemperatureCalculation::EveryHour)
                 setAverageTemperature(average, "Every Hour");
-            else    
+            else
                 setAverageTemperature(average, "Fallback - Every Hour");
         }
         else
@@ -385,11 +498,11 @@ void ClimateControlModule::recalculateDayAverageTemperature()
     }
     else if (ParamCLI_AverageTempCalc == PT_CLIAverageTemperatureCalculation::MinMaxAverage)
     {
-        float minTemp = std::numeric_limits<float>::max();
-        float maxTemp = std::numeric_limits<float>::lowest();
+        uint8_t minTemp = std::numeric_limits<uint8_t>::max();
+        uint8_t maxTemp = std::numeric_limits<uint8_t>::lowest();
         for (int i = 0; i < 24; i++)
         {
-            if (!std::isnan(_hourlyTemperatures[i]))
+            if (_hourlyTemperatures[i] != 32767)
             {
                 if (_hourlyTemperatures[i] < minTemp)
                     minTemp = _hourlyTemperatures[i];
@@ -397,9 +510,9 @@ void ClimateControlModule::recalculateDayAverageTemperature()
                     maxTemp = _hourlyTemperatures[i];
             }
         }
-        if (minTemp != std::numeric_limits<float>::max() && maxTemp != std::numeric_limits<float>::lowest())
+        if (minTemp != std::numeric_limits<uint8_t>::max() && maxTemp != std::numeric_limits<uint8_t>::lowest())
         {
-            float average = (minTemp + maxTemp) / 2.0f;
+            float average = (((float)minTemp) / 100.f + ((float)maxTemp) / 100.f) / 2.0f;
             logDebugP("Calculated MinMax average temperature: %f", average);
             setAverageTemperature(average, "Min/Max");
         }
@@ -442,7 +555,7 @@ void ClimateControlModule::setAverageTemperature(float averageTemp, const char* 
                 }
             }
             else
-             {
+            {
                 // Check for swiching to winter mode
                 if (_currentAverageTemperature <= ParamCLI_AverageTempWinter)
                 {
@@ -480,17 +593,17 @@ int ClimateControlModule::getCurrentHourlyTemperatureIndex()
     }
     return -1;
 }
-void ClimateControlModule::processOutsideTemperatureChange(float outsideTemp)
+void ClimateControlModule::processOutsideTemperatureChange(int16_t outsideTemp)
 {
     if (ParamCLI_SummerWinterDayTemp && ParamCLI_AverageTempCalc == PT_CLIAverageTemperatureCalculation::GroupObjectDailyAverage)
     {
-        setAverageTemperature(outsideTemp, "KO");
+        setAverageTemperature(((float) outsideTemp) / 100.f, "KO");
         return;
     }
     int index = getCurrentHourlyTemperatureIndex();
     if (index != -1)
     {
-        if (_hourlyTemperatures[index] == std::numeric_limits<float>::quiet_NaN() ||
+        if (_hourlyTemperatures[index] == 32767 ||
             ParamCLI_AverageTempCalc == PT_CLIAverageTemperatureCalculation::MinMaxAverage ||
             _waitForTemperatureResponse != 0)
         {
@@ -520,6 +633,11 @@ bool ClimateControlModule::isWinter()
 bool ClimateControlModule::isSummer()
 {
     return !_isWinter;
+}
+
+bool ClimateControlModule::isStarted()
+{
+    return _started;
 }
 
 ClimateControlModule openknxClimateControlModule;

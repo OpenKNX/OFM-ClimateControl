@@ -10,7 +10,7 @@
               <!-- Channel Name -->
               <Parameter Id="%AID%_P-%TT%%CC%000" Name="Channel%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Raum" Value="" />
              
-              <Union SizeInBit="16">
+              <Union SizeInBit="136">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Channel Disabled -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%001" Name="CH%C%ChannelDisabled" ParameterType="%AID%_PT-CheckBox" Text="Kanal deaktivieren (zu Testzwecken)" Value="0" />
@@ -20,15 +20,40 @@
                 <Parameter Offset="0" BitOffset="2" Id="%AID%_UP-%TT%%CC%004" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%ModeSelectionTurnOn" Text="Modusauswahl schaltet ein" Value="1" />
                 <!-- 5 Bits free-->
                 <!-- Relativ temperature change value --> 
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeValue" Text="Erhöhren / Verrringern um" Value="10" /> 
-              
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeValue" Text="Erhöhren / Verrringern um" Value="10" />   
+                <!-- Min Winter temperature -->
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%005" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetMinWinter" Text="Minimal" Value="20" SuffixText="°C"  /> 
+                <!-- ^^^ Need 2 Bytes ^^^ -->
+                <!-- Max Winter temperature -->
+                <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%%CC%006" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetMaxWinter" Text="Maximal" Value="24.5" SuffixText="°C" /> 
+                <!-- ^^^ Need 2 Bytes ^^^ -->
+                <!-- Default Winter temperature -->
+                <Parameter Offset="6" BitOffset="0" Id="%AID%_UP-%TT%%CC%007" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetDefaultWinter" Text="Initialwert" Value="20" SuffixText="°C" /> 
+                <!-- ^^^ Need 2 Bytes ^^^ -->
+                <!-- Min Summer temperature -->
+                <Parameter Offset="8" BitOffset="0" Id="%AID%_UP-%TT%%CC%008" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetMinSummer" Text="Minimal" Value="22" SuffixText="°C" /> 
+                <!-- ^^^ Need 2 Bytes ^^^ -->
+                <!-- Max Summer temperature -->
+                <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%%CC%009" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetMaxSummer" Text="Maximal" Value="28" SuffixText="°C" /> 
+                <!-- ^^^ Need 2 Bytes ^^^ -->
+                <!-- Default Summer temperature -->
+                <Parameter Offset="12" BitOffset="0" Id="%AID%_UP-%TT%%CC%010" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetDefaultSummer" Text="Initialwert" Value="24" SuffixText="°C" /> 
+                <!-- ^^^ Need 2 Bytes ^^^ -->
+                <!-- Temperature restore mode -->
+                <Parameter Offset="14" BitOffset="0" Id="%AID%_UP-%TT%%CC%011" ParameterType="%AID%_PT-CLIInit" Name="CH%C%InitTemp" Text="Nach Gerätestart" Value="0" /> 
+                <!-- 4 bits free-->
+                <!-- Default mode  -->
+                <Parameter Offset="15" BitOffset="0" Id="%AID%_UP-%TT%%CC%012" ParameterType="%AID%_PT-CLIDefaultHVAC" Name="CH%C%DefaultMode" Text="Initialwert" Value="255" />
+                <!-- Mode restore mode -->
+                <Parameter Offset="16" BitOffset="0" Id="%AID%_UP-%TT%%CC%013" ParameterType="%AID%_PT-CLIInit" Name="CH%C%InitMode" Text="Nach Gerätestart" Value="0" />
+
               </Union>
 
 
               <!-- HVAC Name 1 -->
               <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" />
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="2" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="17" BitOffset="0" />
                 <!-- Control Mode 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 1 -->
@@ -43,39 +68,39 @@
               <!-- HVAC Name 2 -->
               <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" /> 
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="18" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="19" BitOffset="0" />
                 <!-- Control Mode 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 2 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%202" ParameterType="%AID%_PT-CLIControlTemperature"  Name="CH%C%ControlTemperature2" Text="Temperaturregelung über" Value="0" />
                 <!-- Full power off -->
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
-                <!-- Wait Time after Power Up 1 -->       
+                <!-- Wait Time after Power Up 2 -->       
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
               </Union>
 
               <!-- Cooling -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="34" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="21" BitOffset="0" />
                 <!-- Cooling Device Selection-->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="1" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="2" />
                 <!-- Cooling Deactive in Winter -->
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%502" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%CoolDeactiveInWinter" Text="Kühlen im Winterbetrieb gesperrt" Value="0" />
               </Union>
 
               <!-- Heating -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="36" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="23" BitOffset="0" />
                 <!-- Heating Device Selection-->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="2" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="1" />
                 <!-- Heating Deactive in Summer -->
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%602" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%HeatDeactiveInSummer" Text="Heizen im Sommerbetrieb gesperrt" Value="0" />
               </Union>
 
               <!-- Dehumidification -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="38" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="25" BitOffset="0" />
                 <!-- Dehumidification Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
                
@@ -83,7 +108,7 @@
 
               <!-- Fan -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="27" BitOffset="0" />
                 <!-- Fan Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
                
@@ -91,7 +116,7 @@
 
               <!-- Auto -->
               <Union SizeInBit="24">
-                <Memory CodeSegment="%MID%" Offset="42" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="29" BitOffset="0" />
                 <!-- Cooling Auto Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
                 <!-- Heating Auto Device Selection -->
@@ -112,14 +137,14 @@
 
               <!-- Window open -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="32" BitOffset="0" />
                 <!-- Window open handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-OnOffYesNo" Text="Fenster offen Behandlung" Value="0" />
               </Union>
 
               <!-- Window open 1 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="46" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="33" BitOffset="0" />
                 <!-- Window open action 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 1 DelayBase-->
@@ -132,7 +157,7 @@
 
               <!-- Window open 2 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="50" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="37" BitOffset="0" />
                 <!-- Window open action 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 2 DelayBase-->
@@ -145,7 +170,7 @@
 
               <!-- Window open 3 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="54" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="41" BitOffset="0" />
                 <!-- Window open action 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 3 DelayBase-->
@@ -158,7 +183,7 @@
 
               <!-- Window open 4 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="58" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
                 <!-- Window open action 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 4 DelayBase-->
@@ -171,7 +196,7 @@
 
               <!-- Window open 5 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="62" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="49" BitOffset="0" />
                 <!-- Window open action 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 5 DelayBase-->
@@ -194,6 +219,24 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" RefId="%AID%_UP-%TT%%CC%003" />
               <!-- Mode selection turn on -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%004_R-%TT%%CC%00401" RefId="%AID%_UP-%TT%%CC%004" />
+              <!-- Min Winter temperature -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%005_R-%TT%%CC%00501" RefId="%AID%_UP-%TT%%CC%005" />
+              <!-- Max Winter temperature -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%006_R-%TT%%CC%00601" RefId="%AID%_UP-%TT%%CC%006" />
+              <!-- Default Winter temperature -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%007_R-%TT%%CC%00701" RefId="%AID%_UP-%TT%%CC%007" />
+              <!-- Min Summer temperature -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%008_R-%TT%%CC%00801" RefId="%AID%_UP-%TT%%CC%008" />
+              <!-- Max Summer temperature -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901" RefId="%AID%_UP-%TT%%CC%009" />
+              <!-- Default Summer temperature -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" RefId="%AID%_UP-%TT%%CC%010" />
+              <!-- Temperature restore mode -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" RefId="%AID%_UP-%TT%%CC%011" />
+              <!-- Default mode  -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" RefId="%AID%_UP-%TT%%CC%012" />
+              <!-- Mode restore mode -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" RefId="%AID%_UP-%TT%%CC%013" />
 
            
                <!-- HVAC Name 1 -->
@@ -492,9 +535,7 @@
                       <!-- Channel Disabled-->
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" HelpContext="%DOC%" />
                       
-                      <!-- Mode selection turn on -->
-                      <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%004_R-%TT%%CC%00401" HelpContext="%DOC%"/>
-                      <!-- Window open handling -->
+                        <!-- Window open handling -->
                       <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%400_R-%TT%%CC%40001" HelpContext="%DOC%" />
                       
                       <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Vorgaben" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung" Inline="true" ShowInComObjectTree="true">
@@ -511,31 +552,71 @@
                         <!-- Target Temp Feedback -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00500" />
                        
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Solltemperatur" UIHint="Headline" />
+
+                        <!-- Temperature restore mode -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" HelpContext="%DOC%" />
+
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Sommer:" />
+                        <!-- Default Summer temperature -->
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" HelpContext="%DOC%" />
+                        <!-- Min Summer temperature -->
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%008_R-%TT%%CC%00801" HelpContext="%DOC%" />
+                        <!-- Max Summer temperature -->
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901" HelpContext="%DOC%" />
+
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Winter:" />
+                        <!-- Default Winter temperature -->
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%007_R-%TT%%CC%00701" HelpContext="%DOC%" />
+                        <!-- Min Winter temperature -->
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%005_R-%TT%%CC%00501" HelpContext="%DOC%" />
+                        <!-- Max Winter temperature -->
+                        <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%006_R-%TT%%CC%00601" HelpContext="%DOC%" />
 
                         <!-- KO for relativ Temperature change -->
+                        <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
                           <when test="1"> <!-- Relative Temperature Change Enabled -->
+                            <!-- Relativ temperature change value -->
+                            <ParameterRefRef  IndentLevel="2" RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" HelpContext="%DOC%" />       
                             <!-- Relative temp change -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00600" />
+                
                           </when>
                         </choose>
 
                         <!-- Room Temp -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%007_R-%TT%%CC%00700" />
 
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Modus" UIHint="Headline" />
+
+                        <!-- Mode selection turn on -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%004_R-%TT%%CC%00401" HelpContext="%DOC%"/>
+                 
+                        <!-- Mode restore mode -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" HelpContext="%DOC%" />
+                        <!-- Default mode -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201">
+                          <when test="255"> <!-- Usage from season -->
+                            <choose ParamRefId="%AID%_UP-%TT%00013_R-%TT%0001301">
+                              <when test="255"> <!-- Sommer start mode deaktivated-->
+                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Auf der Seite 'Allgemein' ist keine Betriebsart für den Sommerstart festgelegt" UIHint="Error" />
+                              </when> 
+                            </choose>  
+                            <choose ParamRefId="%AID%_UP-%TT%00014_R-%TT%0001401">
+                              <when test="255"> <!-- Winter start mode deaktivated-->
+                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Auf der Seite 'Allgemein' ist keine Betriebsart für den Winterstart festgelegt" UIHint="Error" />
+                              </when> 
+                            </choose>  
+                          </when>
+                        </choose>
                       </ParameterBlock>
 
                      
-                      <!-- KO for relativ Temperature change -->
-                      <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" HelpContext="%DOC%" />
-                      <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
-                        <when test="1"> <!-- Relative Temperature Change Enabled -->
-                          <!-- Relativ temperature change value -->
-                          <ParameterRefRef  IndentLevel="2" RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" HelpContext="%DOC%" />                       
-                        </when>
-                      </choose>
-
-                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="1: {{0:Kühl-/Heizsystem 1}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung"  ShowInComObjectTree="true">
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="1: {{0:Kühl-/Heizsystem 1}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="CLI-KlimaSteuerung"  ShowInComObjectTree="true">
                         <!-- HVAC Name 1 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" HelpContext="%DOC%" />
                         <!-- Control Mode 1 -->
@@ -613,7 +694,7 @@
                         </choose>
                       </ParameterBlock>
 
-                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="2: {{0:Kühl-/Heizsystem 2}}" Icon="heating-coil" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
+                      <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="2: {{0:Kühl-/Heizsystem 2}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
                         <!-- HVAC Name 2 -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="%DOC%" />
                         <!-- Control Mode 2 -->
@@ -693,19 +774,8 @@
 
                       <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Modus Auswahl" Icon="sun-snowflake-variant" HelpContext="CLI-KlimaSteuerung" >
 
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
-                        <!-- Cooling Device Selection-->
-                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" HelpContext="%DOC%" />
-                        <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
-                          <when test="!=0"> <!-- Not deactivated -->
-                            <!-- Cooling deactivated in Winter -->
-                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%502_R-%TT%%CC%50201" HelpContext="%DOC%" />
-                          </when>
-                        </choose>
-                  
-
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Heizen" UIHint="Headline" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC=1" />
                         <!-- Heating Device Selection-->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101" HelpContext="%DOC%" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101">
@@ -714,22 +784,36 @@
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%602_R-%TT%%CC%60201" HelpContext="%DOC%" />
                           </when>
                         </choose>
+
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC=3" />
+                        <!-- Cooling Device Selection-->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" HelpContext="%DOC%" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
+                          <when test="!=0"> <!-- Not deactivated -->
+                            <!-- Cooling deactivated in Winter -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%502_R-%TT%%CC%50201" HelpContext="%DOC%" />
+                          </when>
+                        </choose>
                       
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Entfeuchten" UIHint="Headline" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC=14" />
 
                         <!-- Dehumidification Device Selection-->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101" HelpContext="%DOC%" />
                     
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventilator" UIHint="Headline" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC=9" />
                         <!-- Fan Device Selection-->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101" HelpContext="%DOC%" />
                     
 
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatik" UIHint="Headline" />
-
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC=0" />
                         <!-- Cooling Auto Device Selection-->
                         <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
                           <when test="!=0">
