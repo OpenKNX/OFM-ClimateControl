@@ -81,7 +81,7 @@ Umschaltung anhand von einem Datumsbereich.
 Umschaltung auf basis der Tagesdurchschnittstemperatur
 
 <!-- DOC  -->
-### Getrennte Solltemperaturspeicherung für Sommer und Winterbetrieb
+### Getrennte Solltemperatur für Heiz- und Kühlbetrieb
 
 
 <!-- DOC  -->

@@ -31,10 +31,16 @@ const std::string ClimateControlModule::version()
 
 void ClimateControlModule::writeFlash()
 {
+    if (_clearFlash)
+    {
+        logInfoP("Clear flash data");
+        return;
+    }
     logDebugP("Write data to flash");
-    openknx.flash.writeByte(2); // Version
+    openknx.flash.writeByte(1); // Version
     openknx.flash.writeByte(_hourlyTemperaturesWithValidTime ? 1 : 0);
     openknx.flash.write((uint8_t*)_hourlyTemperaturesRawKnx, sizeof(_hourlyTemperaturesRawKnx));
+    openknx.flash.writeByte(_isWinterFallbackActive ? 0 : _isWinter ? 2 : 1);
     openknx.flash.writeWord(RoomChannel::flashSize());
     auto numberOfChannels = getNumberOfChannels();
     openknx.flash.writeByte(numberOfChannels);
@@ -49,9 +55,12 @@ void ClimateControlModule::writeFlash()
 
 uint16_t ClimateControlModule::flashSize()
 {
+    if (_clearFlash)
+        return 0;
     return 1                             /* Version */
            + 1                           /* hourlyTemperaturesWithValidTime */
            + sizeof(_hourlyTemperaturesRawKnx) /* hourlyTemperaturesRawKnx */
+           + 1                           /* isWinter */
            + 2                           /* channel flash size */
            + 1                           /* numChannels */
            + getNumberOfChannels()       /* channel presence */
@@ -63,7 +72,7 @@ void ClimateControlModule::readFlash(const uint8_t* iBuffer, const uint16_t iSiz
     if (iSize != 0)
     {
         _versionReadFromFlash = openknx.flash.readByte(); // Version
-        if (_versionReadFromFlash != 2)
+        if (_versionReadFromFlash < 1 || _versionReadFromFlash > 1)
         {
             logWarningP("Unknown flash version %d, ignoring flash data", _versionReadFromFlash);
         }
@@ -71,6 +80,14 @@ void ClimateControlModule::readFlash(const uint8_t* iBuffer, const uint16_t iSiz
         {
             _hourlyTemperaturesWithValidTime = openknx.flash.readByte() != 0;
             memcpy(_hourlyTemperaturesRawKnx, openknx.flash.read(sizeof(_hourlyTemperaturesRawKnx)), sizeof(_hourlyTemperaturesRawKnx));
+            auto isWinterByte = openknx.flash.readByte();
+            if (_waitForIsWinterValid)
+            {
+                if (isWinterByte == 1)
+                    setIsWinter(false, "flash");
+                else if (isWinterByte == 2)
+                    setIsWinter(true, "flash");
+            }
             auto channelFlashSize = openknx.flash.readWord();
             auto usedChannels = openknx.flash.readByte();
             for (uint8_t index = 0; index < usedChannels; index++)
@@ -178,9 +195,8 @@ void ClimateControlModule::start()
             handleWinterSummerMode(args);
         });
     }
-
-    
     recalculateDayAverageTemperature();
+    setIsWinter(_isWinter, nullptr);
     for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfChannels(); _channelIndex++)
     {
         RoomChannel* channel = (RoomChannel*)getChannel(_channelIndex);
@@ -248,26 +264,36 @@ void ClimateControlModule::setIsWinter(bool isWinter, const char* diagnosticMess
     {
         _isWinter = isWinter;
         _waitForIsWinterValid = 0;
-        logInfoP("Switching to %s mode because of %s", _isWinter ? "winter" : "summer", diagnosticMessage);
-        KoCLI_WinterStatus.value(_isWinter, DPT_Switch);
-        if (_started)
+        if (diagnosticMessage != nullptr) // Null in case of call from start()
         {
-            for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfChannels(); _channelIndex++)
+            logInfoP("Switching to %s mode because of %s", _isWinter ? "winter" : "summer", diagnosticMessage);
+            if (_started)
             {
-                RoomChannel* channel = (RoomChannel*)getChannel(_channelIndex);
-                if (channel != nullptr)
+                for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfChannels(); _channelIndex++)
                 {
-                    channel->handle();
+                    RoomChannel* channel = (RoomChannel*)getChannel(_channelIndex);
+                    if (channel != nullptr)
+                    {
+                        channel->handle();
+                    }
                 }
             }
         }
     }
     else
     {
-        logDebugP("Already in %s mode, no change needed for %s", _isWinter ? "winter" : "summer", diagnosticMessage);
+        if (diagnosticMessage != nullptr) // Null in case of call from start()
+            logDebugP("Already in %s mode, no change needed for %s", _isWinter ? "winter" : "summer", diagnosticMessage);
     }
-    KoCLI_WinterStatus.valueCompare(!_isWinter, DPT_Switch);
-   
+    if (_started)
+    {
+        KoCLI_WinterStatus.valueCompare(_isWinter, DPT_Switch);
+        if (_forceSendIsWinter)
+        {
+            KoCLI_WinterStatus.objectWritten();
+            _forceSendIsWinter = false;   
+        }
+    }
 }
 
 void ClimateControlModule::loop()
@@ -281,29 +307,46 @@ void ClimateControlModule::loop()
             initializeIsWinterFromDate();
         }
     }
-    bool everythingValid = _waitForIsWinterValid == 0 && _waitForValidDate == 0;
-    if (_waitForInitialized != 0 && (millis() - _waitForInitialized >= 10000 || everythingValid))
+    if (_waitForInitialized != 0)
     {
-        _waitForInitialized = 0;
+        // check if module is valid
+        bool everythingValid = _waitForIsWinterValid == 0 && _waitForValidDate == 0;
         if (everythingValid)
-            logDebugP("ClimateControlModule initialized, starting module");
-        else
         {
-            logDebugP("ClimateControlModule not fully initialized after 10 seconds, starting module");
-            if (_waitForIsWinterValid)
+            // Check if channels are valid
+            for (uint8_t _channelIndex = 0; _channelIndex < getNumberOfChannels(); _channelIndex++)
             {
-                if (ParamCLI_SummerWinterDate && openknx.time.isValid())
+                RoomChannel* channel = (RoomChannel*)getChannel(_channelIndex);
+                if (channel != nullptr && channel->isWaiting())
                 {
-                    initializeIsWinterFromDate();
-                }
-                else
-                {
-                    setIsWinter(true, "Fallback");
-                    _isWinterFallbackActive = true;
+                    everythingValid = false;
+                    break;
                 }
             }
         }
-        start();
+        if ((millis() - _waitForInitialized >= 10000 || everythingValid))
+        {
+            _waitForInitialized = 0;
+            if (everythingValid)
+                logDebugP("ClimateControlModule initialized, starting module");
+            else
+            {
+                logDebugP("ClimateControlModule not fully initialized after 10 seconds, starting module");
+                if (_waitForIsWinterValid)
+                {
+                    if (ParamCLI_SummerWinterDate && openknx.time.isValid())
+                    {
+                        initializeIsWinterFromDate();
+                    }
+                    else
+                    {
+                        setIsWinter(true, "Fallback");
+                        _isWinterFallbackActive = true;
+                    }
+                }
+            }
+            start();
+        }
     }
     if (_waitForTemperatureResponse != 0 && millis() - _waitForTemperatureResponse >= 5000)
     {
@@ -331,6 +374,7 @@ void ClimateControlModule::loop()
 void ClimateControlModule::showHelp()
 {
     openknx.console.printHelpLine("hvac", "Shows the state of the climate control");
+    openknx.console.printHelpLine("hvac cl", "Clears the flash data");
     openknx.console.printHelpLine("hvac<channel>", "Shows the state of the channel");
 }
 
@@ -338,15 +382,19 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
 {
     if (cmd == "hvac cl")
     {
-        logInfoP("Reset hourly temperatures for average temperature calculation");
-        for (int i = 0; i < 24; i++)
-        {
-            _hourlyTemperaturesRawKnx[i] = std::numeric_limits<uint16_t>::max();
-        }
+        _clearFlash = true;
+        logInfoP("Clearing flash data and restarting device");
+        delay(20);
+        openknx.restart();
         return true;
     }
     if (cmd == "hvac")
     {
+        if (!isStarted())
+        {
+            logInfoP("Starting...");
+            return true;
+        }
         logInfoP("Mode: %s", _isWinter ? "winter" : "summer");
         if (ParamCLI_SummerWinterDayTemp)
         {
@@ -436,6 +484,7 @@ void ClimateControlModule::processInputKo(GroupObject& ko)
         {
             if (ParamCLI_SummerWinterKo)
             {
+                _forceSendIsWinter = true;
                 bool isWinter = ko.value(DPT_Switch);
                 setIsWinter(isWinter, "group object");
             }

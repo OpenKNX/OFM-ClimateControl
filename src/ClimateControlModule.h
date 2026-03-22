@@ -13,10 +13,12 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     bool _started = false;
     bool _waitForValidDate = false;
     bool _waitForIsWinterValid = false;
+    bool _clearFlash = false;
     unsigned long _waitForInitialized = 0;
     uint8_t _versionReadFromFlash = 0;
     bool _isWinter = false;
-    bool _isWinterFallbackActive = false;
+    bool _isWinterFallbackActive = true;
+    bool _forceSendIsWinter = true;
     uint16_t _hourlyTemperaturesRawKnx[24];
     bool _hourlyTemperaturesWithValidTime = false;
     float _currentAverageTemperature = std::numeric_limits<float>::quiet_NaN();

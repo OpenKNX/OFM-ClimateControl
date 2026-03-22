@@ -27,6 +27,14 @@
                 </TypeRestriction>
 							</ParameterType>
 
+               <ParameterType Id="%AID%_PT-CLIOnOff" Name="CLIOnOff" >
+								 <TypeRestriction Base="Value" SizeInBit="1" >
+                  <Enumeration Text="Aus" Value="0" Id="%ENID%"/>
+                  <Enumeration Text="Ein" Value="1" Id="%ENID%" />
+                </TypeRestriction>
+							</ParameterType>
+
+
               <ParameterType Id="%AID%_PT-CLIHVAC" Name="CLIHVAC" op:headerExport="enum">
 								 <TypeRestriction Base="Value" SizeInBit="8" >
                   <Enumeration Text="Aus" Value="6" Id="%ENID%" op:headerName="Off" />
@@ -40,7 +48,7 @@
 
               <ParameterType Id="%AID%_PT-CLIDefaultHVAC" Name="CLIDefaultHVAC" op:headerExport="enum">
 								 <TypeRestriction Base="Value" SizeInBit="8" >
-                  <Enumeration Text="Abhängig Sommer/Winterbetrieb (Einstellung aus Sommer- Winterbetriebstart)" Value="255" Id="%ENID%" op:headerName="DependentOnSeason" />
+                  <Enumeration Text="Abhängig Sommer/Winterbetrieb (Einstellung aus Sommer- Winterbetriebstart)" Value="254" Id="%ENID%" op:headerName="DependentOnSeason" />
                   <Enumeration Text="Aus" Value="6" Id="%ENID%" op:headerName="Off" />
                   <Enumeration Text="Auto" Value="0" Id="%ENID%" op:headerName="Auto" />
                   <Enumeration Text="Heizen" Value="1" Id="%ENID%" op:headerName="Heating" />
@@ -214,11 +222,9 @@
                 <Parameter Offset="5" BitOffset="0" Id="%AID%_UP-%TT%00008" Name="AverageTempWinter" ParameterType="%AID%_PT-CLIAverageTemperatur" Text="Winter bei ≤" Value="14" SuffixText="°C" />
                 <!-- Average Days Winter -->
                 <Parameter Offset="6" BitOffset="0" Id="%AID%_UP-%TT%00009" Name="AverageDaysWinter" ParameterType="%AID%_PT-CLIAverageDays" Text="für" Value="2" SuffixText="Tage" />
-                <!-- 2 Targettemperature storages -->
-                <Parameter Offset="6" BitOffset="5" Id="%AID%_UP-%TT%00010" Name="TwoTargetTemp" ParameterType="%AID%_PT-OnOffYesNo" Text="Getrennte Solltemperaturspeicherung für Sommer- und Winterbetrieb" Value="1" />
-                <!-- 3 bits free -->
+                <!-- 4 bits free -->
                 <!-- Summer time start -->
-                <Parameter Offset="7" BitOffset="0" Id="%AID%_UP-%TT%00011" Name="SummerTimeStartDay" ParameterType="%AID%_PT-CLIDate" Text="Sommerbetrieb ab" Value="2024-03-15" />
+                <Parameter Offset="7" BitOffset="0" Id="%AID%_UP-%TT%00011" Name="SummerTimeStartDay" ParameterType="%AID%_PT-CLIDate" Text="Sommerbetrieb ab" Value="2024-05-15" />
                 <!-- ^^^ need 3 bytes -->
                 <!-- Winter time start -->
                 <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%00012" Name="WinterTimeStartDay" ParameterType="%AID%_PT-CLIDate" Text="Winterbetrieb ab" Value="2024-10-01" />
@@ -251,8 +257,6 @@
               <ParameterRef Id="%AID%_UP-%TT%00008_R-%TT%0000801" RefId="%AID%_UP-%TT%00008" />
               <!-- Average Days Winter -->
               <ParameterRef Id="%AID%_UP-%TT%00009_R-%TT%0000901" RefId="%AID%_UP-%TT%00009" />
-              <!-- 2 Targettemperature storages  -->
-              <ParameterRef Id="%AID%_UP-%TT%00010_R-%TT%0001001" RefId="%AID%_UP-%TT%00010" />
               <!-- Summer time start -->
               <ParameterRef Id="%AID%_UP-%TT%00011_R-%TT%0001101" RefId="%AID%_UP-%TT%00011" />
               <!-- Winter time start -->
@@ -296,7 +300,8 @@
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
 
 								<ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-									
+								<ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />
+                
                 <!-- Kanalanzahl -->
 								<ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="CLI-Anzahl-der-Kanaele" />
 
@@ -362,8 +367,6 @@
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00013_R-%TT%0001301" HelpContext="%DOC%" />            
                 <!-- Winter start mode -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00014_R-%TT%0001401" HelpContext="%DOC%" />
-                <!-- 2 Targettemperature storages  -->
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00010_R-%TT%0001001" HelpContext="%DOC%" />
 
               </ParameterBlock>
 

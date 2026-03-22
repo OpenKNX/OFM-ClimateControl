@@ -9,6 +9,7 @@ enum class ClimateModeSelection : uint8_t
     Off = 6,
     Fan = 9,
     Dehumification = 14,
+    DefaultFromWinterOrSummer = 254,
     Undefined = 255
 };
 
@@ -32,8 +33,12 @@ class ClimateModeSelectionHelper
                 return "fan";
             case ClimateModeSelection::Dehumification:
                 return "dehumification";
-            default:
+            case ClimateModeSelection::DefaultFromWinterOrSummer:
+                return "default from winter or summer";
+            case ClimateModeSelection::Undefined:
                 return "undefined";
+            default:
+                return "error";
         }
     }
 };

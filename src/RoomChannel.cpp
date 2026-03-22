@@ -12,12 +12,18 @@ const std::string RoomChannel::name()
     return _name;
 }
 
+void RoomChannel::setup()
+{
+    _name = "RoomChannel" + std::to_string(_channelIndex + 1);
+    _waitForPower = !ParamCLI_CHModeSelectionTurnOn;
+}
+
 void RoomChannel::writeFlash()
 {
     openknx.flash.write((uint8_t*) &_targetTemperatureCoolingRawKnx, sizeof(uint16_t));
     openknx.flash.write((uint8_t*) &_targetTemperatureHeatingRawKnx, sizeof(uint16_t));
     openknx.flash.writeByte((uint8_t) _currentMode);
-    openknx.flash.writeByte(KoCLI_CPowerFb.value(DPT_Switch) ? 1 : 0);
+    openknx.flash.writeByte((uint8_t) _currentPower);
 }
 
 uint16_t RoomChannel::flashSize()
@@ -30,16 +36,95 @@ void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_
     _targetTemperatureCoolingRawKnx = openknx.flash.readWord();
     _targetTemperatureHeatingRawKnx = openknx.flash.readWord();
     _currentMode = (ClimateModeSelection) openknx.flash.readByte();
-    auto power = openknx.flash.readByte();
-    if (!KoCLI_CPower.initialized())
-        KoCLI_CPower.valueNoSend(power != 0, DPT_Switch);
-    if (!KoCLI_CModeSelection.initialized())
-        KoCLI_CModeSelection.valueNoSend((uint8_t)_currentMode, DPT_DecimalFactor);
+    _currentPower = (PowerState) openknx.flash.readByte();
+}
+
+bool RoomChannel::isWaiting()
+{
+    return _waitForTargetTemperature || _waitForMode || _waitForPower;
 }
 
 void RoomChannel::afterReadFlash(uint8_t version)
 {
-
+    switch (ParamCLI_CHInitMode)
+    {
+        case PT_CLIInit::Saved:
+            if (version == 0 || _currentMode == ClimateModeSelection::Undefined)
+            {
+                _currentMode = (ClimateModeSelection) (uint8_t) ParamCLI_CHDefaultMode;
+                logDebug("Use default mode %s", ClimateModeSelectionHelper::toString(_currentMode));
+            }
+            else
+            {
+                logDebug("Use mode from flash %s", ClimateModeSelectionHelper::toString(_currentMode));
+            }
+            _waitForMode = false;
+            break;
+        case PT_CLIInit::ReadFromBus:
+            _currentMode = (ClimateModeSelection) (uint8_t) ParamCLI_CHDefaultMode;
+            logDebug("Use default mode %s if read request does not response", ClimateModeSelectionHelper::toString(_currentMode));
+            KoCLI_CModeSelection.requestObjectRead();
+            break;
+        case PT_CLIInit::ReadFromBusOrSaved:
+            if (version == 0 || _currentMode == ClimateModeSelection::Undefined)
+            {
+                _currentMode = (ClimateModeSelection) (uint8_t) ParamCLI_CHDefaultMode;
+                logDebug("Use default mode %s if read request does not response", ClimateModeSelectionHelper::toString(_currentMode));
+            }
+            else
+            {
+                logDebug("Use mode from flash %s if read request does not response", ClimateModeSelectionHelper::toString(_currentMode));
+            }
+            KoCLI_CModeSelection.requestObjectRead();
+            break;
+        default:
+            logErrorP("Unknown init mode %d, using default value", (int)ParamCLI_CHInitMode);
+            _currentMode = (ClimateModeSelection) ParamCLI_CHDefaultMode;
+            break;
+    }   
+    if (ParamCLI_CHModeSelectionTurnOn)
+    {
+        _currentPower = _currentMode != ClimateModeSelection::Off ? PowerState::On : PowerState::Off;
+    }
+    else
+    {
+        switch (ParamCLI_CHInitPower)
+        {
+        case PT_CLIInit::Saved:
+            if (version == 0 || _currentPower == PowerState::Undefined)
+            {
+                _currentPower = ParamCLI_CHDefaultPower ? PowerState::On : PowerState::Off;
+                logDebug("Use default power %s", _currentPower == PowerState::On ? "On" : "Off");
+            }
+            else
+            {
+                logDebug("Use power from flash %s", _currentPower == PowerState::On ? "On" : "Off");
+            }
+            _waitForPower = false;
+            break;
+        case PT_CLIInit::ReadFromBus:
+            _currentPower = (PowerState) ParamCLI_CHDefaultPower;
+            logDebug("Use default power %s if read request does not response", _currentPower == PowerState::On ? "On" : "Off");
+            KoCLI_CPower.requestObjectRead();
+            break;
+        case PT_CLIInit::ReadFromBusOrSaved:
+            if (version == 0 || _currentPower == PowerState::Undefined)
+            {
+                _currentPower = ParamCLI_CHDefaultPower ? PowerState::On : PowerState::Off;
+                logDebug("Use default power %s if read request does not response", _currentPower == PowerState::On ? "On" : "Off");
+            }
+            else
+            {
+                logDebug("Use power from flash %s if read request does not response", _currentPower == PowerState::On ? "On" : "Off");
+            }
+            KoCLI_CPower.requestObjectRead();
+            break;
+        default:
+            logErrorP("Unknown init mode %d, using default value", (int)ParamCLI_CHInitMode);
+            _currentPower = (PowerState) ParamCLI_CHDefaultPower;
+            break;
+        }  
+    }
 }
 
 bool RoomChannel::processCommand(const std::string cmd, bool diagnoseKo)
@@ -59,13 +144,26 @@ void RoomChannel::processInputKo(GroupObject &ko)
     {
         case CLI_KoCModeSelection:
         {
-            handleModeChange((ClimateModeSelection)(uint8_t)ko.value(DPT_DecimalFactor));
+            _forceSendMode = true;
+            auto mode = (ClimateModeSelection)(uint8_t)ko.value(DPT_DecimalFactor);
+            if (_waitForMode)
+            {
+                logInfoP("Received initial mode %s from bus", ClimateModeSelectionHelper::toString(mode));
+                _waitForMode = false;
+            }
+            setMode(mode);
             break;
         }
         case CLI_KoCPower:
         {
-            KoCLI_CPowerFb.value(ko.value(DPT_Switch), DPT_Switch);
-            handle();
+            _forceSendPower = true;
+            auto power = (PowerState) (((bool)ko.value(DPT_Switch)) ? PowerState::On : PowerState::Off);
+            if (_waitForPower)
+            {
+                logInfoP("Received initial power state %s from bus", _currentPower == PowerState::On ? "On" : "Off");
+                _waitForPower = false;
+            }
+            setPower(power);
             break;
         }
         case CLI_KoCTargetTempRelativ:
@@ -91,15 +189,35 @@ void RoomChannel::processInputKo(GroupObject &ko)
 
 void RoomChannel::start()
 {
-    handleModeChange((ClimateModeSelection)(uint8_t)KoCLI_CModeSelection.value(DPT_DecimalFactor));
-    KoCLI_CPowerFb.value(KoCLI_CPower.value(DPT_Switch), DPT_Switch);
-    if (KoCLI_CPower.initialized())
+    if (_currentMode == ClimateModeSelection::DefaultFromWinterOrSummer)
     {
+        if (ParamCLI_SummerWinterDayTemp || ParamCLI_SummerWinterDate || ParamCLI_SummerWinterKo)
+        {
+            _currentMode = (ClimateModeSelection)(uint8_t)( openknxClimateControlModule.isWinter() ? ParamCLI_WinterModeChange : ParamCLI_SummerModeChange);
+        }
+        else
+        {
+            _currentMode = openknxClimateControlModule.isWinter() ? ClimateModeSelection::Heating : ClimateModeSelection::Cooling;
+        }
+    }
+    setMode(_currentMode);
+    setPower(_currentPower);
+    _started = true;
+    handle();
+}
+
+void RoomChannel::setPower(PowerState power)
+{
+    if (power != _currentPower && power != PowerState::Undefined)
+    {
+        _currentPower = power;
+        if (power == PowerState::Off)
+            setMode(ClimateModeSelection::Off);
         handle();
     }
 }
 
-void RoomChannel::handleModeChange(ClimateModeSelection mode)
+void RoomChannel::setMode(ClimateModeSelection mode)
 {
     if (_currentMode != mode)
     {
@@ -147,43 +265,48 @@ void RoomChannel::handleModeChange(ClimateModeSelection mode)
                     mode = _currentMode;
                 break;
         }
-        if (mode != _currentMode)
+        if (mode != _currentMode && mode != ClimateModeSelection::Undefined)
         {
-
             _currentMode = mode;
+            _waitForMode = false;
             if (mode == ClimateModeSelection::Off)
             {
-                if (KoCLI_CPowerFb.valueCompare(false, DPT_Switch))
-                    logInfoP("Power off");
+                _currentPower = PowerState::Off;
+                _waitForPower = false;
             }
             else
             {
                 if (ParamCLI_CHModeSelectionTurnOn)
                 {
-                    if (KoCLI_CPowerFb.valueCompare(true, DPT_Switch))
-                        logInfoP("Power on");
-                }
-            }
-            logInfoP("Active mode %s", ClimateModeSelectionHelper::toString(mode));
-            if (mode == ClimateModeSelection::Auto)
-            {
-                _currentMode = mode;
-                handleAuto();
-            }
-            else
-            {
-                if (handleMode(mode))
-                {
-                    _currentActiveMode = mode;
+                    _currentPower = PowerState::On;
+                    _waitForPower = false;
                 }
             }
         }
-        KoCLI_CModeSelectionFb.value((uint8_t)_currentMode, DPT_DecimalFactor);
+        handle();
     }
 }
 
 void RoomChannel::handle()
 {
+    if (!_started)
+        return;
+    if (_currentMode == ClimateModeSelection::Undefined)
+        return;
+    if (_currentPower == PowerState::Undefined)
+        return;
+    KoCLI_CPowerFb.valueCompare(_currentPower == PowerState::On, DPT_Switch);
+    if (_forceSendPower)
+    {
+        KoCLI_CPowerFb.objectWritten();
+        _forceSendPower = false;   
+    }
+    KoCLI_CModeSelectionFb.valueCompare((uint8_t)_currentMode, DPT_DecimalFactor);    
+    if (_forceSendMode)
+    {
+        KoCLI_CModeSelectionFb.objectWritten();
+        _forceSendMode = false;   
+    }
     if (_currentMode == ClimateModeSelection::Auto)
     {
         handleAuto();
@@ -194,7 +317,7 @@ void RoomChannel::handle()
     }
 }
 
-bool RoomChannel::handleMode(ClimateModeSelection mode)
+void RoomChannel::handleMode(ClimateModeSelection mode)
 {
     PT_CLIDeviceSelection deviceSelection = PT_CLIDeviceSelection::Disabled;
     switch (mode)
@@ -218,12 +341,12 @@ bool RoomChannel::handleMode(ClimateModeSelection mode)
             logInfoP("Invalid mode %s", ClimateModeSelectionHelper::toString(mode));
             break;
     }
-    if (mode != ClimateModeSelection::Off && !KoCLI_CPowerFb.value(DPT_Switch))
+    if (mode != ClimateModeSelection::Off && _currentPower == PowerState::Off)
     {
-        // Power is of, do not forward mode to devices
+        // Power is off, turn of devices
         _climateDevice1.setMode(ClimateModeSelection::Off);
         _climateDevice2.setMode(ClimateModeSelection::Off);
-        return deviceSelection != PT_CLIDeviceSelection::Disabled;
+        return;
     }
     switch (deviceSelection)
     {
@@ -231,26 +354,26 @@ bool RoomChannel::handleMode(ClimateModeSelection mode)
 
             _climateDevice2.setMode(ClimateModeSelection::Off);
             _climateDevice1.setMode(mode);
-            return true;
+            return;
         case PT_CLIDeviceSelection::CoolingHeatingSystem2:
             _climateDevice1.setMode(ClimateModeSelection::Off);
             _climateDevice2.setMode(mode);
-            return true;
+            return;
         case PT_CLIDeviceSelection::CoolingHeatingSystem1And2:
             _climateDevice1.setMode(mode);
             _climateDevice2.setMode(mode);
-            return true;
+            return;
         case PT_CLIDeviceSelection::Disabled:
             if (mode == ClimateModeSelection::Off)
             {
                 _climateDevice1.setMode(ClimateModeSelection::Off);
                 _climateDevice2.setMode(ClimateModeSelection::Off);
-                return true;
+                return;
             }
-            return false;
+            return;
         default:
             logInfoP("No device assigned for mode %s", ClimateModeSelectionHelper::toString(mode));
-            return false;
+            return;
     }
 }
 
