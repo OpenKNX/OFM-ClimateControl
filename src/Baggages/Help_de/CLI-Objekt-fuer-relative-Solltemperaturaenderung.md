@@ -1,0 +1,2 @@
+﻿### Objekt für relative Solltemperaturänderung
+

@@ -55,9 +55,7 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     bool isSummer();
     bool isStarted();
     float getTemperatureFromRawKnx(uint16_t rawKnx);
-   
- 
-    
+    uint16_t getRawKnxFromTemperature(float temperature);  
 };
 
 extern ClimateControlModule openknxClimateControlModule;

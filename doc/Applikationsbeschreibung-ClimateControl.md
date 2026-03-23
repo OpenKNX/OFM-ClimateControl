@@ -185,7 +185,7 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 
 
 <!-- DOC -->
-### Objekt für relative Sollemperaturänderung
+### Objekt für relative Solltemperaturänderung
 
 <!-- DOC -->
 ### Erhöhren / Verrringern um

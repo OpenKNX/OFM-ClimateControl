@@ -748,4 +748,15 @@ float ClimateControlModule::getTemperatureFromRawKnx(uint16_t rawKnx)
     return float16FromPayload((uint8_t*) &changedBytes, 0);
 }
 
+uint16_t ClimateControlModule::getRawKnxFromTemperature(float temperature)
+{
+    if (std::isnan(temperature))
+        return std::numeric_limits<uint16_t>::max();
+    uint8_t payload[2];    
+    float16ToPayload(payload, 2, 0, temperature, 0xFFFF);
+    uint8_t highByte = (payload[0] & 0xFF00) >> 8;
+    uint8_t lowByte = payload[0] & 0x00FF;
+    return (lowByte << 8) | highByte;
+}
+
 ClimateControlModule openknxClimateControlModule;

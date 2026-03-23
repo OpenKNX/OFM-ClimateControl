@@ -15,7 +15,7 @@
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>  
 
-              <ParameterType Id="%AID%_PT-CLITemperature" Name="CLITemperatureDefault">
+              <ParameterType Id="%AID%_PT-CLITemperature" Name="CLITemperature">
 								<TypeFloat Encoding="DPT 9" minInclusive="10" maxInclusive="30" />
 							</ParameterType>
 

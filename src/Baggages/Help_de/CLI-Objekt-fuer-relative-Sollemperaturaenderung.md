@@ -1,2 +1,0 @@
-﻿### Objekt für relative Sollemperaturänderung
-

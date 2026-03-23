@@ -22,7 +22,10 @@ class RoomChannel : public OpenKNX::Channel
     bool _started = false;
     bool _forceSendPower = true;
     bool _forceSendMode = true;
+    bool _useCoolingTargetTemperature = false;
     std::string _name;
+    bool _forceSendTargetTemperature = false;
+    uint16_t _targetTemperatureSetWhileStarting = std::numeric_limits<uint16_t>::max();
     uint16_t _targetTemperatureCoolingRawKnx = std::numeric_limits<uint16_t>::max();
     uint16_t _targetTemperatureHeatingRawKnx = std::numeric_limits<uint16_t>::max();
     ClimateModeSelection _currentMode = ClimateModeSelection::Undefined;
@@ -34,6 +37,11 @@ class RoomChannel : public OpenKNX::Channel
     void handleAuto();
     void setMode(ClimateModeSelection mode);
     void setPower(PowerState power);
+    void setInitTargetTemperatur();
+    uint16_t getTargetTemperatureRawKnx();
+    void setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx);
+    float getTemperatureFromRawKnx(uint16_t rawKnx);
+    uint16_t getRawKnxFromTemperature(float temperature);
   public:
     RoomChannel(int channelIndex);
     const std::string name() override;
@@ -49,5 +57,6 @@ class RoomChannel : public OpenKNX::Channel
     void logStatus();
     void handle();
     bool isWaiting();
+
 
 };
