@@ -1,5 +1,6 @@
 #include "RoomChannel.h"
 #include "ClimateControlModule.h"
+#include <cmath>
 
 // Minimal
 #undef ParamCLI_CHTargetMinHeating
@@ -228,7 +229,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
         }
         case CLI_KoCTargetTemp:
         {
-            auto targetTemperatureRawKnx = ko.value(DPT_Value_2_Ucount);
+            auto targetTemperatureRawKnx = (uint16_t) ko.value(DPT_Value_2_Ucount);
             if (_waitForTargetTemperature)
             {
                 logInfoP("Received initial target temperature %0.1f °C from bus", getTemperatureFromRawKnx(targetTemperatureRawKnx));
@@ -236,7 +237,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
             }
             else
             {
-                logInfoP("Received target temperature %0.1f °C from bus", getTemperatureFromRawKnx(targetTemperatureRawKnx));
+                logInfoP("Received target temperature %0.1f (%d) °C from bus", getTemperatureFromRawKnx(targetTemperatureRawKnx), (int) targetTemperatureRawKnx);
             }
             _forceSendTargetTemperature = true;
             setTargetTemperatureRawKnx(targetTemperatureRawKnx);

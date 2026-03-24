@@ -754,8 +754,8 @@ uint16_t ClimateControlModule::getRawKnxFromTemperature(float temperature)
         return std::numeric_limits<uint16_t>::max();
     uint8_t payload[2];    
     float16ToPayload(payload, 2, 0, temperature, 0xFFFF);
-    uint8_t highByte = (payload[0] & 0xFF00) >> 8;
-    uint8_t lowByte = payload[0] & 0x00FF;
+    uint8_t highByte = payload[1];
+    uint8_t lowByte = payload[0];
     return (lowByte << 8) | highByte;
 }
 
