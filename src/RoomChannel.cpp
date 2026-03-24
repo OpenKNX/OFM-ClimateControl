@@ -2,25 +2,6 @@
 #include "ClimateControlModule.h"
 #include <cmath>
 
-// Minimal
-#undef ParamCLI_CHTargetMinHeating
-#define ParamCLI_CHTargetMinHeating                  (knx.paramFloat(CLI_ParamCalcIndex(CLI_CHTargetMinHeating), Float_Enc_DPT9))
-// Maximal
-#undef ParamCLI_CHTargetMaxHeating
-#define ParamCLI_CHTargetMaxHeating                  (knx.paramFloat(CLI_ParamCalcIndex(CLI_CHTargetMaxHeating), Float_Enc_DPT9))
-// Initialwert
-#undef ParamCLI_CHTargetDefaultHeating
-#define ParamCLI_CHTargetDefaultHeating              (knx.paramFloat(CLI_ParamCalcIndex(CLI_CHTargetDefaultHeating), Float_Enc_DPT9))
-// Minimal
-#undef ParamCLI_CHTargetMinCooling
-#define ParamCLI_CHTargetMinCooling                  (knx.paramFloat(CLI_ParamCalcIndex(CLI_CHTargetMinCooling), Float_Enc_DPT9))
-// Maximal
-#undef ParamCLI_CHTargetMaxCooling
-#define ParamCLI_CHTargetMaxCooling                  (knx.paramFloat(CLI_ParamCalcIndex(CLI_CHTargetMaxCooling), Float_Enc_DPT9))
-// Initialwert
-#undef ParamCLI_CHTargetDefaultCooling
-#define ParamCLI_CHTargetDefaultCooling              (knx.paramFloat(CLI_ParamCalcIndex(CLI_CHTargetDefaultCooling), Float_Enc_DPT9))
-
 
 RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
                                              _name("RoomChannel"),
