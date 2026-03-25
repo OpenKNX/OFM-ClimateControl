@@ -243,6 +243,11 @@ void RoomChannel::processInputKo(GroupObject &ko)
             }
             break;
         }
+        default:
+        {
+            _climateDevice1.processInputKo(ko);
+            _climateDevice2.processInputKo(ko);
+        }
     }
 }
 
@@ -378,16 +383,20 @@ void RoomChannel::handle()
 
 void RoomChannel::handleMode(ClimateModeSelection mode)
 {
+    _currentActiveMode = mode;
     PT_CLIDeviceSelection deviceSelection = PT_CLIDeviceSelection::Disabled;
+    bool needTargetTemperature = false;
     switch (mode)
     {
         case ClimateModeSelection::Cooling:
             deviceSelection = ParamCLI_CHCoolDeviceSelection;
             _useCoolingTargetTemperature = ParamCLI_CH2TargetTemp;
+            needTargetTemperature = true;
             break;
         case ClimateModeSelection::Heating:
             deviceSelection = ParamCLI_CHHeatDeviceSelection;
             _useCoolingTargetTemperature = false;
+            needTargetTemperature = true;
             break;
         case ClimateModeSelection::Fan:
             deviceSelection = ParamCLI_CHFanDeviceSelection;
@@ -429,14 +438,23 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
 
             _climateDevice2.setMode(ClimateModeSelection::Off);
             _climateDevice1.setMode(mode);
+            if (needTargetTemperature)
+                _climateDevice1.setTargetTemperature(getTargetTemperatureRawKnx());
             return;
         case PT_CLIDeviceSelection::CoolingHeatingSystem2:
             _climateDevice1.setMode(ClimateModeSelection::Off);
             _climateDevice2.setMode(mode);
+            if (needTargetTemperature)
+                _climateDevice2.setTargetTemperature(getTargetTemperatureRawKnx());
             return;
         case PT_CLIDeviceSelection::CoolingHeatingSystem1And2:
             _climateDevice1.setMode(mode);
             _climateDevice2.setMode(mode);
+            if (needTargetTemperature)
+            {
+                _climateDevice1.setTargetTemperature(getTargetTemperatureRawKnx());
+                _climateDevice2.setTargetTemperature(getTargetTemperatureRawKnx());
+            }
             return;
         case PT_CLIDeviceSelection::Disabled:
             if (mode == ClimateModeSelection::Off)
@@ -486,6 +504,82 @@ uint16_t RoomChannel::getTargetTemperatureRawKnx()
         return _targetTemperatureHeatingRawKnx;
     }
 }
+
+void RoomChannel::setTargetTemperatureRawKnxFeedback(uint16_t targetTemperatureRawKnx, ClimateDevice& device)
+{
+    auto deviceNumber = device.deviceNumber();
+    bool isCoolingDevice = false;
+    switch(ParamCLI_CHCoolDeviceSelection)
+    {
+        case PT_CLIDeviceSelection::CoolingHeatingSystem1:
+            if (deviceNumber == _climateDevice1.deviceNumber())
+            {
+                isCoolingDevice = true;
+            }
+            break;
+        case PT_CLIDeviceSelection::CoolingHeatingSystem2:
+            if (deviceNumber == _climateDevice2.deviceNumber())
+            {
+                isCoolingDevice = true;
+            }
+            break;
+        case PT_CLIDeviceSelection::CoolingHeatingSystem1And2:
+            isCoolingDevice = true;
+            break;
+        default:
+            break;
+    }
+    if (isCoolingDevice && _currentActiveMode == ClimateModeSelection::Cooling)
+    {
+        logInfoP("Received cooling temperature feedback %0.1f °C from active device %d", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
+        setTargetTemperatureRawKnx(targetTemperatureRawKnx);
+        return;
+    }
+    bool isHeatingDevice = false;
+    switch(ParamCLI_CHHeatDeviceSelection)
+    {
+        case PT_CLIDeviceSelection::CoolingHeatingSystem1:
+            if (deviceNumber == _climateDevice1.deviceNumber())
+            {
+                isHeatingDevice = true;
+            }
+            break;
+        case PT_CLIDeviceSelection::CoolingHeatingSystem2:
+            if (deviceNumber == _climateDevice2.deviceNumber())
+            {
+                isHeatingDevice = true;
+            }
+            break;
+        case PT_CLIDeviceSelection::CoolingHeatingSystem1And2:
+            isHeatingDevice = true;
+            break;
+        default:
+            break;
+    }
+    if (isHeatingDevice && _currentActiveMode == ClimateModeSelection::Heating)
+    {
+        logInfoP("Received heating temperature feedback %0.1f °C from active device %d", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
+        setTargetTemperatureRawKnx(targetTemperatureRawKnx);
+        return;
+    }
+    if (ParamCLI_CH2TargetTemp)
+    {
+        if (isCoolingDevice)
+        {
+            logInfoP("Received cooling temperature feedback %0.1f °C from device %d which is not active", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
+            _targetTemperatureCoolingRawKnx = targetTemperatureRawKnx;
+            return;
+        }
+        else if (isHeatingDevice)
+        {
+            logInfoP("Received heating temperature feedback %0.1f °C from device %d which is not active", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
+            _targetTemperatureHeatingRawKnx = targetTemperatureRawKnx;  
+            return;
+        }
+    }
+    logWarningP("Received temperature feedback %0.1f °C from device %d which will be dropped", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
+}
+
 
 void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
 {
@@ -541,4 +635,25 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
         KoCLI_CTargetTempFb.objectWritten();
         _forceSendTargetTemperature = false;
     }
+    if (_currentActiveMode == ClimateModeSelection::Cooling)
+    {
+        if (_climateDevice1.currentMode() == ClimateModeSelection::Cooling)
+            _climateDevice1.setTargetTemperature(targetTemperatureRawKnx);
+        if (_climateDevice2.currentMode() == ClimateModeSelection::Cooling)
+            _climateDevice2.setTargetTemperature(targetTemperatureRawKnx);
+        
+    }
+    else if (_currentActiveMode == ClimateModeSelection::Heating)
+    {
+        if (_climateDevice1.currentMode() == ClimateModeSelection::Heating)
+            _climateDevice1.setTargetTemperature(targetTemperatureRawKnx);
+        if (_climateDevice2.currentMode() == ClimateModeSelection::Heating)
+            _climateDevice2.setTargetTemperature(targetTemperatureRawKnx);
+    }
+}
+
+void RoomChannel::loop()
+{
+    _climateDevice1.loop();
+    _climateDevice2.loop();
 }

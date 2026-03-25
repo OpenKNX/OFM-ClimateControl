@@ -40,8 +40,6 @@ class RoomChannel : public OpenKNX::Channel
     void setInitTargetTemperatur();
     uint16_t getTargetTemperatureRawKnx();
     void setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx);
-    float getTemperatureFromRawKnx(uint16_t rawKnx);
-    uint16_t getRawKnxFromTemperature(float temperature);
   public:
     RoomChannel(int channelIndex);
     const std::string name() override;
@@ -57,6 +55,9 @@ class RoomChannel : public OpenKNX::Channel
     void logStatus();
     void handle();
     bool isWaiting();
-
-
+    void loop() override;
+    void setTargetTemperatureRawKnxFeedback(uint16_t targetTemperatureRawKnx, ClimateDevice& device);
+    float getTemperatureFromRawKnx(uint16_t rawKnx);
+    uint16_t getRawKnxFromTemperature(float temperature);
+ 
 };

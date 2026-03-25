@@ -84,7 +84,7 @@
                   <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
                   <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" op:headerName="Setpoint" />
                   <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
-                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="3" Id="%ENID%" op:headerName="OpenKNXControl" />
+                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="3" Id="%ENID%" op:headerName="FakeSetTemperature" />
                 </TypeRestriction>
               </ParameterType>
             

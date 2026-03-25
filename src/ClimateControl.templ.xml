@@ -453,21 +453,21 @@
               <!-- Dev 1 On -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%102_R-%TT%%CC%10200" RefId="%AID%_O-%TT%%CC%102" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
               
-              <!-- Dev 1 Kühlen -->
+              <!--Dev 1 Cooling -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_O-%TT%%CC%100" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 1 Kühlen Status -->
+					    <!--Dev 1 Cooling Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%101_R-%TT%%CC%10101" RefId="%AID%_O-%TT%%CC%101" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Kühlen Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001"  WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    <!-- Dev 1 Heizen -->
+					    <!-- Dev 1 Heating -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%102_R-%TT%%CC%10201" RefId="%AID%_O-%TT%%CC%102" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Heizen" FunctionText="HVAC: Ausgang, Anfordern, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 1 Heizen Status -->
+					    <!-- Dev 1 Heating Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%103_R-%TT%%CC%10301" RefId="%AID%_O-%TT%%CC%103" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Heizen Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    <!-- Dev 1 Entfeuchten -->
+					    <!-- Dev 1 Dehumification -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%104_R-%TT%%CC%10401" RefId="%AID%_O-%TT%%CC%104" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Entfeuchten" FunctionText="HVAC: Ausgang, Anfordern, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 1 Entfeuchten Status -->
+					    <!-- Dev 1 Dehumification Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%105_R-%TT%%CC%10501" RefId="%AID%_O-%TT%%CC%105" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Entfeuchten Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    <!-- Dev 1 Ventilator -->
+					    <!-- Dev 1 Fan -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%106_R-%TT%%CC%10601" RefId="%AID%_O-%TT%%CC%106" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Ventilator" FunctionText="HVAC: Ausgang, Anfordern, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 1 Ventilator Status -->
+					    <!-- Dev 1 Fan Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%107_R-%TT%%CC%10701" RefId="%AID%_O-%TT%%CC%107" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Ventilator Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />  
               
               <!-- Dev 1 Power -->
@@ -497,21 +497,21 @@
               <!-- Dev 2 On -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%202_R-%TT%%CC%20200" RefId="%AID%_O-%TT%%CC%202" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
               
-              <!-- Dev 2 Kühlen -->
+              <!-- Dev 2 Cooling -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%200_R-%TT%%CC%20001" RefId="%AID%_O-%TT%%CC%200" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 2 Kühlen Status -->
+					    <!-- Dev 2 Cooling Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%201_R-%TT%%CC%20101" RefId="%AID%_O-%TT%%CC%201" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Kühlen Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001"  WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    <!-- Dev 2 Heizen -->
+					    <!-- Dev 2 Heating -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%202_R-%TT%%CC%20201" RefId="%AID%_O-%TT%%CC%202" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Heizen" FunctionText="HVAC: Ausgang, Anfordern, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-							<!-- Dev 2 Heizen Status -->
+							<!-- Dev 2 Heating Status -->
               <ComObjectRef Id="%AID%_O-%TT%%CC%203_R-%TT%%CC%20301" RefId="%AID%_O-%TT%%CC%203" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Heizen Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Heizen=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    <!-- Dev 2 Entfeuchten -->
+					    <!-- Dev 2 Dehumification -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%204_R-%TT%%CC%20401" RefId="%AID%_O-%TT%%CC%204" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Entfeuchten" FunctionText="HVAC: Ausgang, Anfordern, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 2 Entfeuchten Status -->
+					    <!-- Dev 2 Dehumification Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%205_R-%TT%%CC%20501" RefId="%AID%_O-%TT%%CC%205" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Entfeuchten Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Entfeuchten=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />
-					    <!-- Dev 2 Ventilator -->
+					    <!-- Dev 2 Fan -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%206_R-%TT%%CC%20601" RefId="%AID%_O-%TT%%CC%206" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Ventilator" FunctionText="HVAC: Ausgang, Anfordern, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-					    <!-- Dev 2 Ventilator Status -->
+					    <!-- Dev 2 Fan Status -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%207_R-%TT%%CC%20701" RefId="%AID%_O-%TT%%CC%207" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 2}}: Ventilator Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Ventilator=1" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" WriteFlag="Enabled" UpdateFlag="Enabled" />  
               
               <!-- Dev 2 Power -->
@@ -707,22 +707,42 @@
 							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%102_R-%TT%%CC%10200" />
                           </when>
                           <when test="2"> <!-- Ein Objekt pro Modus -->
-                            <!-- Dev 1 Kühlen -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%100_R-%TT%%CC%10001" />
-                            <!-- Dev 1 Kühlen Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%101_R-%TT%%CC%10101" />
-                            <!-- Dev 1 Heizen -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%102_R-%TT%%CC%10201" />
-                            <!-- Dev 1 Heizen Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%103_R-%TT%%CC%10301" />
-                            <!-- Dev 1 Entfeuchten -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%104_R-%TT%%CC%10401" />
-                            <!-- Dev 1 Entfeuchten Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%105_R-%TT%%CC%10501" />
-                            <!-- Dev 1 Ventilator -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%106_R-%TT%%CC%10601" />
-                            <!-- Dev 1 Ventilator Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%107_R-%TT%%CC%10701" />
+                            <!-- Cooling Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
+                              <when test="1 3"> <!-- Dev 1 -->
+                                <!--Dev 1 Cooling -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%100_R-%TT%%CC%10001" />
+                                <!--Dev 1 Cooling Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%101_R-%TT%%CC%10101" />
+                              </when>
+                            </choose>
+                            <!-- Heating Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101">
+                              <when test="1 3"> <!-- Dev 1 -->
+                                <!-- Dev 1 Heating -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%102_R-%TT%%CC%10201" />
+                                <!-- Dev 1 Heating Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%103_R-%TT%%CC%10301" />
+                              </when>
+                            </choose>
+                            <!-- Dehumidification Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101">
+                              <when test="1 3"> <!-- Dev 1 -->
+                                 <!-- Dev 1 Dehumification -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%104_R-%TT%%CC%10401" />
+                                <!-- Dev 1 Dehumification Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%105_R-%TT%%CC%10501" />
+                              </when>
+                            </choose>
+                            <!-- Ventilator Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101">
+                              <when test="1 3"> <!-- Dev 1 -->   
+                                <!-- Dev 1 Fan -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%106_R-%TT%%CC%10601" />
+                                <!-- Dev 1 Fan Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%107_R-%TT%%CC%10701" />
+                              </when>
+                            </choose>  
                           </when>
                         </choose>  
                         <!-- Temperature Control 1 -->
@@ -785,22 +805,42 @@
 							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%202_R-%TT%%CC%20200" />
                           </when>
                           <when test="2"> <!-- Ein Objekt pro Modus -->
-                            <!-- Dev 2 Kühlen -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%200_R-%TT%%CC%20001" />
-                            <!-- Dev 2 Kühlen Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%201_R-%TT%%CC%20101" />
-                            <!-- Dev 2 Heizen -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%202_R-%TT%%CC%20201" />
-                            <!-- Dev 2 Heizen Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%203_R-%TT%%CC%20301" />
-                            <!-- Dev 2 Entfeuchten -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%204_R-%TT%%CC%20401" />
-                            <!-- Dev 2 Entfeuchten Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%205_R-%TT%%CC%20501" />
-                            <!-- Dev 2 Ventilator -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%206_R-%TT%%CC%20601" />
-                            <!-- Dev 2 Ventilator Status -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%207_R-%TT%%CC%20701" />
+                            <!-- Cooling Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
+                              <when test="2 3"> <!-- Dev 2 -->
+                                <!-- Dev 2 Cooling -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%200_R-%TT%%CC%20001" />
+                                <!-- Dev 2 Cooling Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%201_R-%TT%%CC%20101" />
+                              </when>
+                            </choose>
+                            <!-- Heating Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%601_R-%TT%%CC%60101">
+                              <when test="2 3"> <!-- Dev 2 -->
+                                <!-- Dev 2 Heating -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%202_R-%TT%%CC%20201" />
+                                <!-- Dev 2 Heating Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%203_R-%TT%%CC%20301" />
+                              </when>
+                            </choose>
+                             <!-- Dehumidification Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%701_R-%TT%%CC%70101">
+                              <when test="2 3"> <!-- Dev 2 -->
+                                <!-- Dev 2 Dehumification -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%204_R-%TT%%CC%20401" />
+                                <!-- Dev 2 Dehumification Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%205_R-%TT%%CC%20501" />
+                              </when>
+                            </choose>
+                            <!-- Fan Device Selection-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%801_R-%TT%%CC%80101">
+                              <when test="2 3"> <!-- Dev 2 -->
+                                <!-- Dev 2 Fan -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%206_R-%TT%%CC%20601" />
+                                <!-- Dev 2 Fan Status -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%207_R-%TT%%CC%20701" />
+                              </when>
+                            </choose>
                           </when>
                         </choose>  
                         <!-- Temperature Control 2 -->
