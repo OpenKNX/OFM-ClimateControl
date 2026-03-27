@@ -193,4 +193,9 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 <!-- DOC -->
 ### Kühlbetrieb plus Heizbetrieb minus
 
+<!-- DOC -->
+### Aktionen rückgängig
+
+<!-- DOC -->
+### Rükfall auf Automatik nach
 

@@ -82,9 +82,9 @@
               <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
-                  <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" op:headerName="Setpoint" />
-                  <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
-                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe" Value="3" Id="%ENID%" op:headerName="FakeSetTemperature" />
+                  <Enumeration Text="Stellwertvorgabe (TODO)" Value="1" Id="%ENID%" op:headerName="Setpoint" />
+                  <Enumeration Text="Pulsweiten Modulation (TODO)" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
+                  <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe (TODO)" Value="3" Id="%ENID%" op:headerName="FakeSetTemperature" />
                 </TypeRestriction>
               </ParameterType>
             
@@ -149,15 +149,30 @@
               <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Nichts" Value="0" Id="%ENID%" op:headerName="Nothing" />
-                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="1" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
-                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren" Value="2" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
-                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="3" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
-                  <Enumeration Text="Solltemperaturanpassung" Value="4" Id="%ENID%" op:headerName="SetpointAdjustment" />   
-                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="5" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
-                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="6" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
-                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="7" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
-                  <Enumeration Text="Fenster offen Alarm" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarm" />
-                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="9" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
+                  <Enumeration Text="Heizen und Kühlen deaktivieren (TODO)" Value="1" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
+                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren (TODO)" Value="2" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
+                  <Enumeration Text="Heizen und Kühlen wieder aktivieren (TODO)" Value="3" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
+                  <Enumeration Text="Solltemperaturanpassung (TODO)" Value="4" Id="%ENID%" op:headerName="SetpointAdjustment" />   
+                  <Enumeration Text="Solltemperaturanpassung rückgängig (TODO)" Value="5" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
+                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten (TODO)" Value="6" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Raumtemperaturänderung weiterleiten (TODO)" Value="7" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Fenster offen Alarm (TODO)" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarm" />
+                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung (TODO)" Value="9" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
+                </TypeRestriction>
+              </ParameterType>
+
+               <ParameterType Id="%AID%_PT-YesDoToNo" Name="YesDoToNo">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Text="Nein" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Ja (TODO)" Value="1" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+
+               <ParameterType Id="%AID%_PT-CLIWindowClose" Name="CLIWindowClose" op:headerExport="enum" >
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Text="wenn Raumtemperatur stabil, spätestens nach (TODO)" Value="0" Id="%ENID%" op:headerName="RoomTempStable" />
+                  <Enumeration Text="nach (TODO)" Value="1" Id="%ENID%" op:headerName="WaitTime" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -175,26 +190,26 @@
               <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
-                  <Enumeration Text="OpenKNX Automatik" Value="1" Id="%ENID%" op:headerName="OpenKNXAutomatic" />
-                  <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" op:headerName="RequestByGroupObject" />
+                  <Enumeration Text="OpenKNX Automatik (TODO)" Value="1" Id="%ENID%" op:headerName="OpenKNXAutomatic" />
+                  <Enumeration Text="Anforderung durch Gruppenobjekt (TODO)" Value="2" Id="%ENID%" op:headerName="RequestByGroupObject" />
                 </TypeRestriction>
               </ParameterType>
 
               <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDeviceWithoutAuto" op:headerExport="none">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Anforderung durch Gruppenobjekt" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Anforderung durch Gruppenobjekt (TODO)" Value="2" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
 
               <ParameterType Id="%AID%_PT-CLIBehaviorDeviceChange" Name="CLIBehaviorDeviceChange" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
-                  <Enumeration Text="Verlässt Automatikbetrieb" Value="0" Id="%ENID%" op:headerName="LeavesAutomaticMode" />
-                  <Enumeration Text="OpenKNX überschreibt die Auswahl" Value="1" Id="%ENID%" op:headerName="OpenKNXOverridesSelection" />
+                  <Enumeration Text="Verlässt Automatikbetrieb für (TODO)" Value="0" Id="%ENID%" op:headerName="LeavesAutomaticModeTemp" />
+                  <Enumeration Text="Verlässt Automatikbetrieb (TODO)" Value="1" Id="%ENID%" op:headerName="LeavesAutomaticMode" />
+                  <Enumeration Text="OpenKNX überschreibt die Auswahl (TODO)" Value="2" Id="%ENID%" op:headerName="OpenKNXOverridesSelection" />
                 </TypeRestriction>
               </ParameterType>
-     
 
            </ParameterTypes>
             <Parameters>

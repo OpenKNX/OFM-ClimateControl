@@ -70,7 +70,7 @@
                 <!-- Temperature Control 1 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%102" ParameterType="%AID%_PT-CLIControlTemperature" Name="CH%C%ControlTemperature1" Text="Temperaturregelung über" Value="0" />
                 <!-- Full power off -->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%103" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff1" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%103" ParameterType="%AID%_PT-YesDoToNo" Name="CH%C%FullPowerOff1" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
                 <!-- Wait Time after Power Up 1 -->       
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%104" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp1" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
@@ -85,7 +85,7 @@
                 <!-- Temperature Control 2 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%202" ParameterType="%AID%_PT-CLIControlTemperature"  Name="CH%C%ControlTemperature2" Text="Temperaturregelung über" Value="0" />
                 <!-- Full power off -->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-YesDoToNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
                 <!-- Wait Time after Power Up 2 -->       
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
@@ -126,7 +126,7 @@
               </Union>
 
               <!-- Auto -->
-              <Union SizeInBit="24">
+              <Union SizeInBit="40">
                 <Memory CodeSegment="%MID%" Offset="31" BitOffset="0" />
                 <!-- Cooling Auto Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
@@ -143,19 +143,24 @@
                 <!-- Heating in Summer allowed -->
                 <Parameter Offset="2" BitOffset="2" Id="%AID%_UP-%TT%%CC%907" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%HeatingSummerAllowed" Text="Heizen im Sommerbetrieb erlaubt" Value="0" />
                 <!-- 2 bits free -->  
+                <!-- Fallback to Automatic Wait Time DelayBase -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%908" Name="CH%C%FallbackAutoWaitTimeDelayBase" ParameterType="%AID%_PT-DelayBase" Text="" Value="1" />
+                <!-- Fallback to Automatic Wait Time DelayTime -->
+                <Parameter Offset="3" BitOffset="2" Id="%AID%_UP-%TT%%CC%909" Name="CH%C%FallbackAutoWaitTimeDelayTime" ParameterType="%AID%_PT-DelayTime" Text="" Value="0" />
+                <!-- ^^^ needs 2 bytes -->
               </Union>
 
 
               <!-- Window open -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%MID%" Offset="34" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="10" BitOffset="0" />
                 <!-- Window open handling -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-OnOffYesNo" Text="Fenster offen Behandlung" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-YesDoToNo" Text="Fenster offen Behandlung" Value="0" />
               </Union>
 
               <!-- Window open 1 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="35" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="11" BitOffset="0" />
                 <!-- Window open action 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 1 DelayBase-->
@@ -168,7 +173,7 @@
 
               <!-- Window open 2 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="15" BitOffset="0" />
                 <!-- Window open action 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 2 DelayBase-->
@@ -181,7 +186,7 @@
 
               <!-- Window open 3 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="43" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="19" BitOffset="0" />
                 <!-- Window open action 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 3 DelayBase-->
@@ -194,7 +199,7 @@
 
               <!-- Window open 4 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="47" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="23" BitOffset="0" />
                 <!-- Window open action 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 4 DelayBase-->
@@ -207,7 +212,7 @@
 
               <!-- Window open 5 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="51" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="27" BitOffset="0" />
                 <!-- Window open action 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 5 DelayBase-->
@@ -217,7 +222,19 @@
                 <!-- Window open temp correction 5 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%453" Name="CH%C%WindowOpenTempCorrection5"   ParameterType="%AID%_PT-CLITemperaturCorrection" Text="Kühlbetrieb plus / Heizbetrieb minus" Value="20" /> 
               </Union>
-    
+
+              <!-- Window close -->
+              <Union SizeInBit="24">
+                <Memory CodeSegment="%MID%" Offset="31" BitOffset="0" />
+                <!-- Window close handling -->
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%490" Name="CH%C%WindowClose" ParameterType="%AID%_PT-CLIWindowClose" Text="Aktionen rückgängig" Value="0" />
+                <!-- 7 Bits free -->
+                <!-- Window close Wait Time DelayBase -->
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%491" Name="CH%C%WindowCloseWaitTimeDelayBase" ParameterType="%AID%_PT-DelayBase" Text="" Value="1" />
+                <!-- Window close Wait Time DelayTime -->
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%492" Name="CH%C%WindowCloseWaitTimeDelayTime" ParameterType="%AID%_PT-DelayTime" Text="" Value="0" />
+                <!-- ^^^ needs 2 bytes -->
+              </Union>
             </Parameters>
             <ParameterRefs>
               <!-- Channel Name  -->
@@ -309,6 +326,10 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%906_R-%TT%%CC%90601" RefId="%AID%_UP-%TT%%CC%906" />
               <!-- Heating in Summer allowed -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%907_R-%TT%%CC%90701" RefId="%AID%_UP-%TT%%CC%907" />
+              <!-- Fallback to Automatic Wait Time DelayBase -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%908_R-%TT%%CC%90801" RefId="%AID%_UP-%TT%%CC%908" />
+              <!-- Fallback to Automatic Wait Time DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%909_R-%TT%%CC%90901" RefId="%AID%_UP-%TT%%CC%909" />
 
               <!-- Window open handling -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%400_R-%TT%%CC%40001" RefId="%AID%_UP-%TT%%CC%400" />
@@ -362,6 +383,16 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%452_R-%TT%%CC%45201" RefId="%AID%_UP-%TT%%CC%452" />
               <!-- Window open temp correction 5 -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%453_R-%TT%%CC%45301" RefId="%AID%_UP-%TT%%CC%453" />
+
+              <!-- Window close -->
+              <!-- Window close handling -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%490_R-%TT%%CC%49001" RefId="%AID%_UP-%TT%%CC%490" />
+              <!-- Window close Wait Time DelayBase -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%491_R-%TT%%CC%49101" RefId="%AID%_UP-%TT%%CC%491" />
+              <!-- Window close Wait Time DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%492_R-%TT%%CC%49201" RefId="%AID%_UP-%TT%%CC%492" Value="10" />
+               <!-- Window close Wait Time DelayTime -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%492_R-%TT%%CC%49202" RefId="%AID%_UP-%TT%%CC%492" Value="5" />
 
             </ParameterRefs>
             <ComObjectTable>
@@ -423,9 +454,9 @@
 
 
               <!-- Window open -->
-              <ComObject Id="%AID%_O-%TT%%CC%400" Number="%K32%" ObjectSize="1 Bit" DatapointType="DPST-1-19" Name="C%C%WindowOpen" Text="{{0:HVAC %C%}}: Fenster Offen" FunctionText="HVAC: Eingang, Kontakt, Geschlossen=0 / Offen=1" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" /> 
+              <ComObject Id="%AID%_O-%TT%%CC%400" Number="%K32%" ObjectSize="1 Bit" DatapointType="DPST-1-19" Name="C%C%WindowOpen" Text="{{0:HVAC %C%}}: Fenster Offen (TODO)" FunctionText="HVAC: Eingang, Kontakt, Geschlossen=0 / Offen=1" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" /> 
               <!-- Window open alarm -->
-              <ComObject Id="%AID%_O-%TT%%CC%401" Number="%K33%" ObjectSize="1 Bit" DatapointType="DPST-1-5" Name="C%C%WindowOpenAlarm" Text="{{0:HVAC %C%}}: Fenster Offen Alarm" FunctionText="HVAC: Ausgang, Alarm, Kein Alarm=0 / Alarm=1" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
+              <ComObject Id="%AID%_O-%TT%%CC%401" Number="%K33%" ObjectSize="1 Bit" DatapointType="DPST-1-5" Name="C%C%WindowOpenAlarm" Text="{{0:HVAC %C%}}: Fenster Offen Alarm (TODO)" FunctionText="HVAC: Ausgang, Alarm, Kein Alarm=0 / Alarm=1" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
 
             </ComObjectTable>
             <ComObjectRefs>
@@ -452,7 +483,9 @@
 							<ComObjectRef Id="%AID%_O-%TT%%CC%101_R-%TT%%CC%10100" RefId="%AID%_O-%TT%%CC%101" ObjectSize="1 Byte" DatapointType="DPST-20-105" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: HVAC Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, HVAC" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
               <!-- Dev 1 On -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%102_R-%TT%%CC%10200" RefId="%AID%_O-%TT%%CC%102" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Standby/Ein" FunctionText="HVAC: Ausgang, Schalten, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
-              
+              <!-- Dev 1 On Status -->
+              <ComObjectRef Id="%AID%_O-%TT%%CC%103_R-%TT%%CC%10300" RefId="%AID%_O-%TT%%CC%103" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Standby/Ein Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, Standby=0 / Ein=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" WriteFlag="Enabled" UpdateFlag="Enabled" />
+
               <!--Dev 1 Cooling -->
 							<ComObjectRef Id="%AID%_O-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_O-%TT%%CC%100" ObjectSize="1 Bit" DatapointType="DPST-1-1" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Kühlen" FunctionText="HVAC: Ausgang, Anfordern, Kühlen=1" TextParameterRefId="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" ReadFlag="Enabled" TransmitFlag="Enabled" />
 					    <!--Dev 1 Cooling Status -->
@@ -705,6 +738,8 @@
 							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%101_R-%TT%%CC%10100" />
                             <!-- Dev 1 On -->
 							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%102_R-%TT%%CC%10200" />
+                            <!-- Dev 1 On Feedback -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%103_R-%TT%%CC%10300" />
                           </when>
                           <when test="2"> <!-- Ein Objekt pro Modus -->
                             <!-- Cooling Device Selection-->
@@ -922,7 +957,7 @@
                     
 
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatik" UIHint="Headline" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatik (TODO)" UIHint="Headline" />
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="HVAC=0" />
                         <!-- Cooling Auto Device Selection-->
                         <choose ParamRefId="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101">
@@ -973,7 +1008,27 @@
                         </choose>
                         <!-- Manual change on device -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%905_R-%TT%%CC%90501" HelpContext="%DOC%" /> 
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%905_R-%TT%%CC%90501">
+                          <when test="0"> <!-- Change temporary to manual mode -->
 
+                            <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%FallbackToAuto" Inline="true" Layout="Grid" HelpContext="CLI-Ruekfall-auf-Automatik-nach">
+                                  <Rows>
+                                    <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                                  </Rows>
+                                  <Columns>
+                                    <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                    <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                    <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                                  </Columns>
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="    Rückfall auf Automatik nach" Cell="1,1" />
+                              
+                                  <!-- Fallback to Automatic Wait Time DelayTime -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%909_R-%TT%%CC%90901" Cell="1,2" HelpContext="CLI-Ruekfall-auf-Automatik-nach" />
+                                  <!-- Fallback to Automatic Wait Time DelayBase -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%908_R-%TT%%CC%90801" Cell="1,3" HelpContext="CLI-Ruekfall-auf-Automatik-nach" />
+                                </ParameterBlock>
+                          </when>
+                        </choose>
 
                       </ParameterBlock>
                       <!-- Window open handling -->
@@ -987,7 +1042,7 @@
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%401_R-%TT%%CC%40100" />
             
 
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 1" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 1" UIHint="Headline" />
                             <!-- Window open action 1 -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001">
@@ -1018,7 +1073,7 @@
                             </choose>
              
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 2" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 2" UIHint="Headline" />
                             <!-- Window open action 1 -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001">
@@ -1049,7 +1104,7 @@
                             </choose>
 
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 3" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 3" UIHint="Headline" />
                             <!-- Window open action 3 -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001">
@@ -1079,7 +1134,7 @@
                             </choose>
 
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 4" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 4" UIHint="Headline" />
                             <!-- Window open action 4 -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001">
@@ -1109,7 +1164,7 @@
                             </choose>
 
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Aktion 5" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 5" UIHint="Headline" />
                             <!-- Window open action 5 -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001">
@@ -1127,7 +1182,7 @@
                                   <!-- Window open action time delay 1 DelayTime -->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%452_R-%TT%%CC%45201" Cell="1,2" HelpContext="CLI-Aktionnach" />
                                   <!-- Window open action time delay 1 DelayBase-->
-                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%451_R-%TT%%CC%45101" Cell="1,3" HelpContext="CLI-Aktionnach" />
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%451_R-%TT%%CC%45101" Cell="1,3" HelpContext="CLI-Aktionnach" />
                                 </ParameterBlock>
                               </when>
                             </choose>
@@ -1137,6 +1192,33 @@
                                 <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%453_R-%TT%%CC%45301" HelpContext="%DOC%" />
                               </when>
                             </choose>
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Schließen" UIHint="Headline" />
+
+                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%490_R-%TT%%CC%49001" HelpContext="%DOC%" />
+
+                            <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%CloseWaitTime" Inline="true" Layout="Grid" HelpContext="CLI-Fenster-zu-Behandlung">
+                              <Rows>
+                                <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
+                              </Rows>
+                              <Columns>
+                                <Column Id="%AID%_PB-nnn_C-1" Name="Col2" Width="45%" />
+                                <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
+                                <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
+                              </Columns>
+                              <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" /> -->
+                              <!-- Close Wait DelayTime -->
+                              <choose ParamRefId="%AID%_UP-%TT%%CC%490_R-%TT%%CC%49001">
+                                <when test="0"> <!-- Stable room temperature-->          
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%492_R-%TT%%CC%49201" Cell="1,2" HelpContext="CLI-Aktionen-rueckgaengig" />
+                                </when>
+                                <when test="1"> <!-- Wait time -->
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%492_R-%TT%%CC%49202" Cell="1,2" HelpContext="CLI-Aktionen-rueckgaengig" />
+                                </when>
+                              </choose>
+                              <!-- Close Wait time DelayBase -->
+                              <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%491_R-%TT%%CC%49101" Cell="1,3" HelpContext="CLI-Aktionen-rueckgaengig" />
+                            </ParameterBlock>
 
                           </ParameterBlock>
 
