@@ -32,6 +32,26 @@ class RoomChannel : public OpenKNX::Channel
     ClimateModeSelection _currentActiveMode = ClimateModeSelection::Undefined;
     PowerState _currentPower= PowerState::Undefined;
     std::vector<ClimateDevice> _climateDevices;
+
+    bool _windowOpen = false;
+    bool _waitForGradientRoomTemperatureChange = false;
+    unsigned long _windowOpenTimer = 0;
+    bool _waitForRoomTemperatureStable = false;
+    uint16_t _lastCurrentRoomTemperature = std::numeric_limits<uint16_t>::max();
+    ClimateModeSelection _modeLockedWhileOpenWindow = ClimateModeSelection::Undefined;
+    uint16_t _targetTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
+    uint16_t _roomTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
+    bool _windowOpenAction1Handled = false;
+    bool _windowOpenAction2Handled = false;
+    bool _windowOpenAction3Handled = false;
+    bool _windowOpenAction4Handled = false;
+    bool _windowOpenAction5Handled = false;
+
+    void setWindowOpen(bool open);
+    void handleWindowOpen();
+    void resetWindowOpenActions();
+    void handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
+  
     void handleMode(ClimateModeSelection mode);
     void handleAuto();
     void setMode(ClimateModeSelection mode);
@@ -55,8 +75,8 @@ class RoomChannel : public OpenKNX::Channel
     void handle();
     bool isWaiting();
     void loop() override;
-    void setTargetTemperatureRawKnxFeedback(uint16_t targetTemperatureRawKnx, ClimateDevice& device);
-    void setModeFeedback(ClimateModeSelection mode, ClimateDevice& device);
+    void setTargetTemperatureFromDevice(uint16_t targetTemperatureRawKnx, ClimateDevice& device);
+    void setModeFromDevice(ClimateModeSelection mode, ClimateDevice& device);
     float getTemperatureFromRawKnx(uint16_t rawKnx);
     uint16_t getRawKnxFromTemperature(float temperature);
  

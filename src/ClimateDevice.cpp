@@ -86,7 +86,7 @@ void ClimateDevice::processInputKo(GroupObject& ko)
         if (ParamCLI_CHControlTemperature1 != PT_CLIControlTemperature::FakeSetTemperature)
         {
             _inReceiveTempFeedbackKo = true;
-            _roomChannel.setTargetTemperatureRawKnxFeedback(ko.value(DPT_Value_2_Ucount), *this);
+            _roomChannel.setTargetTemperatureFromDevice(ko.value(DPT_Value_2_Ucount), *this);
             _inReceiveTempFeedbackKo = false;
         }
         else
@@ -101,13 +101,13 @@ void ClimateDevice::processInputKo(GroupObject& ko)
         if (power && KoCLI_CHAVCOutFeedback.initialized())
         {
             _inReceiveModeFeedbackKo = true;
-            _roomChannel.setModeFeedback((ClimateModeSelection)(uint8_t) KoCLI_CHAVCOutFeedback.value(DPT_Value_2_Ucount), *this);
+            _roomChannel.setModeFromDevice((ClimateModeSelection)(uint8_t) KoCLI_CHAVCOutFeedback.value(DPT_Value_2_Ucount), *this);
             _inReceiveModeFeedbackKo = false;
         }
         else if (!power)
         {
             _inReceiveModeFeedbackKo = true;
-            _roomChannel.setModeFeedback(ClimateModeSelection::Off, *this);
+            _roomChannel.setModeFromDevice(ClimateModeSelection::Off, *this);
             _inReceiveModeFeedbackKo = false;
         }
 
@@ -117,7 +117,7 @@ void ClimateDevice::processInputKo(GroupObject& ko)
         logInfoP("Device %d received ko %d (%d)", deviceNumber(), (int)ko.asap(), koNr);
         auto mode = (ClimateModeSelection)(uint8_t)ko.value(DPT_DecimalFactor);
         _inReceiveModeFeedbackKo = true;
-        _roomChannel.setModeFeedback(mode, *this);
+        _roomChannel.setModeFromDevice(mode, *this);
         _inReceiveModeFeedbackKo = false;
     }
     else if (ParamCLI_CHControlMode1 == PT_CLIControlMode::ONE_OBJECT_PER_MODE && (koNr == CLI_KoCHHeatingOutFeedback || koNr == CLI_KoCHCoolingOutFeedback || koNr == CLI_KoCHDehumificationOutFeedback || koNr == CLI_KoCHFanOutFeedback))
@@ -178,7 +178,7 @@ void ClimateDevice::loop()
 
         logInfoP("Received single mode kos for device %d, setting mode %s", deviceNumber(), ClimateModeSelectionHelper::toString(mode));
         _inReceiveModeFeedbackKo = true;
-        _roomChannel.setModeFeedback(mode, *this);
+        _roomChannel.setModeFromDevice(mode, *this);
         _inReceiveModeFeedbackKo = false;
     }
 }

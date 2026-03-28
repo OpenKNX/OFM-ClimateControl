@@ -149,15 +149,15 @@
               <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Nichts" Value="0" Id="%ENID%" op:headerName="Nothing" />
-                  <Enumeration Text="Heizen und Kühlen deaktivieren (TODO)" Value="1" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
+                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="1" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
                   <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren (TODO)" Value="2" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
-                  <Enumeration Text="Heizen und Kühlen wieder aktivieren (TODO)" Value="3" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
-                  <Enumeration Text="Solltemperaturanpassung (TODO)" Value="4" Id="%ENID%" op:headerName="SetpointAdjustment" />   
-                  <Enumeration Text="Solltemperaturanpassung rückgängig (TODO)" Value="5" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
-                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten (TODO)" Value="6" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
-                  <Enumeration Text="Raumtemperaturänderung weiterleiten (TODO)" Value="7" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
-                  <Enumeration Text="Fenster offen Alarm (TODO)" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarm" />
-                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung (TODO)" Value="9" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
+                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="3" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
+                  <Enumeration Text="Solltemperaturanpassung" Value="4" Id="%ENID%" op:headerName="SetpointAdjustment" />   
+                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="5" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
+                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="6" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="7" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Fenster offen Alarm" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarm" />
+                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="9" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -171,19 +171,19 @@
 
                <ParameterType Id="%AID%_PT-CLIWindowClose" Name="CLIWindowClose" op:headerExport="enum" >
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
-                  <Enumeration Text="wenn Raumtemperatur stabil, spätestens nach (TODO)" Value="0" Id="%ENID%" op:headerName="RoomTempStable" />
-                  <Enumeration Text="nach (TODO)" Value="1" Id="%ENID%" op:headerName="WaitTime" />
+                  <Enumeration Text="wenn Raumtemperatur stabil" Value="0" Id="%ENID%" op:headerName="RoomTempStable" />
+                  <Enumeration Text="nach" Value="1" Id="%ENID%" op:headerName="WaitTime" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLITemperaturCorrection" Name="CLITemperaturCorrection" op:headerExport="enum">
+              <ParameterType Id="%AID%_PT-CLITemperaturCorrection" Name="CLITemperaturCorrection">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" op:headerName="T0.5"/>
-                  <Enumeration Text="1°" Value="10" Id="%ENID%" op:headerName="T1"/>
-                  <Enumeration Text="2°" Value="20" Id="%ENID%" op:headerName="T2"/>
-                  <Enumeration Text="3°" Value="30" Id="%ENID%" op:headerName="T3"/>
-                  <Enumeration Text="4°" Value="40" Id="%ENID%" op:headerName="T4"/>
-                  <Enumeration Text="5°" Value="50" Id="%ENID%" op:headerName="T5"/>
+                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" />
+                  <Enumeration Text="1°" Value="10" Id="%ENID%" />
+                  <Enumeration Text="2°" Value="20" Id="%ENID%" />
+                  <Enumeration Text="3°" Value="30" Id="%ENID%" />
+                  <Enumeration Text="4°" Value="40" Id="%ENID%" />
+                  <Enumeration Text="5°" Value="50" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
