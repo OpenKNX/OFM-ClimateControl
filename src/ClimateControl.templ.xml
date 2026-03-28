@@ -139,9 +139,9 @@
                 <!-- Manual change on device -->
                 <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%905" ParameterType="%AID%_PT-CLIBehaviorDeviceChange"  Name="CH%C%BehaviorOnDeviceChange" Text="Manuelle Änderung am Kühl-/Heizsystem" Value="0" />
                 <!-- Cooling in Winter allowed -->
-                <Parameter Offset="2" BitOffset="1" Id="%AID%_UP-%TT%%CC%906" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%CoolingWinterAllowed" Text="Kühlen im Winterbetrieb erlaubt" Value="0" />
+                <Parameter Offset="2" BitOffset="4" Id="%AID%_UP-%TT%%CC%906" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%CoolingWinterAllowed" Text="Kühlen im Winterbetrieb erlaubt" Value="0" />
                 <!-- Heating in Summer allowed -->
-                <Parameter Offset="2" BitOffset="2" Id="%AID%_UP-%TT%%CC%907" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%HeatingSummerAllowed" Text="Heizen im Sommerbetrieb erlaubt" Value="0" />
+                <Parameter Offset="2" BitOffset="5" Id="%AID%_UP-%TT%%CC%907" ParameterType="%AID%_PT-OnOffYesNo"  Name="CH%C%HeatingSummerAllowed" Text="Heizen im Sommerbetrieb erlaubt" Value="0" />
                 <!-- 2 bits free -->  
                 <!-- Fallback to Automatic Wait Time DelayBase -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%908" Name="CH%C%FallbackAutoWaitTimeDelayBase" ParameterType="%AID%_PT-DelayBase" Text="" Value="1" />
@@ -153,14 +153,14 @@
 
               <!-- Window open -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%MID%" Offset="10" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
                 <!-- Window open handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-YesDoToNo" Text="Fenster offen Behandlung" Value="0" />
               </Union>
 
               <!-- Window open 1 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="11" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
                 <!-- Window open action 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 1 DelayBase-->
@@ -173,7 +173,7 @@
 
               <!-- Window open 2 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="15" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="44" BitOffset="0" />
                 <!-- Window open action 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 2 DelayBase-->
@@ -186,7 +186,7 @@
 
               <!-- Window open 3 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="19" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="48" BitOffset="0" />
                 <!-- Window open action 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 3 DelayBase-->
@@ -199,7 +199,7 @@
 
               <!-- Window open 4 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="23" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="52" BitOffset="0" />
                 <!-- Window open action 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 4 DelayBase-->
@@ -212,7 +212,7 @@
 
               <!-- Window open 5 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="27" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="56" BitOffset="0" />
                 <!-- Window open action 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 5 DelayBase-->
@@ -225,7 +225,7 @@
 
               <!-- Window close -->
               <Union SizeInBit="24">
-                <Memory CodeSegment="%MID%" Offset="31" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="60" BitOffset="0" />
                 <!-- Window close handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%490" Name="CH%C%WindowClose" ParameterType="%AID%_PT-CLIWindowClose" Text="Aktionen rückgängig" Value="0" />
                 <!-- 7 Bits free -->
@@ -1208,7 +1208,7 @@
                                   </Columns>
                                   <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" /> -->
                                   <!-- Close Wait DelayTime -->
-                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%492_R-%TT%%CC%49202" Cell="1,2" HelpContext="CLI-Aktionen-rueckgaengig" />
+                                  <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%492_R-%TT%%CC%49201" Cell="1,2" HelpContext="CLI-Aktionen-rueckgaengig" />
                                   <!-- Close Wait time DelayBase -->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%491_R-%TT%%CC%49101" Cell="1,3" HelpContext="CLI-Aktionen-rueckgaengig" />
                                 </ParameterBlock>
