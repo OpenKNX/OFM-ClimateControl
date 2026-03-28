@@ -769,7 +769,21 @@ void RoomChannel::loop()
                 }
                 if (_waitForGradientRoomTemperatureChange)
                 {
-                    if (millis() - _windowOpenTimer >= gradientWindowWaittime)
+                    uint8_t currentRoomTemperature = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);       
+                    float currentTemp = getTemperatureFromRawKnx(currentRoomTemperature);
+                    float targetTemperature = getTemperatureFromRawKnx(std::numeric_limits<uint16_t>::max() ? getTargetTemperatureRawKnx() :  _targetTemperatureBeforeWindowOpen);
+                    auto activeMode = _modeLockedWhileOpenWindow == ClimateModeSelection::Undefined ?  _currentActiveMode : _modeLockedWhileOpenWindow;
+                    if (activeMode == ClimateModeSelection::Heating && currentTemp >= targetTemperature)
+                    {
+                        logInfoP("Current room temperature %0.1f °C already reach target %0.1f °C, reset window open actions", currentTemp, targetTemperature);
+                        resetWindowOpenActions();
+                    }
+                    else if (activeMode == ClimateModeSelection::Cooling && currentTemp <= targetTemperature)
+                    {
+                        logInfoP("Current room temperature %0.1f °C already reach target %0.1f °C, reset window open actions", currentTemp, targetTemperature);
+                        resetWindowOpenActions();
+                    }
+                    else if (millis() - _windowOpenTimer >= gradientWindowWaittime)
                     {
                         // Time window for room temperature changed over
                         logInfoP("Stable room temperature since %dmin, reset actions", gradientWindowWaittime / 60000);
@@ -777,17 +791,16 @@ void RoomChannel::loop()
                     }
                     else
                     {
-                        auto activeMode = _modeLockedWhileOpenWindow == ClimateModeSelection::Undefined ?  _currentActiveMode : _modeLockedWhileOpenWindow;
                         if (activeMode == ClimateModeSelection::Cooling || activeMode == ClimateModeSelection::Heating)
                         {
-                            uint8_t currentRoomTemperature = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
                             if (_lastCurrentRoomTemperature != currentRoomTemperature)
                             {
                                 float lastTemp = getTemperatureFromRawKnx(_lastCurrentRoomTemperature);
-                                float currentTemp = getTemperatureFromRawKnx(currentRoomTemperature);
                                 float offset = currentTemp - lastTemp;
                                 if (activeMode == ClimateModeSelection::Cooling)
                                     offset = -offset;
+                           
+                                
                                 if (offset > 0.1f)
                                 {
                                     logDebugP("Detected room temperature %s from %0.1f °C to %0.1f °C, start new wait window", activeMode == ClimateModeSelection::Cooling ? "decrease" : "increase", lastTemp, currentTemp);
