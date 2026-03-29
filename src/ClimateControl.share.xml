@@ -41,7 +41,7 @@
                   <Enumeration Text="Auto" Value="0" Id="%ENID%" op:headerName="Auto" />
                   <Enumeration Text="Heizen" Value="1" Id="%ENID%" op:headerName="Heating" />
                   <Enumeration Text="Kühlen" Value="3" Id="%ENID%" op:headerName="Cooling" />
-                  <Enumeration Text="Lüften" Value="9" Id="%ENID%" op:headerName="Fan" />
+                  <Enumeration Text="Ventilator" Value="9" Id="%ENID%" op:headerName="Fan" />
                   <Enumeration Text="Entfeuchten" Value="14" Id="%ENID%" op:headerName="Dehumification" />
                 </TypeRestriction>
 							</ParameterType>
@@ -53,7 +53,7 @@
                   <Enumeration Text="Auto" Value="0" Id="%ENID%" op:headerName="Auto" />
                   <Enumeration Text="Heizen" Value="1" Id="%ENID%" op:headerName="Heating" />
                   <Enumeration Text="Kühlen" Value="3" Id="%ENID%" op:headerName="Cooling" />
-                  <Enumeration Text="Lüften" Value="9" Id="%ENID%" op:headerName="Fan" />
+                  <Enumeration Text="Ventilator" Value="9" Id="%ENID%" op:headerName="Fan" />
                   <Enumeration Text="Entfeuchten" Value="14" Id="%ENID%" op:headerName="Dehumification" /> 
                 </TypeRestriction>
 							</ParameterType>
@@ -103,7 +103,7 @@
                   <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" op:headerName="EveryHour" />
                   <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" op:headerName="MannheimHours" />
                   <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" op:headerName="MinMaxAverage" />
-                  <Enumeration Text="Tagesmittelwert Temperatur Gruppenobjekt" Value="3" Id="%ENID%" op:headerName="GroupObjectDailyAverage" />
+                  <Enumeration Text="24h Durchschnittstemperatur Gruppenobjekt" Value="3" Id="%ENID%" op:headerName="GroupObjectDailyAverage" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -146,22 +146,30 @@
 								<TypeNumber SizeInBit="4" Type="unsignedInt" minInclusive="1" maxInclusive="10" />
 							</ParameterType>  
 
-              <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction" op:headerExport="enum">
+              <ParameterType Id="%AID%_PT-CLIWindowOpenCondition" Name="CLIWindowOpenCondition" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Nichts" Value="0" Id="%ENID%" op:headerName="Nothing" />
-                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="1" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
-                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren (TODO)" Value="2" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
-                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="3" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
-                  <Enumeration Text="Solltemperaturanpassung" Value="4" Id="%ENID%" op:headerName="SetpointAdjustment" />   
-                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="5" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
-                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="6" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
-                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="7" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
-                  <Enumeration Text="Fenster offen Alarm" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarm" />
-                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="9" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
+                  <Enumeration Text="Wenn Heizen aktiv" Value="1" Id="%ENID%" op:headerName="IfHeating" />     
+                  <Enumeration Text="Wenn Kühlen aktiv" Value="2" Id="%ENID%" op:headerName="IfCooling" />     
+                  <Enumeration Text="Wenn Heizen oder Kühlen aktiv" Value="3" Id="%ENID%" op:headerName="IfHeatingOrCooling" />     
                 </TypeRestriction>
               </ParameterType>
 
-               <ParameterType Id="%AID%_PT-YesDoToNo" Name="YesDoToNo">
+              <ParameterType Id="%AID%_PT-CLIWindowOpenAction" Name="CLIWindowOpenAction" op:headerExport="enum">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Solltemperaturanpassung" Value="0" Id="%ENID%" op:headerName="SetpointAdjustment" />   
+                  <Enumeration Text="Solltemperaturanpassung rückgängig" Value="1" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
+                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="2" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
+                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren (TODO)" Value="3" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
+                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="4" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
+                  <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="5" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="6" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
+                  <Enumeration Text="Fenster offen Alarm" Value="7" Id="%ENID%" op:headerName="WindowOpenAlarm" />
+                  <Enumeration Text="Fenster offen Alarm nur bei aktiver Heizung / Kühlung" Value="8" Id="%ENID%" op:headerName="WindowOpenAlarmActiveHeatingCooling" />
+                </TypeRestriction>
+              </ParameterType>
+              
+              <ParameterType Id="%AID%_PT-YesDoToNo" Name="YesDoToNo">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Text="Nein" Value="0" Id="%ENID%" />
                   <Enumeration Text="Ja (TODO)" Value="1" Id="%ENID%" />
@@ -216,13 +224,13 @@
               <Union SizeInBit="120">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Number of channels -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Kanäle" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Räume" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
                 <!-- Summer Winter KO-->
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%00001" Name="SummerWinterKo" ParameterType="%AID%_PT-OnOffYesNo" Text="Gruppenobjekt" Value="0" />
                 <!-- Summer Winter Date-->
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%00002" Name="SummerWinterDate" ParameterType="%AID%_PT-OnOffYesNo" Text="Datum" Value="0" />
                 <!-- Summer Winter Day Temp-->
-                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%00003" Name="SummerWinterDayTemp" ParameterType="%AID%_PT-OnOffYesNo" Text="Tagesdurchschnittstemperatur" Value="1" />    
+                <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%00003" Name="SummerWinterDayTemp" ParameterType="%AID%_PT-OnOffYesNo" Text="24h Temperaturdurchschnitt" Value="1" />    
                 <!-- 5 bits free -->
                 <!-- Average Temperature Calculation -->
                 <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%00004" Name="AverageTempCalc" ParameterType="%AID%_PT-CLIAverageTemperatureCalculation" Text="Berechnung" Value="0" />
@@ -245,9 +253,9 @@
                 <Parameter Offset="10" BitOffset="0" Id="%AID%_UP-%TT%00012" Name="WinterTimeStartDay" ParameterType="%AID%_PT-CLIDate" Text="Winterbetrieb ab" Value="2024-10-01" />
                 <!-- ^^^ need 3 bytes -->
                 <!-- Summer start mode-->  
-                <Parameter Offset="13" BitOffset="0" Id="%AID%_UP-%TT%00013" Name="SummerModeChange" ParameterType="%AID%_PT-CLIModeChange" Text="Bei Sommerstart Wechsel auf" Value="3" />
+                <Parameter Offset="13" BitOffset="0" Id="%AID%_UP-%TT%00013" Name="SummerModeChange" ParameterType="%AID%_PT-CLIModeChange" Text="Bei Sommerbetriebsstart Wechsel auf" Value="3" />
                 <!-- Winter start mode -->
-                <Parameter Offset="14" BitOffset="0" Id="%AID%_UP-%TT%00014" Name="WinterModeChange" ParameterType="%AID%_PT-CLIModeChange" Text="Bei Winterstart Wechsel auf" Value="1" />
+                <Parameter Offset="14" BitOffset="0" Id="%AID%_UP-%TT%00014" Name="WinterModeChange" ParameterType="%AID%_PT-CLIModeChange" Text="Bei Winterbetriebsstart Wechsel auf" Value="1" />
               </Union>
 
           </Parameters>
@@ -289,7 +297,7 @@
               <ComObject Id="%AID%_O-%TT%00001" Number="1" Name="WinterStatus" ObjectSize="1 Bit"   DatapointType="DPST-1-100"    Text="Sommer- / Winterbetrieb Status"  FunctionText="HVAC: Ausgang, Sommer=0 / Winter=1"  CommunicationFlag="Enabled" ReadFlag="Enabled" WriteFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"  />
               <!-- Außentemperatur -->
               <ComObject Id="%AID%_O-%TT%00002" Number="2" Name="OutsideTemp"  ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text="Außentemperatur"  FunctionText="HVAC: Eingang, °C"  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" ReadOnInitFlag="Disabled" />
-              <!-- Tagesmittelwert -->
+              <!-- 24h Durchschnitt -->
               <ComObject Id="%AID%_O-%TT%00003" Number="3" Name="DayAverage" ObjectSize="2 Bytes" DatapointType="DPST-9-1"     Text=""  FunctionText=""  CommunicationFlag="Enabled" ReadFlag="Disabled" WriteFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
             </ComObjectTable>
             <ComObjectRefs>
@@ -300,9 +308,9 @@
               <!-- Outsite temperature -->
               <ComObjectRef Id="%AID%_O-%TT%00002_R-%TT%0000200" RefId="%AID%_O-%TT%00002"  />
               <!-- Average Temperature -->
-              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000300" RefId="%AID%_O-%TT%00003" Text="Tagesmittelwert"  FunctionText="HVAC: Eingang, Temperatur, °C"   WriteFlag="Enabled" UpdateFlag="Enabled" />
+              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000300" RefId="%AID%_O-%TT%00003" Text="24h Durchschnitt"  FunctionText="HVAC: Eingang, Temperatur, °C"   WriteFlag="Enabled" UpdateFlag="Enabled" />
               <!-- Calculated Average Temperature -->
-              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000301" RefId="%AID%_O-%TT%00003" Text="Berechneter Tagesmittelwert"  FunctionText="HVAC: Ausgang, Temperatur, °C"  ReadFlag="Enabled"  TransmitFlag="Enabled" />
+              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000301" RefId="%AID%_O-%TT%00003" Text="Berechneter 24h Durchschnitt"  FunctionText="HVAC: Ausgang, Temperatur, °C"  ReadFlag="Enabled"  TransmitFlag="Enabled" />
          
             </ComObjectRefs>
           </Static>
@@ -318,7 +326,7 @@
 								<ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />
                 
                 <!-- Kanalanzahl -->
-								<ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="CLI-Anzahl-der-Kanaele" />
+								<ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="%DOC%" />
 
 
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
@@ -353,7 +361,7 @@
                     <!-- Average Temperature Calculation -->
                     <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00004_R-%TT%0000401" HelpContext="%DOC%" />
                     <choose ParamRefId="%AID%_UP-%TT%00004_R-%TT%0000401">
-                      <when test="0 1 2"> <!-- Jede Stunde, Mannheimer, Minimum / Maximum Mittelwert-->
+                      <when test="0 1 2"> <!-- Jede Stunde, Mannheimer, Minimum / Maximum Durchschnitt-->
                         <!-- Outsite temperature -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%00002_R-%TT%0000200" />
                         <!-- Calculated Average Temperature -->
@@ -362,7 +370,7 @@
                         <!-- Send read request -->
                         <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
                       </when>
-                      <when test="3"> <!-- Tagesmittelwert Temperatur Gruppenobjekt -->
+                      <when test="3"> <!-- 24h Durchschnitt Temperatur Gruppenobjekt -->
                         <!-- Average Temperature -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%00003_R-%TT%0000300" />
                       </when>
@@ -393,7 +401,7 @@
                   <ParameterBlock Id="%AID%_PB-nnn" Name="CLIAdditionalChannels" Text="(mehr)" Icon="dots-horizontal" HelpContext="CLI-Mehr-Kanaele" >										<!-- HelpContext="Empty" -->
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Kanäle" UIHint="Headline" />
                     <!-- Number of channels -->
-                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="CLI-Anzahl-der-Kanaele" />
+                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="%DOC%" />
                 </ParameterBlock>
               </when>
               </choose>

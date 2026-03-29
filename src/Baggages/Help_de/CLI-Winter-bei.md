@@ -1,4 +1,4 @@
-﻿### Winter bei
+﻿### Winter bei ≤
 
-Temperartur ab der auf Winter geschalten wird.
+Temperatur unter der auf Winter geschalten wird.
 

@@ -1,2 +1,0 @@
-﻿### Bei Winterstart Wechsel auf
-

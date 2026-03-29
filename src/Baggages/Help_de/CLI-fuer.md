@@ -1,4 +1,4 @@
 ﻿### für
 
-Anzahl der Tage bis die Umschaltung erfolgt.
+Anzahl der Tage mit eingestellten Temperaturgrenze nach der die Umschaltung erfolgt.
 

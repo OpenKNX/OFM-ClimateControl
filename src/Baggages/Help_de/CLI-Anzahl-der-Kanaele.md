@@ -1,2 +1,0 @@
-﻿### Anzahl der Kanäle
-

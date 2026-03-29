@@ -1,4 +1,4 @@
 ﻿### Gruppenobjekt
 
-Umschaltung durch ein Gruppentelegram ausgelöst.
+Umschaltung wird durch ein Gruppentelegram ausgelöst
 

@@ -343,11 +343,6 @@ void RoomChannel::setWindowOpen(bool open)
         if (open)
         {
             _waitForRoomTemperatureStable = false;
-            _windowOpenAction1Handled = false;
-            _windowOpenAction2Handled = false;
-            _windowOpenAction3Handled = false;
-            _windowOpenAction4Handled = false;
-            _windowOpenAction5Handled = false;
             _windowOpenTimer = max(1UL, millis());
         }
         else
@@ -371,6 +366,12 @@ void RoomChannel::resetWindowOpenActions()
     logInfoP("Reset window open actions");
     _windowOpenTimer = 0;
     _waitForRoomTemperatureStable = true;
+    _windowOpenAction1Handled = false;
+    _windowOpenAction2Handled = false;
+    _windowOpenAction3Handled = false;
+    _windowOpenAction4Handled = false;
+    _windowOpenAction5Handled = false;
+
     if (_modeLockedWhileOpenWindow != ClimateModeSelection::Undefined)
     {
         logDebugP("Restore mode %s after window closed", ClimateModeSelectionHelper::toString(_modeLockedWhileOpenWindow));
@@ -742,11 +743,11 @@ void RoomChannel::loop()
         {
             // window open
             unsigned long timeSinceWindowOpen = millis() - _windowOpenTimer;
-            handleWindowOpenAction(1, ParamCLI_CHWindowOpenAction1, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection1, _windowOpenAction1Handled);
-            handleWindowOpenAction(2, ParamCLI_CHWindowOpenAction2, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection2, _windowOpenAction2Handled);
-            handleWindowOpenAction(3, ParamCLI_CHWindowOpenAction3, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection3, _windowOpenAction3Handled);
-            handleWindowOpenAction(4, ParamCLI_CHWindowOpenAction4, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection4, _windowOpenAction4Handled);
-            handleWindowOpenAction(5, ParamCLI_CHWindowOpenAction5, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection5, _windowOpenAction5Handled);
+            handleWindowOpenAction(1, ParamCLI_CHWindowOpenCondition1, ParamCLI_CHWindowOpenAction1, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection1, _windowOpenAction1Handled);
+            handleWindowOpenAction(2, ParamCLI_CHWindowOpenCondition2, ParamCLI_CHWindowOpenAction2, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection2, _windowOpenAction2Handled);
+            handleWindowOpenAction(3, ParamCLI_CHWindowOpenCondition3, ParamCLI_CHWindowOpenAction3, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection3, _windowOpenAction3Handled);
+            handleWindowOpenAction(4, ParamCLI_CHWindowOpenCondition4, ParamCLI_CHWindowOpenAction4, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection4, _windowOpenAction4Handled);
+            handleWindowOpenAction(5, ParamCLI_CHWindowOpenCondition5, ParamCLI_CHWindowOpenAction5, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection5, _windowOpenAction5Handled);
             if (_windowOpenAction1Handled && _windowOpenAction2Handled && _windowOpenAction3Handled && _windowOpenAction4Handled && _windowOpenAction5Handled)
             {
                 _windowOpenTimer = 0;
@@ -843,15 +844,42 @@ void RoomChannel::loop()
     }
 }
 
-void RoomChannel::handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled)
+void RoomChannel::handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled)
 {
     if (handled)
         return;
-    if (action == PT_CLIWindowOpenAction::Nothing)
+    
+    auto activeMode = _modeLockedWhileOpenWindow == ClimateModeSelection::Undefined ?  _currentActiveMode : _modeLockedWhileOpenWindow;
+    switch (condition)
     {
-        handled = true;
-        logDebugP("Action %d disabled", actionNumber);
-        return;
+        case PT_CLIWindowOpenCondition::Disabled:
+            handled = true;
+            logDebugP("Action %d disabled", actionNumber);
+            return;
+        case PT_CLIWindowOpenCondition::IfHeating:
+            if (activeMode != ClimateModeSelection::Heating)
+            {
+                handled = true;
+                logDebugP("Action for heating %d not allowed because of %s", actionNumber, ClimateModeSelectionHelper::toString(activeMode));
+                return;
+            }
+            break;
+        case PT_CLIWindowOpenCondition::IfCooling:
+            if (activeMode != ClimateModeSelection::Cooling)
+            {
+                handled = true;
+                logDebugP("Action for cooling %d not allowed because of %s", actionNumber, ClimateModeSelectionHelper::toString(activeMode));
+                return;
+            }
+            break;
+        case PT_CLIWindowOpenCondition::IfHeatingOrCooling:
+            if (activeMode != ClimateModeSelection::Cooling && activeMode != ClimateModeSelection::Heating)
+            {             
+                handled = true;
+                logDebugP("Action for heating/cooling %d not allowed because of %s", actionNumber, ClimateModeSelectionHelper::toString(activeMode));
+                return;
+            } 
+            break;
     }
     if (windowOpenSince >= ParamCLI_CHWindowOpenDelayTime1MS)
     {
@@ -950,7 +978,6 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenActio
                 break;
             case PT_CLIWindowOpenAction::WindowOpenAlarmActiveHeatingCooling:
                 {
-                    auto activeMode = _modeLockedWhileOpenWindow == ClimateModeSelection::Undefined ?  _currentActiveMode : _modeLockedWhileOpenWindow;
                     if (activeMode == ClimateModeSelection::Cooling || activeMode == ClimateModeSelection::Heating)
                     {
                         logDebugP("Action %d: Trigger window open alarm because active mode is %s", actionNumber, ClimateModeSelectionHelper::toString(activeMode));

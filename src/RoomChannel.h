@@ -50,7 +50,7 @@ class RoomChannel : public OpenKNX::Channel
     void setWindowOpen(bool open);
     void handleWindowOpen();
     void resetWindowOpenActions();
-    void handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
+    void handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
   
     void handleMode(ClimateModeSelection mode);
     void handleAuto();
