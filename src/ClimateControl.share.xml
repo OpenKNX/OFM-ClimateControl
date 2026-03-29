@@ -21,9 +21,9 @@
 
               <ParameterType Id="%AID%_PT-CLIInit" Name="CLIInit" op:headerExport="enum">
 								 <TypeRestriction Base="Value" SizeInBit="4" >
-                  <Enumeration Text="Gespeicherter Wert, sonst Initialwert" Value="0" Id="%ENID%" op:headerName="Saved" />
-                  <Enumeration Text="Vom Bus lesen, sonst Initialwert" Value="1" Id="%ENID%" op:headerName="ReadFromBus" />
-                  <Enumeration Text="Vom Bus lesen, sonst gespeicherter Wert, sonst Initialwert" Value="2" Id="%ENID%" op:headerName="ReadFromBusOrSaved" />
+                  <Enumeration Text="Gespeicherte Werte, sonst Initialwerte" Value="0" Id="%ENID%" op:headerName="Saved" />
+                  <Enumeration Text="Vom Bus lesen, sonst Initialwerte" Value="1" Id="%ENID%" op:headerName="ReadFromBus" />
+                  <Enumeration Text="Vom Bus lesen, sonst gespeicherte Werte, sonst Initialwerte" Value="2" Id="%ENID%" op:headerName="ReadFromBusOrSaved" />
                 </TypeRestriction>
 							</ParameterType>
 
@@ -148,10 +148,10 @@
 
               <ParameterType Id="%AID%_PT-CLIWindowOpenCondition" Name="CLIWindowOpenCondition" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
-                  <Enumeration Text="Wenn Heizen aktiv" Value="1" Id="%ENID%" op:headerName="IfHeating" />     
-                  <Enumeration Text="Wenn Kühlen aktiv" Value="2" Id="%ENID%" op:headerName="IfCooling" />     
-                  <Enumeration Text="Wenn Heizen oder Kühlen aktiv" Value="3" Id="%ENID%" op:headerName="IfHeatingOrCooling" />     
+                  <Enumeration Text="niemals" Value="0" Id="%ENID%" op:headerName="Disabled" />
+                  <Enumeration Text="wenn Heizen aktiv" Value="1" Id="%ENID%" op:headerName="IfHeating" />     
+                  <Enumeration Text="wenn Kühlen aktiv" Value="2" Id="%ENID%" op:headerName="IfCooling" />     
+                  <Enumeration Text="wenn Heizen oder Kühlen aktiv" Value="3" Id="%ENID%" op:headerName="IfHeatingOrCooling" />     
                 </TypeRestriction>
               </ParameterType>
 

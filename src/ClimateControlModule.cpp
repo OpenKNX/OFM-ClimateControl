@@ -375,6 +375,7 @@ void ClimateControlModule::showHelp()
 {
     openknx.console.printHelpLine("hvac", "Shows the state of the climate control");
     openknx.console.printHelpLine("hvac cl", "Clears the flash data");
+    openknx.console.printHelpLine("hvac average", "Shows the average temperature and stored temperatures");
     openknx.console.printHelpLine("hvac<channel>", "Shows the state of the channel");
 }
 
@@ -386,6 +387,29 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
         logInfoP("Clearing flash data and restarting device");
         delay(20);
         openknx.restart();
+        return true;
+    }
+    if (cmd == "hvac average")
+    {
+        if (_currentAverageTemperature != std::numeric_limits<float>::quiet_NaN())
+        {
+            logInfoP("Current average temperature: %f °C (%s)", _currentAverageTemperature, _calculationMethod);
+            for (int i = 0; i < 24; i++)
+            {
+                if (_hourlyTemperaturesRawKnx[i] == std::numeric_limits<uint16_t>::max())
+                {
+                    logInfoP("hour %d: -", i);
+                }
+                else
+                {
+                    logInfoP("hour %d: %f °C", i, getTemperatureFromRawKnx(_hourlyTemperaturesRawKnx[i]));
+                }
+            }
+        }
+        else
+        {
+            logInfoP("Current average temperature: not available");
+        }
         return true;
     }
     if (cmd == "hvac")
@@ -414,24 +438,9 @@ bool ClimateControlModule::processCommand(const std::string cmd, bool diagnoseKo
                     break;
             }
             if (_currentAverageTemperature != std::numeric_limits<float>::quiet_NaN())
-            {
                 logInfoP("Current average temperature: %f °C (%s)", _currentAverageTemperature, _calculationMethod);
-                for (int i = 0; i < 24; i++)
-                {
-                    if (_hourlyTemperaturesRawKnx[i] == std::numeric_limits<uint16_t>::max())
-                    {
-                        logDebugP("hour %d: -", i);
-                    }
-                    else
-                    {
-                        logDebugP("hour %d: %f °C", i, getTemperatureFromRawKnx(_hourlyTemperaturesRawKnx[i]));
-                    }
-                }
-            }
             else
-            {
                 logInfoP("Current average temperature: not available");
-            }
         }
         return true;
     }

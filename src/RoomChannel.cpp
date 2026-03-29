@@ -47,9 +47,32 @@ void RoomChannel::setup()
 
 void RoomChannel::writeFlash()
 {
-    openknx.flash.write((uint8_t *)&_targetTemperatureCoolingRawKnx, sizeof(uint16_t));
-    openknx.flash.write((uint8_t *)&_targetTemperatureHeatingRawKnx, sizeof(uint16_t));
-    openknx.flash.writeByte((uint8_t)_currentMode);
+    if (_targetTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
+    {
+        if (_useCoolingTargetTemperature)
+        {
+            openknx.flash.write((uint8_t *)&_targetTemperatureBeforeWindowOpen, sizeof(uint16_t));
+            openknx.flash.write((uint8_t *)&_targetTemperatureHeatingRawKnx, sizeof(uint16_t));
+        }
+        else
+        {
+            openknx.flash.write((uint8_t *)&_targetTemperatureCoolingRawKnx, sizeof(uint16_t));
+            openknx.flash.write((uint8_t *)&_targetTemperatureBeforeWindowOpen, sizeof(uint16_t));
+        }
+    }
+    else
+    {
+        openknx.flash.write((uint8_t *)&_targetTemperatureCoolingRawKnx, sizeof(uint16_t));
+        openknx.flash.write((uint8_t *)&_targetTemperatureHeatingRawKnx, sizeof(uint16_t));
+    }
+    if (_modeLockedWhileOpenWindow != ClimateModeSelection::Undefined)
+    {
+        openknx.flash.writeByte((uint8_t)_modeLockedWhileOpenWindow);
+    }
+    else
+    {
+        openknx.flash.writeByte((uint8_t)_currentMode);
+    }
     openknx.flash.writeByte((uint8_t)_currentPower);
 }
 
@@ -348,14 +371,19 @@ void RoomChannel::setWindowOpen(bool open)
         else
         {
             KoCLI_CWindowOpenAlarm.valueCompare(false, DPT_Switch);
-            if (ParamCLI_CHWindowClose == PT_CLIWindowClose::WaitTime)
+            _windowOpenTimer = 0;
+            if (_windowOpenAction1Handled || _windowOpenAction2Handled || _windowOpenAction3Handled || _windowOpenAction4Handled || _windowOpenAction5Handled)
             {
-                _windowOpenTimer = max(1UL, millis());
-            }
-            else
-            {
-                _windowOpenTimer = 0;
-                _waitForRoomTemperatureStable = true;
+                if (ParamCLI_CHWindowClose == PT_CLIWindowClose::WaitTime)
+                {
+                    _windowOpenTimer = max(1UL, millis());
+                }
+                else
+                {
+                    _waitForRoomTemperatureStable = true;
+                    _windowOpenTimer = max(1UL, millis());
+                    logInfoP("Start waiting for room temperature stable after window closed");
+                }
             }
         }
     }
@@ -365,7 +393,7 @@ void RoomChannel::resetWindowOpenActions()
 {
     logInfoP("Reset window open actions");
     _windowOpenTimer = 0;
-    _waitForRoomTemperatureStable = true;
+    _waitForRoomTemperatureStable = false;
     _windowOpenAction1Handled = false;
     _windowOpenAction2Handled = false;
     _windowOpenAction3Handled = false;
@@ -386,11 +414,11 @@ void RoomChannel::resetWindowOpenActions()
     }
     if (_roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
     {
-        auto currentRoomTemperature = getTemperatureFromRawKnx(KoCLI_CRoomTemp.value(DPT_Value_2_Ucount));
-        logDebugP("Restore room temperature %0.1f °C after window closed", getTemperatureFromRawKnx(currentRoomTemperature));
+        auto currentRoomTemperatureRawKnx = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
+        logDebugP("Restore room temperature %0.1f °C after window closed", getTemperatureFromRawKnx(currentRoomTemperatureRawKnx));
         for (auto &device : _climateDevices)
         {
-            device.setRoomTemperature(currentRoomTemperature);
+            device.setRoomTemperature(currentRoomTemperatureRawKnx);
         }
     }
     if (KoCLI_CWindowOpenAlarm.valueCompare(false, DPT_Switch))
@@ -522,12 +550,12 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
             logInfoP("Invalid mode %s", ClimateModeSelectionHelper::toString(mode));
             break;
     }
-    if (_targetTemperatureSetWhileStarting != std::numeric_limits<uint16_t>::max())
+    if (_targetTemperatureSetWhileStartingRawKnx != std::numeric_limits<uint16_t>::max())
     {
         if (_useCoolingTargetTemperature)
             _targetTemperatureHeatingRawKnx = _targetTemperatureCoolingRawKnx;
-        setTargetTemperatureRawKnx(_targetTemperatureSetWhileStarting);
-        _targetTemperatureSetWhileStarting = std::numeric_limits<uint16_t>::max();
+        setTargetTemperatureRawKnx(_targetTemperatureSetWhileStartingRawKnx);
+        _targetTemperatureSetWhileStartingRawKnx = std::numeric_limits<uint16_t>::max();
     }
     else
     {
@@ -571,7 +599,7 @@ void RoomChannel::handleAuto()
 
 void RoomChannel::logStatus()
 {
-    logInfoP("Power: %s", KoCLI_CPowerFb.valueCompare(true, DPT_Switch) ? "On" : "Off");
+    logInfoP("Power: %s", ((bool) KoCLI_CPowerFb.value(DPT_Switch)) ? "On" : "Off");
     logInfoP("Current mode: %s", ClimateModeSelectionHelper::toString(_currentMode));
     logInfoP("Last mode: %s", ClimateModeSelectionHelper::toString((ClimateModeSelection)(uint8_t)KoCLI_CModeSelection.value(DPT_DecimalFactor)));
     logInfoP("Active mode: %s", ClimateModeSelectionHelper::toString(_currentActiveMode));
@@ -587,6 +615,37 @@ void RoomChannel::logStatus()
     for (auto &device : _climateDevices)
     {
         device.logStatus();
+    }
+    if (_windowOpen)
+    {
+        if (_windowOpenTimer != 0)
+            logInfoP("Window is open since %lu seconds", (millis() - _windowOpenTimer) / 1000);
+        else
+            logInfoP("Window is open");
+        logInfoP("Window open action 1 %s", _windowOpenAction1Handled ? "done" : "not yet done");
+        logInfoP("Window open action 2 %s", _windowOpenAction2Handled ? "done" : "not yet done");
+        logInfoP("Window open action 3 %s", _windowOpenAction3Handled ? "done" : "not yet done");
+        logInfoP("Window open action 4 %s", _windowOpenAction4Handled ? "done" : "not yet done");
+        logInfoP("Window open action 5 %s", _windowOpenAction5Handled ? "done" : "not yet done");
+    }
+    else
+    {
+        if (_waitForRoomTemperatureStable)
+        {
+            logInfoP("Waiting for room temperature stable after window closed");
+            if (_waitForGradientRoomTemperatureChange)
+            {
+                logInfoP("Waiting for room temperature change gradient since %lu seconds", (millis() - _windowOpenTimer) / 1000);
+            }
+            else
+            {
+                logInfoP("Inital wait since %lu seconds", (millis() - _windowOpenTimer) / 1000);
+            }
+        }
+        else if (_windowOpenTimer != 0)
+        {
+            logInfoP("Window was closed since %lu seconds", (millis() - _windowOpenTimer) / 1000);
+        }
     }
 }
 
@@ -669,7 +728,7 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
 {
     if (!_started)
     {
-        _targetTemperatureSetWhileStarting = targetTemperatureRawKnx;
+        _targetTemperatureSetWhileStartingRawKnx = targetTemperatureRawKnx;
         logDebugP("Set target temperature to %0.1f °C while starting", getTemperatureFromRawKnx(targetTemperatureRawKnx));
         return;
     }
@@ -743,11 +802,11 @@ void RoomChannel::loop()
         {
             // window open
             unsigned long timeSinceWindowOpen = millis() - _windowOpenTimer;
-            handleWindowOpenAction(1, ParamCLI_CHWindowOpenCondition1, ParamCLI_CHWindowOpenAction1, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection1, _windowOpenAction1Handled);
-            handleWindowOpenAction(2, ParamCLI_CHWindowOpenCondition2, ParamCLI_CHWindowOpenAction2, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection2, _windowOpenAction2Handled);
-            handleWindowOpenAction(3, ParamCLI_CHWindowOpenCondition3, ParamCLI_CHWindowOpenAction3, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection3, _windowOpenAction3Handled);
-            handleWindowOpenAction(4, ParamCLI_CHWindowOpenCondition4, ParamCLI_CHWindowOpenAction4, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection4, _windowOpenAction4Handled);
-            handleWindowOpenAction(5, ParamCLI_CHWindowOpenCondition5, ParamCLI_CHWindowOpenAction5, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection5, _windowOpenAction5Handled);
+            handleWindowOpenAction(1, ParamCLI_CHWindowOpenDelayTime1MS, ParamCLI_CHWindowOpenCondition1, ParamCLI_CHWindowOpenAction1, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection1, _windowOpenAction1Handled);
+            handleWindowOpenAction(2, ParamCLI_CHWindowOpenDelayTime2MS, ParamCLI_CHWindowOpenCondition2, ParamCLI_CHWindowOpenAction2, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection2, _windowOpenAction2Handled);
+            handleWindowOpenAction(3, ParamCLI_CHWindowOpenDelayTime3MS, ParamCLI_CHWindowOpenCondition3, ParamCLI_CHWindowOpenAction3, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection3, _windowOpenAction3Handled);
+            handleWindowOpenAction(4, ParamCLI_CHWindowOpenDelayTime4MS, ParamCLI_CHWindowOpenCondition4, ParamCLI_CHWindowOpenAction4, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection4, _windowOpenAction4Handled);
+            handleWindowOpenAction(5, ParamCLI_CHWindowOpenDelayTime5MS, ParamCLI_CHWindowOpenCondition5, ParamCLI_CHWindowOpenAction5, timeSinceWindowOpen, ParamCLI_CHWindowOpenTempCorrection5, _windowOpenAction5Handled);
             if (_windowOpenAction1Handled && _windowOpenAction2Handled && _windowOpenAction3Handled && _windowOpenAction4Handled && _windowOpenAction5Handled)
             {
                 _windowOpenTimer = 0;
@@ -766,22 +825,21 @@ void RoomChannel::loop()
                 {
                     logErrorP("Timer not running for stable room temperature detection");
                     _windowOpenTimer = max(1UL, millis());
-
                 }
                 if (_waitForGradientRoomTemperatureChange)
                 {
-                    uint8_t currentRoomTemperature = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);       
-                    float currentTemp = getTemperatureFromRawKnx(currentRoomTemperature);
-                    float targetTemperature = getTemperatureFromRawKnx(std::numeric_limits<uint16_t>::max() ? getTargetTemperatureRawKnx() :  _targetTemperatureBeforeWindowOpen);
+                    uint16_t currentRoomTemperatureRawKnx = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);       
+                    float currentTemp = getTemperatureFromRawKnx(currentRoomTemperatureRawKnx);
+                    float originalTargetTemperature = getTemperatureFromRawKnx(_targetTemperatureBeforeWindowOpen == std::numeric_limits<uint16_t>::max() ? getTargetTemperatureRawKnx() :  _targetTemperatureBeforeWindowOpen);
                     auto activeMode = _modeLockedWhileOpenWindow == ClimateModeSelection::Undefined ?  _currentActiveMode : _modeLockedWhileOpenWindow;
-                    if (activeMode == ClimateModeSelection::Heating && currentTemp >= targetTemperature)
+                    if (activeMode == ClimateModeSelection::Heating && currentTemp >= originalTargetTemperature)
                     {
-                        logInfoP("Current room temperature %0.1f °C already reach target %0.1f °C, reset window open actions", currentTemp, targetTemperature);
+                        logInfoP("Current room temperature %0.1f °C already reach target %0.1f °C, reset window open actions", currentTemp, originalTargetTemperature);
                         resetWindowOpenActions();
                     }
-                    else if (activeMode == ClimateModeSelection::Cooling && currentTemp <= targetTemperature)
+                    else if (activeMode == ClimateModeSelection::Cooling && currentTemp <= originalTargetTemperature)
                     {
-                        logInfoP("Current room temperature %0.1f °C already reach target %0.1f °C, reset window open actions", currentTemp, targetTemperature);
+                        logInfoP("Current room temperature %0.1f °C already reach target %0.1f °C, reset window open actions", currentTemp, originalTargetTemperature);
                         resetWindowOpenActions();
                     }
                     else if (millis() - _windowOpenTimer >= gradientWindowWaittime)
@@ -794,19 +852,17 @@ void RoomChannel::loop()
                     {
                         if (activeMode == ClimateModeSelection::Cooling || activeMode == ClimateModeSelection::Heating)
                         {
-                            if (_lastCurrentRoomTemperature != currentRoomTemperature)
+                            if (_lastCurrentRoomTemperatureRawKnx != currentRoomTemperatureRawKnx)
                             {
-                                float lastTemp = getTemperatureFromRawKnx(_lastCurrentRoomTemperature);
+                                float lastTemp = getTemperatureFromRawKnx(_lastCurrentRoomTemperatureRawKnx);
                                 float offset = currentTemp - lastTemp;
                                 if (activeMode == ClimateModeSelection::Cooling)
                                     offset = -offset;
-                           
-                                
                                 if (offset > 0.1f)
                                 {
-                                    logDebugP("Detected room temperature %s from %0.1f °C to %0.1f °C, start new wait window", activeMode == ClimateModeSelection::Cooling ? "decrease" : "increase", lastTemp, currentTemp);
+                                    logInfoP("Detected room temperature %s from %0.1f °C to %0.1f °C, start new wait window", activeMode == ClimateModeSelection::Cooling ? "decrease" : "increase", lastTemp, currentTemp);
                                     // Increase in case of heating or decrease in case of cooling, start new window
-                                    _lastCurrentRoomTemperature = currentRoomTemperature;
+                                    _lastCurrentRoomTemperatureRawKnx = currentRoomTemperatureRawKnx;
                                     _windowOpenTimer = max(1UL, millis());
                                 }
                                 else if (offset < 0)
@@ -816,6 +872,11 @@ void RoomChannel::loop()
                                 }
                             }
                         }
+                        else
+                        {
+                            logInfoP("Current active mode is %s, no need to detect room temperature change, reset window open actions", ClimateModeSelectionHelper::toString(activeMode));
+                            resetWindowOpenActions();
+                        }
                     }
                 }
                 else
@@ -824,8 +885,8 @@ void RoomChannel::loop()
                     {
                         // Initial wait time after close
                         _waitForGradientRoomTemperatureChange = true;
-                        _lastCurrentRoomTemperature = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
-                        logDebugP("Start to detect room temperature change, current %0.1f °C", getTemperatureFromRawKnx(_lastCurrentRoomTemperature));
+                        _lastCurrentRoomTemperatureRawKnx = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
+                        logInfoP("Start to detect room temperature change, current %0.1f °C", getTemperatureFromRawKnx(_lastCurrentRoomTemperatureRawKnx));
                     
                     }
                 }
@@ -833,10 +894,10 @@ void RoomChannel::loop()
             else 
             {
                 // Wait for delay time after window closed
-                if (millis() - _windowOpenTimer >= ParamCLI_CHWindowCloseWaitTimeDelayTime)
+                if (millis() - _windowOpenTimer >= ParamCLI_CHWindowCloseWaitTimeDelayTimeMS)
                 {
                     _windowOpenTimer = 0;
-                    _waitForRoomTemperatureStable = true;
+                    _waitForRoomTemperatureStable = false;
                     resetWindowOpenActions();
                 }
             }
@@ -844,7 +905,7 @@ void RoomChannel::loop()
     }
 }
 
-void RoomChannel::handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled)
+void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled)
 {
     if (handled)
         return;
@@ -881,7 +942,7 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, PT_CLIWindowOpenCondi
             } 
             break;
     }
-    if (windowOpenSince >= ParamCLI_CHWindowOpenDelayTime1MS)
+    if (windowOpenSince >= afterMS)
     {
         handled = true;
         switch (action)

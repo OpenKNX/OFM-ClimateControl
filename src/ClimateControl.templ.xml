@@ -162,11 +162,11 @@
               <Union SizeInBit="32">
                 <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
                 <!-- Window open condition 1 -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%414" Name="CH%C%WindowOpenCondition1"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Wenn" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%414" Name="CH%C%WindowOpenCondition1"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 1 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%410" Name="CH%C%WindowOpenAction1"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 1 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%411" Name="CH%C%WindowOpenDelayBase1"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%411" Name="CH%C%WindowOpenDelayBase1"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="1" />
                 <!-- Window open action time delay 1 DelayTime -->
                 <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%412" Name="CH%C%WindowOpenDelayTime1"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 1 -->
@@ -177,11 +177,11 @@
               <Union SizeInBit="32">
                 <Memory CodeSegment="%MID%" Offset="44" BitOffset="0" />
                 <!-- Window open condition 2 -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%424" Name="CH%C%WindowOpenCondition2"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Wenn" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%424" Name="CH%C%WindowOpenCondition2"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 2 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%420" Name="CH%C%WindowOpenAction2"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 2 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%421" Name="CH%C%WindowOpenDelayBase2"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%421" Name="CH%C%WindowOpenDelayBase2"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="1" />
                 <!-- Window open action time delay 2 DelayTime -->
                 <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%422" Name="CH%C%WindowOpenDelayTime2"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 2 -->
@@ -192,11 +192,11 @@
               <Union SizeInBit="32">
                 <Memory CodeSegment="%MID%" Offset="48" BitOffset="0" />
                 <!-- Window open condition 3 -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%434" Name="CH%C%WindowOpenCondition3"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Wenn" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%434" Name="CH%C%WindowOpenCondition3"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 3 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%430" Name="CH%C%WindowOpenAction3"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 3 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%431" Name="CH%C%WindowOpenDelayBase3"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%431" Name="CH%C%WindowOpenDelayBase3"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="1" />
                 <!-- Window open action time delay 3 DelayTime -->
                 <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%432" Name="CH%C%WindowOpenDelayTime3"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 3 -->
@@ -207,11 +207,11 @@
               <Union SizeInBit="32">
                 <Memory CodeSegment="%MID%" Offset="52" BitOffset="0" />
                 <!-- Window open condition 4 -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%444" Name="CH%C%WindowOpenCondition4"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Wenn" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%444" Name="CH%C%WindowOpenCondition4"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 4 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%440" Name="CH%C%WindowOpenAction4"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 4 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%441" Name="CH%C%WindowOpenDelayBase4"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%441" Name="CH%C%WindowOpenDelayBase4"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="1" />
                 <!-- Window open action time delay 4 DelayTime -->
                 <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%442" Name="CH%C%WindowOpenDelayTime4"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 4 -->
@@ -222,11 +222,11 @@
               <Union SizeInBit="32">
                 <Memory CodeSegment="%MID%" Offset="56" BitOffset="0" />
                 <!-- Window open condition 5 -->
-                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%454" Name="CH%C%WindowOpenCondition5"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Wenn" Value="0" />
+                <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%454" Name="CH%C%WindowOpenCondition5"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 5 -->
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%450" Name="CH%C%WindowOpenAction5"   ParameterType="%AID%_PT-CLIWindowOpenAction" Text="Aktion" Value="0" />
                 <!-- Window open action time delay 5 DelayBase-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%451" Name="CH%C%WindowOpenDelayBase5"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%451" Name="CH%C%WindowOpenDelayBase5"   ParameterType="%AID%_PT-DelayBase"  Text="Nach Einheit" Value="1" />
                 <!-- Window open action time delay 5 DelayTime -->
                 <Parameter Offset="1" BitOffset="2" Id="%AID%_UP-%TT%%CC%452" Name="CH%C%WindowOpenDelayTime5"   ParameterType="%AID%_PT-DelayTime" Text="Nach" Value="0" />
                 <!-- Window open temp correction 5 -->
@@ -1065,8 +1065,6 @@
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%414_R-%TT%%CC%41401" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%414_R-%TT%%CC%41401">
                               <when test="!=0">                    
-                                <!-- Window open action 1 -->
-                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001" HelpContext="%DOC%" />
                                 <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action1" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
                                   <Rows>
                                     <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
@@ -1076,15 +1074,16 @@
                                     <Column Id="%AID%_PB-nnn_C-2" Name="Col3" Width="15%" />
                                     <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
                                   </Columns>
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" />
-                              
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" />          
                                   <!-- Window open action time delay 1 DelayTime -->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%412_R-%TT%%CC%41201" Cell="1,2" HelpContext="CLI-Aktionnach" />
                                   <!-- Window open action time delay 1 DelayBase-->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%411_R-%TT%%CC%41101" Cell="1,3" HelpContext="CLI-Aktionnach" />
                                 </ParameterBlock>
+                                <!-- Window open action 1 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001" HelpContext="%DOC%" />  
                                 <choose ParamRefId="%AID%_UP-%TT%%CC%410_R-%TT%%CC%41001">
-                                  <when test="4"> <!-- Solltemperaturanpassung -->
+                                  <when test="0"> <!-- Solltemperaturanpassung -->
                                     <!-- Window open temp correction 1 -->
                                     <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%413_R-%TT%%CC%41301" HelpContext="%DOC%" />
                                   </when>
@@ -1092,15 +1091,12 @@
                               </when>
                             </choose>
                
-             
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 2" UIHint="Headline" />
                             <!-- Window open condition 2-->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%424_R-%TT%%CC%42401" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%424_R-%TT%%CC%42401">
                               <when test="!=0">
-                                <!-- Window open action 2 -->
-                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001" HelpContext="%DOC%" />
                                 <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action2" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
                                   <Rows>
                                     <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
@@ -1111,14 +1107,15 @@
                                     <Column Id="%AID%_PB-nnn_C-3" Name="Col4" Width="25%" />
                                   </Columns>
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="  nach" Cell="1,1" />
-                              
                                   <!-- Window open action time delay 2 DelayTime -->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%422_R-%TT%%CC%42201" Cell="1,2" HelpContext="CLI-Aktionnach" />
                                   <!-- Window open action time delay 2 DelayBase-->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%421_R-%TT%%CC%42101" Cell="1,3" HelpContext="CLI-Aktionnach" />
                                 </ParameterBlock>
+                                <!-- Window open action 2 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001" HelpContext="%DOC%" />
                                 <choose ParamRefId="%AID%_UP-%TT%%CC%420_R-%TT%%CC%42001">
-                                  <when test="4"> <!-- Solltemperaturanpassung -->
+                                  <when test="0"> <!-- Solltemperaturanpassung -->
                                     <!-- Window open temp correction 2 -->
                                     <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%423_R-%TT%%CC%42301" HelpContext="%DOC%" />
                                   </when>
@@ -1130,10 +1127,8 @@
                             <ParameterSeparator Id="%AID%_PS-nnn" Text="Öffnen - Aktion 3" UIHint="Headline" />
                             <!-- Window open condition 3 -->
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%434_R-%TT%%CC%43401" HelpContext="%DOC%" />
-                            <choose ParamRefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001">
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%434_R-%TT%%CC%43401">
                               <when test="!=0">                     
-                                <!-- Window open action 3 -->
-                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%434_R-%TT%%CC%43401" HelpContext="%DOC%" />
                                 <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action3" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
                                   <Rows>
                                     <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
@@ -1149,8 +1144,10 @@
                                   <!-- Window open action time delay 3 DelayBase-->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%431_R-%TT%%CC%43101" Cell="1,3" HelpContext="CLI-Aktionnach" />
                                 </ParameterBlock>
+                                <!-- Window open action 3 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001" HelpContext="%DOC%" />
                                 <choose ParamRefId="%AID%_UP-%TT%%CC%430_R-%TT%%CC%43001">
-                                  <when test="4"> <!-- Solltemperaturanpassung -->
+                                  <when test="0"> <!-- Solltemperaturanpassung -->
                                     <!-- Window open temp correction 3 -->
                                     <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%433_R-%TT%%CC%43301" HelpContext="%DOC%" />
                                   </when>
@@ -1164,8 +1161,6 @@
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%444_R-%TT%%CC%44401" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%444_R-%TT%%CC%44401">
                               <when test="!=0">
-                                <!-- Window open action 4 -->
-                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001" HelpContext="%DOC%" />
                                 <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action4" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
                                   <Rows>
                                     <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
@@ -1181,8 +1176,10 @@
                                   <!-- Window open action time delay 4 DelayBase-->
                                   <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%441_R-%TT%%CC%44101" Cell="1,3" HelpContext="CLI-Aktionnach" />
                                 </ParameterBlock>
+                                <!-- Window open action 4 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001" HelpContext="%DOC%" />
                                 <choose ParamRefId="%AID%_UP-%TT%%CC%440_R-%TT%%CC%44001">
-                                  <when test="4"> <!-- Solltemperaturanpassung -->
+                                  <when test="0"> <!-- Solltemperaturanpassung -->
                                     <!-- Window open temp correction 4 -->
                                     <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%443_R-%TT%%CC%44301" HelpContext="%DOC%" />
                                   </when>
@@ -1196,8 +1193,6 @@
                             <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%454_R-%TT%%CC%45401" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%454_R-%TT%%CC%45401">
                               <when test="!=0">
-                                <!-- Window open action 5 -->
-                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001" HelpContext="%DOC%" />
                                 <ParameterBlock Id="%AID%_PB-nnn" Name="f%C%Action5" Inline="true" Layout="Grid" HelpContext="CLI-Aktionnach">
                                   <Rows>
                                     <Row Id="%AID%_PB-nnn_R-1" Name="Row1" />
@@ -1213,8 +1208,10 @@
                                   <!-- Window open action time delay 5 DelayBase-->
                                   <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%451_R-%TT%%CC%45101" Cell="1,3" HelpContext="CLI-Aktionnach" />
                                 </ParameterBlock>
+                                <!-- Window open action 5 -->
+                                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001" HelpContext="%DOC%" />
                                 <choose ParamRefId="%AID%_UP-%TT%%CC%450_R-%TT%%CC%45001">
-                                  <when test="4"> <!-- Solltemperaturanpassung -->
+                                  <when test="0"> <!-- Solltemperaturanpassung -->
                                     <!-- Window open temp correction 5 -->
                                     <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%453_R-%TT%%CC%45301" HelpContext="%DOC%" />
                                   </when>
