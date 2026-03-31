@@ -1,4 +1,3 @@
 ﻿### Heizen im Sommerbetrieb erlaubt
 
 
-

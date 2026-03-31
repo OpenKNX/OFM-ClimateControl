@@ -286,3 +286,9 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 <!-- DOC -->
 ### Rükfall auf Automatik nach
 
+<!-- DOC -->
+### Rundung der Solltemperatur
+
+<!-- DOC -->
+### Bei falscher Zieltemperatur
+

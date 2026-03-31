@@ -195,6 +195,23 @@
                 </TypeRestriction>
               </ParameterType>
 
+               <ParameterType Id="%AID%_PT-CLITargetTempRounding" Name="CLITargetTempRounding">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
+                  <Enumeration Text="0,1° (TODO)" Value="1" Id="%ENID%" />
+                  <Enumeration Text="0,5° (TODO)" Value="5" Id="%ENID%" />
+                  <Enumeration Text="1° (TODO)" Value="10" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLITargetLimitHandling" Name="CLITargetLimitHandling" op:headerExport="enum">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="Auf Minimal-/Maximalwert korrigieren" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Ignorieren (TODO)" Value="1" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
+
               <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />

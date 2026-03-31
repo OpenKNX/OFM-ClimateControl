@@ -10,7 +10,7 @@
               <!-- Channel Name -->
               <Parameter Id="%AID%_P-%TT%%CC%000" Name="Channel%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Raum" Value="" />
              
-              <Union SizeInBit="152">
+              <Union SizeInBit="160">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
                 <!-- Channel Disabled -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%001" Name="CH%C%ChannelDisabled" ParameterType="%AID%_PT-CheckBox" Text="Kanal deaktivieren (zu Testzwecken)" Value="0" />
@@ -18,7 +18,9 @@
                 <Parameter Offset="0" BitOffset="1" Id="%AID%_UP-%TT%%CC%002" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%KOForRelativTempChange" Text="Objekt für relative Solltemperaturänderung" Value="0" />
                 <!-- Mode selection turn on -->
                 <Parameter Offset="0" BitOffset="2" Id="%AID%_UP-%TT%%CC%004" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%ModeSelectionTurnOn" Text="Modusauswahl schaltet ein" Value="1" />
-                <!-- 5 Bits free-->
+                <!-- Wrong target temperature handling -->
+                <Parameter Offset="0" BitOffset="3" Id="%AID%_UP-%TT%%CC%020" ParameterType="%AID%_PT-CLITargetLimitHandling" Name="CH%C%TargetLimitHandling" Text="Bei falscher Zieltemperatur" Value="0" />
+                <!-- 4 Bits free-->
                 <!-- Relativ temperature change heating value --> 
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeHeating" Text="Erhöhren / Verrringern um" Value="10" />   
                 <!-- Min heating temperature -->
@@ -56,15 +58,19 @@
                 <!-- 3 bits free-->
                 <!-- Relativ temperature change cooling value --> 
                 <Parameter Offset="18" BitOffset="0" Id="%AID%_UP-%TT%%CC%017" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeCooling" Text="Erhöhren / Verrringern um" Value="10" />                
-           
+                <!-- Target temperature rounding heating -->
+                <Parameter Offset="19" BitOffset="0" Id="%AID%_UP-%TT%%CC%018" ParameterType="%AID%_PT-CLITargetTempRounding" Name="CH%C%TargetTempRoundingHeating" Text="Rundung der Solltemperatur" Value="0" /> 
+                <!-- Target temperature rounding cooling -->
+                <Parameter Offset="19" BitOffset="4" Id="%AID%_UP-%TT%%CC%019" ParameterType="%AID%_PT-CLITargetTempRounding" Name="CH%C%TargetTempRoundingCooling" Text="Rundung der Solltemperatur" Value="0" /> 
 
+                <!-- Next Id "%AID%_UP-%TT%%CC%021" -->
               </Union>
 
 
               <!-- HVAC Name 1 -->
               <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" />
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="19" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="20" BitOffset="0" />
                 <!-- Control Mode 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 1 -->
@@ -79,7 +85,7 @@
               <!-- HVAC Name 2 -->
               <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" /> 
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="21" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="22" BitOffset="0" />
                 <!-- Control Mode 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 2 -->
@@ -93,7 +99,7 @@
 
               <!-- Cooling -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="23" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="24" BitOffset="0" />
                 <!-- Cooling Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="2" />
                 <!-- Cooling Deactive in Winter -->
@@ -102,7 +108,7 @@
 
               <!-- Heating -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="25" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="26" BitOffset="0" />
                 <!-- Heating Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="1" />
                 <!-- Heating Deactive in Summer -->
@@ -111,7 +117,7 @@
 
               <!-- Dehumidification -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="27" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="28" BitOffset="0" />
                 <!-- Dehumidification Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
                
@@ -119,7 +125,7 @@
 
               <!-- Fan -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="29" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="30" BitOffset="0" />
                 <!-- Fan Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
                
@@ -127,7 +133,7 @@
 
               <!-- Auto -->
               <Union SizeInBit="40">
-                <Memory CodeSegment="%MID%" Offset="31" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="32" BitOffset="0" />
                 <!-- Cooling Auto Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
                 <!-- Heating Auto Device Selection -->
@@ -153,14 +159,14 @@
 
               <!-- Window open -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%MID%" Offset="39" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
                 <!-- Window open handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-OnOffYesNo" Text="Fenster offen Behandlung" Value="0" />
               </Union>
 
               <!-- Window open 1 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="41" BitOffset="0" />
                 <!-- Window open condition 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%414" Name="CH%C%WindowOpenCondition1"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 1 -->
@@ -175,7 +181,7 @@
 
               <!-- Window open 2 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="44" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
                 <!-- Window open condition 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%424" Name="CH%C%WindowOpenCondition2"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 2 -->
@@ -190,7 +196,7 @@
 
               <!-- Window open 3 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="48" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="49" BitOffset="0" />
                 <!-- Window open condition 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%434" Name="CH%C%WindowOpenCondition3"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 3 -->
@@ -205,7 +211,7 @@
 
               <!-- Window open 4 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="52" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="53" BitOffset="0" />
                 <!-- Window open condition 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%444" Name="CH%C%WindowOpenCondition4"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 4 -->
@@ -220,7 +226,7 @@
 
               <!-- Window open 5 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="56" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="57" BitOffset="0" />
                 <!-- Window open condition 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%454" Name="CH%C%WindowOpenCondition5"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 5 -->
@@ -235,7 +241,7 @@
 
               <!-- Window close -->
               <Union SizeInBit="24">
-                <Memory CodeSegment="%MID%" Offset="60" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="61" BitOffset="0" />
                 <!-- Window close handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%490" Name="CH%C%WindowClose" ParameterType="%AID%_PT-CLIWindowClose" Text="Aktionen rückgängig" Value="0" />
                 <!-- 7 Bits free -->
@@ -283,6 +289,12 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01501" RefId="%AID%_UP-%TT%%CC%015" />
               <!-- 2 Targettemperature storages -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601" RefId="%AID%_UP-%TT%%CC%016" />
+              <!-- Target temperature rounding heating -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" RefId="%AID%_UP-%TT%%CC%018" />
+              <!-- Target temperature rounding cooling -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" RefId="%AID%_UP-%TT%%CC%019" />
+              <!-- Wrong target temperature handling -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" RefId="%AID%_UP-%TT%%CC%020" />
            
                <!-- HVAC Name 1 -->
               <ParameterRef Id="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_P-%TT%%CC%100" />
@@ -627,6 +639,9 @@
                         <!-- Temperature restore mode -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" HelpContext="%DOC%" />
 
+                        <!-- Wrong target temperature handling -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" HelpContext="%DOC%" />
+                        
                         <!-- KO for relativ Temperature change -->
                         <ParameterRefRef  IndentLevel="1" RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" HelpContext="%DOC%" />
                  
@@ -641,8 +656,9 @@
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%005_R-%TT%%CC%00501" HelpContext="%DOC%" />
                             <!-- Max temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%006_R-%TT%%CC%00601" HelpContext="%DOC%" />
-
-                             <!-- KO for relativ Temperature change -->
+                            <!-- Target temperature rounding heating -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" HelpContext="%DOC%" />
+                            <!-- KO for relativ Temperature change -->
                             <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
                               <when test="1"> <!-- Relative Temperature Change Enabled -->
                                 <!-- Relativ temperature change heating value -->
@@ -651,14 +667,16 @@
                             </choose>
                           </when>
                           <when test="1"> <!-- 2 Targettemperature storages  enabled -->  
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text=" Heizen:" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="  Heizen:" />
                             <!-- Default heating temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%007_R-%TT%%CC%00701" HelpContext="%DOC%" />
                             <!-- Min heating temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%005_R-%TT%%CC%00501" HelpContext="%DOC%" />
                             <!-- Max heating temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%006_R-%TT%%CC%00601" HelpContext="%DOC%" />
-                              <!-- KO for relativ Temperature change -->
+                            <!-- Target temperature rounding heating -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" HelpContext="%DOC%" />
+                            <!-- KO for relativ Temperature change -->
                             <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
                               <when test="1"> <!-- Relative Temperature Change Enabled -->
                                 <!-- Relativ temperature change heating value -->
@@ -666,14 +684,15 @@
                               </when>
                             </choose>
 
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text=" Kühlen:" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="  Kühlen:" />
                             <!-- Default cooling temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" HelpContext="%DOC%" />
                             <!-- Min cooling temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%008_R-%TT%%CC%00801" HelpContext="%DOC%" />
                             <!-- Max cooling temperature -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901" HelpContext="%DOC%" />
-
+                            <!-- Target temperature rounding cooling -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" HelpContext="%DOC%" />
                             <!-- KO for relativ Temperature change -->
                             <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
                               <when test="1"> <!-- Relative Temperature Change Enabled -->
