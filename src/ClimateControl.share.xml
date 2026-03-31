@@ -205,9 +205,9 @@
               </ParameterType>
 
               <ParameterType Id="%AID%_PT-CLITargetLimitHandling" Name="CLITargetLimitHandling" op:headerExport="enum">
-                <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="Auf Minimal-/Maximalwert korrigieren" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Ignorieren (TODO)" Value="1" Id="%ENID%" />
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Text="Auf Minimal-/Maximalwert korrigieren" Value="0" Id="%ENID%" op:headerName="MinMax" />
+                  <Enumeration Text="Ignorieren (TODO)" Value="1" Id="%ENID%" op:headerName="Ignore" />
                 </TypeRestriction>
               </ParameterType>
 
