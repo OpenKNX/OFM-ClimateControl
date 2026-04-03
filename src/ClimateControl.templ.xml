@@ -69,7 +69,7 @@
 
               <!-- HVAC Name 1 -->
               <Parameter Id="%AID%_P-%TT%%CC%100" Name="DCH%C%eviceName1" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" />
-              <Union SizeInBit="16">
+              <Union SizeInBit="40">
                 <Memory CodeSegment="%MID%" Offset="20" BitOffset="0" />
                 <!-- Control Mode 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%101" ParameterType="%AID%_PT-CLIControlMode" Name="CH%C%ControlMode1" Text="Modusauswahl über" Value="0" />
@@ -80,12 +80,19 @@
                 <!-- Wait Time after Power Up 1 -->       
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%104" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp1" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
+                <!-- PI Preset 1-->
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%105" ParameterType="%AID%_PT-CLIPIPreset" Name="CH%C%PIPreset1" Text="Heizungstype" Value="0" />
+                <!-- 4 bit free -->   
+                <!-- PI I 1 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%106" ParameterType="%AID%_PT-CLIPIP" Name="CH%C%PII1" Text="Proportional" Value="5" SuffixText="K" /> 
+                <!-- PI D 1 -->
+                <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%%CC%107" ParameterType="%AID%_PT-CLIPID" Name="CH%C%PID1" Text="Nachstellzeit" Value="160" SuffixText="min"/>
               </Union>
 
               <!-- HVAC Name 2 -->
               <Parameter Id="%AID%_P-%TT%%CC%200" Name="CH%C%eviceName2" ParameterType="%AID%_PT-Text40Byte" Text="Kühl-/Heizsystemname" Value="" /> 
-              <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="22" BitOffset="0" />
+              <Union SizeInBit="40">
+                <Memory CodeSegment="%MID%" Offset="25" BitOffset="0" />
                 <!-- Control Mode 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%201" ParameterType="%AID%_PT-CLIControlMode"  Name="CH%C%ControlMode2" Text="Modusauswahl über" Value="0" />
                 <!-- Temperature Control 2 -->
@@ -94,12 +101,20 @@
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%203" ParameterType="%AID%_PT-YesDoToNo" Name="CH%C%FullPowerOff2" Text="Objekt zum vollständigen Ein-/Ausschalten" Value="0" />
                 <!-- Wait Time after Power Up 2 -->       
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
-                <!-- ^^^ Need 7 bits -->   
+                <!-- ^^^ Need 7 bits -->  
+                <!-- PI Preset 2-->
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%205" ParameterType="%AID%_PT-CLIPIPreset" Name="CH%C%PIPreset2" Text="Heizungstype" Value="0" />
+                <!-- 4 bit free -->   
+                <!-- PI I 2 -->
+                <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%206" ParameterType="%AID%_PT-CLIPIP" Name="CH%C%PII2" Text="Proportional" Value="5" SuffixText="K" /> 
+                <!-- PI D 2 -->
+                <Parameter Offset="4" BitOffset="0" Id="%AID%_UP-%TT%%CC%207" ParameterType="%AID%_PT-CLIPID" Name="CH%C%PID2" Text="Nachstellzeit" Value="160" SuffixText="min"/>
+      
               </Union>
 
               <!-- Cooling -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="24" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="30" BitOffset="0" />
                 <!-- Cooling Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%501" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%CoolDeviceSelection" Text="Durch" Value="2" />
                 <!-- Cooling Deactive in Winter -->
@@ -108,7 +123,7 @@
 
               <!-- Heating -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="26" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="32" BitOffset="0" />
                 <!-- Heating Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%601" ParameterType="%AID%_PT-CLIDeviceSelectionWithoutBoth"  Name="CH%C%HeatDeviceSelection" Text="Durch" Value="1" />
                 <!-- Heating Deactive in Summer -->
@@ -117,7 +132,7 @@
 
               <!-- Dehumidification -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="28" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="34" BitOffset="0" />
                 <!-- Dehumidification Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%701" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%DehumDeviceSelection" Text="Durch" Value="0" />
                
@@ -125,7 +140,7 @@
 
               <!-- Fan -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%MID%" Offset="30" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="36" BitOffset="0" />
                 <!-- Fan Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%801" ParameterType="%AID%_PT-CLIDeviceSelection"  Name="CH%C%FanDeviceSelection" Text="Durch" Value="0" />
                
@@ -133,7 +148,7 @@
 
               <!-- Auto -->
               <Union SizeInBit="40">
-                <Memory CodeSegment="%MID%" Offset="32" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="38" BitOffset="0" />
                 <!-- Cooling Auto Device Selection-->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%901" ParameterType="%AID%_PT-CLIAutomaticDevice"  Name="CH%C%AutoDeviceSelection" Text="Kühlen Auswahl durch" Value="0" />
                 <!-- Heating Auto Device Selection -->
@@ -159,14 +174,14 @@
 
               <!-- Window open -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%MID%" Offset="40" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="46" BitOffset="0" />
                 <!-- Window open handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%400" Name="CH%C%WindowOpenEnabled"   ParameterType="%AID%_PT-OnOffYesNo" Text="Fenster offen Behandlung" Value="0" />
               </Union>
 
               <!-- Window open 1 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="41" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="47" BitOffset="0" />
                 <!-- Window open condition 1 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%414" Name="CH%C%WindowOpenCondition1"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 1 -->
@@ -181,7 +196,7 @@
 
               <!-- Window open 2 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="45" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="51" BitOffset="0" />
                 <!-- Window open condition 2 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%424" Name="CH%C%WindowOpenCondition2"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 2 -->
@@ -196,7 +211,7 @@
 
               <!-- Window open 3 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="49" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="55" BitOffset="0" />
                 <!-- Window open condition 3 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%434" Name="CH%C%WindowOpenCondition3"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 3 -->
@@ -211,7 +226,7 @@
 
               <!-- Window open 4 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="53" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="59" BitOffset="0" />
                 <!-- Window open condition 4 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%444" Name="CH%C%WindowOpenCondition4"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 4 -->
@@ -226,7 +241,7 @@
 
               <!-- Window open 5 -->
               <Union SizeInBit="32">
-                <Memory CodeSegment="%MID%" Offset="57" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="63" BitOffset="0" />
                 <!-- Window open condition 5 -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%454" Name="CH%C%WindowOpenCondition5"   ParameterType="%AID%_PT-CLIWindowOpenCondition" Text="Ausführen" Value="0" />
                 <!-- Window open action 5 -->
@@ -241,7 +256,7 @@
 
               <!-- Window close -->
               <Union SizeInBit="24">
-                <Memory CodeSegment="%MID%" Offset="61" BitOffset="0" />
+                <Memory CodeSegment="%MID%" Offset="67" BitOffset="0" />
                 <!-- Window close handling -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%%CC%490" Name="CH%C%WindowClose" ParameterType="%AID%_PT-CLIWindowClose" Text="Aktionen rückgängig" Value="0" />
                 <!-- 7 Bits free -->
@@ -306,6 +321,13 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" RefId="%AID%_UP-%TT%%CC%103" />
               <!-- Wait Time after Power Up 1 -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" RefId="%AID%_UP-%TT%%CC%104" />
+              <!-- PI Preset 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%105_R-%TT%%CC%10501" RefId="%AID%_UP-%TT%%CC%105" />
+              <!-- PI I 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%106_R-%TT%%CC%10601" RefId="%AID%_UP-%TT%%CC%106" />
+              <!-- PI D 1 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%107_R-%TT%%CC%10701" RefId="%AID%_UP-%TT%%CC%107" />
+
               <!-- HVAC Name 2 -->
               <ParameterRef Id="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" RefId="%AID%_P-%TT%%CC%200" /> 
               <!-- Control Mode 2 -->
@@ -316,6 +338,13 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" RefId="%AID%_UP-%TT%%CC%203" />
               <!-- Wait Time after Power Up 2 -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%204_R-%TT%%CC%20401" RefId="%AID%_UP-%TT%%CC%204" />
+              <!-- PI Preset 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%205_R-%TT%%CC%20501" RefId="%AID%_UP-%TT%%CC%205" />
+              <!-- PI I 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%206_R-%TT%%CC%20601" RefId="%AID%_UP-%TT%%CC%206" />
+              <!-- PI D 2 -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%207_R-%TT%%CC%20701" RefId="%AID%_UP-%TT%%CC%207" />
+       
 
               <!-- Cooling Device Selection-->
               <ParameterRef Id="%AID%_UP-%TT%%CC%501_R-%TT%%CC%50101" RefId="%AID%_UP-%TT%%CC%501" />
@@ -831,6 +860,17 @@
                           <when test="1"> <!-- Stellwertvorgabe -->
                              <!-- Dev 1 Target Set Value-->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%109_R-%TT%%CC%10901"  />
+                            <!-- PI Preset 1 -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%105_R-%TT%%CC%10501" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%105_R-%TT%%CC%10501">
+                              <when test="15"> <!-- Custom -->
+                                <!-- PI I 1 -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%106_R-%TT%%CC%10601" HelpContext="%DOC%" />
+                                <!-- PI P 1 -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%107_R-%TT%%CC%10701" HelpContext="%DOC%" />           
+                              </when>
+                            </choose>
+
                           </when>
                           <when test="2"> <!-- Pulsweitenmodulation -->
                             <!-- Dev 1 Target On/Off -->
@@ -929,6 +969,16 @@
                           <when test="1"> <!-- Stellwertvorgabe -->
                              <!-- Dev 2 Target Set Value-->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%209_R-%TT%%CC%20901"  />
+                            <!-- PI Preset 2 -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%205_R-%TT%%CC%20501" HelpContext="%DOC%" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%205_R-%TT%%CC%20501">
+                              <when test="15"> <!-- Custom -->
+                                <!-- PI I 2 -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%206_R-%TT%%CC%20601" HelpContext="%DOC%" />
+                                <!-- PI P 2 -->
+                                <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%207_R-%TT%%CC%20701" HelpContext="%DOC%" />           
+                              </when>
+                            </choose>
                           </when>
                           <when test="2"> <!-- Pulsweitenmodulation -->
                             <!-- Dev 2 Target On/Off -->

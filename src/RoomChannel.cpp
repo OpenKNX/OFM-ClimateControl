@@ -737,11 +737,13 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
         if (targetTemperatureRawKnx < getRawKnxFromTemperature(ParamCLI_CHTargetMinCooling))
         {
             targetTemperatureRawKnx = getRawKnxFromTemperature(ParamCLI_CHTargetMinCooling);
+            _forceSendTargetTemperature = true;
             logDebugP("Cooling target temperature too low, set to minimum %0.1f °C", ParamCLI_CHTargetMinCooling);
         }
         else if (targetTemperatureRawKnx > getRawKnxFromTemperature(ParamCLI_CHTargetMaxCooling))
         {
             targetTemperatureRawKnx = getRawKnxFromTemperature(ParamCLI_CHTargetMaxCooling);
+            _forceSendTargetTemperature = true;
             logDebugP("Cooling target temperature too high, set to maximum %0.1f °C", ParamCLI_CHTargetMaxCooling);
         }
 
@@ -749,6 +751,10 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
             logDebugP("Set cooling target temperature to %0.1f °C", getTemperatureFromRawKnx(targetTemperatureRawKnx));
         else
             logDebugP("Set target temperature to %0.1f °C", getTemperatureFromRawKnx(targetTemperatureRawKnx));
+        if (ParamCLI_CHTargetTempRoundingCooling != 0)
+        {
+            // To Do
+        }
         _targetTemperatureCoolingRawKnx = targetTemperatureRawKnx;
     }
     else
@@ -756,6 +762,7 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
         if (targetTemperatureRawKnx < getRawKnxFromTemperature(ParamCLI_CHTargetMinHeating))
         {
             targetTemperatureRawKnx = getRawKnxFromTemperature(ParamCLI_CHTargetMinHeating);
+            _forceSendTargetTemperature = true;
             if (ParamCLI_CH2TargetTemp)
                 logDebugP("Heating target temperature too low, set to minimum %0.1f °C", ParamCLI_CHTargetMinHeating);
             else
@@ -764,6 +771,7 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
         else if (targetTemperatureRawKnx > getRawKnxFromTemperature(ParamCLI_CHTargetMaxHeating))
         {
             targetTemperatureRawKnx = getRawKnxFromTemperature(ParamCLI_CHTargetMaxHeating);
+            _forceSendTargetTemperature = true;
             if (ParamCLI_CH2TargetTemp)
                 logDebugP("Heating target temperature too high, set to maximum %0.1f °C", ParamCLI_CHTargetMaxHeating);
             else

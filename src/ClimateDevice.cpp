@@ -1,6 +1,7 @@
 #include "ClimateDevice.h"
 #include "ClimateControlModule.h"
 #include "RoomChannel.h"
+#include "PIController.h"
 
 #define DeviceKoOffset (CLI_KoCDev2Power - CLI_KoCDev1Power)
 #undef CLI_KoCalcNumber
@@ -80,6 +81,31 @@ ClimateDevice::ClimateDevice(
     _supportFan(supportFan)
 {
     _name = openknx.logger.buildPrefix(roomChannel.name(), _channelIndex + 1) + "Dev" + std::to_string(deviceIndex + 1);
+    if  (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::Setpoint)
+    {
+        // <Enumeration Text="Fußbodenheizung (5K / 160min)" Value="0" Id="%ENID%" op:headerName="FloorHeating" />
+        // <Enumeration Text="Radiator (3K / 80min)" Value="1" Id="%ENID%" op:headerName="Radiator" />
+        // <Enumeration Text="Luftheizung (2K / 30min)" Value="2" Id="%ENID%" op:headerName="AirHeating" />
+        // <Enumeration Text="Benutzerdefiniert" Value="15" Id="%ENID%" op:headerName="Custom" />
+
+        switch (ParamCLI_CHPIPreset1)
+        {
+            case PT_CLIPIPreset::FloorHeating:
+                _piController = new PIController(5.0f, 160.0f * 60.0f);
+                break;
+            case PT_CLIPIPreset::Radiator:
+                _piController = new PIController(3.0f, 80.0f * 60.0f);
+                break;
+            case PT_CLIPIPreset::AirHeating:
+                _piController = new PIController(2.0f, 30.0f * 60.0f);
+                break;
+            case PT_CLIPIPreset::Custom:
+                _piController = new PIController(ParamCLI_CHPII1, ParamCLI_CHPID1 * 60.0f);
+                break;
+                 
+        }
+    }
+
 }
 
 const std::string& ClimateDevice::logPrefix()
@@ -150,7 +176,12 @@ void ClimateDevice::processInputKo(GroupObject& ko)
 void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
 {
     _targetTemperatureRawKnx = targetTemperatureRawKnx;
-    logInfoP("Set target temperature to %0.1f °C", _roomChannel.getTemperatureFromRawKnx(targetTemperatureRawKnx));
+    auto targetTemperature = _roomChannel.getTemperatureFromRawKnx(targetTemperatureRawKnx);
+    logInfoP("Set target temperature to %0.1f °C", targetTemperature);
+    if (_piController != nullptr)
+    {
+        _piController->setTargetTemperature(targetTemperature);
+    }
     if (ParamCLI_CHControlTemperature1 != PT_CLIControlTemperature::FakeSetTemperature)
     {
         if (_turnOnTimer == 0)
@@ -174,6 +205,17 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
 
 void ClimateDevice::loop()
 {
+    if (_piController != nullptr && _roomTemperatureRawKnx != std::numeric_limits<uint16_t>::max() && _targetTemperatureRawKnx != std::numeric_limits<uint16_t>::max())
+    {
+        if (_piController->loop())
+        {
+            float positionValue = _piController->getPositionValue();
+            if (KoCLI_CDevSet.valueCompare(positionValue, DPT_Scaling));
+            {
+                logDebugP("Setting position value to %.1f%% for device %d", positionValue, deviceNumber());
+            }
+        }
+    }
     if (_turnOnTimer != 0 && millis() - _turnOnTimer > 500)
     {
         _turnOnTimer = 0;
@@ -239,13 +281,23 @@ void ClimateDevice::setMode(ClimateModeSelection mode)
 
 void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
 {
-    logInfoP("Set room temperature: %0.1f °C", _roomChannel.getTemperatureFromRawKnx(roomTemperatureRawKnx));
+    _roomTemperatureRawKnx = roomTemperatureRawKnx;
+    auto roomTemperature = _roomChannel.getTemperatureFromRawKnx(roomTemperatureRawKnx);
+    logInfoP("Set room temperature: %0.1f °C", roomTemperature);
     KoCLI_CDevRoomTemp.value(roomTemperatureRawKnx, DPT_Value_2_Ucount);
+    if (_piController != nullptr)
+    {
+        _piController->setCurrentTemperature(roomTemperature);
+    }
 }
 
 void ClimateDevice::logStatus()
 {
     logInfoP("Mode %s", ClimateModeSelectionHelper::toString(_mode));
+    if (_piController != nullptr)
+    {
+        _piController->logStatus(logPrefix());
+    }
 }
 
 bool ClimateDevice::supportMode(ClimateModeSelection mode)

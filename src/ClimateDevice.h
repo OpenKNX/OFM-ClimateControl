@@ -3,6 +3,7 @@
 #include "ClimateModeSelection.h"
 
 class RoomChannel;
+class PIController;
 
 class ClimateDevice
 {
@@ -16,6 +17,7 @@ class ClimateDevice
         volatile bool _inReceiveModeFeedbackKo = false;
         bool _waitForSettingTargetTemperature = false;
         uint16_t _targetTemperatureRawKnx = std::numeric_limits<uint16_t>::max();
+        uint16_t _roomTemperatureRawKnx = std::numeric_limits<uint16_t>::max();
         ClimateModeSelection _mode = ClimateModeSelection::Undefined;
         const std::string& logPrefix();
         bool _supportHeating;
@@ -23,6 +25,7 @@ class ClimateDevice
         bool _supportDehumification;
         bool _supportFan;
         unsigned long _waitForSingeModeKosTimer = 0;
+        PIController* _piController = nullptr;
     public:
         ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel, bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan);
         bool supportMode(ClimateModeSelection mode);

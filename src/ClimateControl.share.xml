@@ -82,7 +82,7 @@
               <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
-                  <Enumeration Text="Stellwertvorgabe (TODO)" Value="1" Id="%ENID%" op:headerName="Setpoint" />
+                  <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" op:headerName="Setpoint" />
                   <Enumeration Text="Pulsweiten Modulation (TODO)" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
                   <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe (TODO)" Value="3" Id="%ENID%" op:headerName="FakeSetTemperature" />
                 </TypeRestriction>
@@ -203,6 +203,23 @@
                   <Enumeration Text="1° (TODO)" Value="10" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIPIPreset" Name="CLIPIPreset" op:headerExport="enum">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Fußbodenheizung (5K / 160min)" Value="0" Id="%ENID%" op:headerName="FloorHeating" />
+                  <Enumeration Text="Radiator (3K / 80min)" Value="1" Id="%ENID%" op:headerName="Radiator" />
+                  <Enumeration Text="Luftheizung (2K / 30min)" Value="2" Id="%ENID%" op:headerName="AirHeating" />
+                  <Enumeration Text="Benutzerdefiniert" Value="15" Id="%ENID%" op:headerName="Custom" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-CLIPIP" Name="CLIPIP">
+								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="22" />
+							</ParameterType>  
+
+               <ParameterType Id="%AID%_PT-CLIPID" Name="CLIPID">
+								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="10" maxInclusive="250" />
+							</ParameterType>  
 
               <ParameterType Id="%AID%_PT-CLITargetLimitHandling" Name="CLITargetLimitHandling" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
