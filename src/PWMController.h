@@ -39,6 +39,8 @@ public:
      */
     PWMController(uint16_t periodSeconds);
 
+    void reset();
+
     /**
      * @brief Set the position/setpoint value
      * @param positionValue Desired output level [0.0..100.0] %

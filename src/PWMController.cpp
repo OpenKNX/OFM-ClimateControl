@@ -12,6 +12,12 @@ PWMController::PWMController(uint16_t periodSeconds)
 {
 }
 
+void PWMController::reset()
+{
+    _positionValue = 0.0f;
+    _output = false;
+    _periodStartTime = 0;
+}
 /**
  * Set position value
  */
@@ -28,12 +34,12 @@ bool PWMController::loop()
     const unsigned long periodMs = (unsigned long)_periodSeconds * 1000UL;
 
     // Elapsed time within current period (unsigned subtraction handles millis() overflow)
-    unsigned long elapsed = millis() - _periodStartTime;
+    unsigned long elapsed = _periodStartTime > 0 ? millis() - _periodStartTime : 0;
 
     // Start a new period if this is the first call or the current period has ended
     if (_periodStartTime == 0 || elapsed >= periodMs)
     {
-        _periodStartTime = millis();
+        _periodStartTime = max(1UL, millis());
         elapsed = 0;
     }
 
@@ -56,7 +62,6 @@ bool PWMController::loop()
         const unsigned long onTimeMs = (unsigned long)((_positionValue / 100.0f) * (float)periodMs);
         _output = (elapsed < onTimeMs);
     }
-
     return (_output != prevOutput);
 }
 

@@ -191,7 +191,7 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
     {
         _piController->setTargetTemperature(targetTemperature);
     }
-    if (ParamCLI_CHControlTemperature1 != PT_CLIControlTemperature::FakeSetTemperature)
+    if (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::TargetTemperature)
     {
         if (_turnOnTimer == 0)
         {
@@ -206,7 +206,7 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
             _waitForSettingTargetTemperature = true;
         }
     }
-    else
+    else if (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::FakeSetTemperature)
     {
         logDebugP("Not sending target temperature %0.1f °C to device %d because in temperature fake mode", _roomChannel.getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber());
     }
@@ -219,17 +219,26 @@ void ClimateDevice::loop()
         if (_piController->loop())
         {
             float positionValue = _piController->getPositionValue();
-            if (KoCLI_CDevSet.valueCompare(positionValue, DPT_Scaling));
+            if (KoCLI_CDevSet.valueCompare(positionValue, DPT_Scaling))
             {
-                logDebugP("Setting position value to %.1f%% for device %d", positionValue, deviceNumber());
+                logDebugP("Setting position value to %d for device %d", (uint8_t) positionValue, deviceNumber());
             }
             if (_pwmController != nullptr)
             {
                 _pwmController->setPositionValue(positionValue);
-                KoCLI_CDevPWM.value(_pwmController->getPWMOutput(), DPT_Scaling);
             }
-        
-           
+        }
+        if (_pwmController != nullptr)
+        {
+            if (_pwmController->loop())
+            {
+                bool pwmOutput = _pwmController->getPWMOutput();
+                if (KoCLI_CDevPWM.valueCompare(pwmOutput, DPT_Switch))
+                {
+                    logDebugP("Setting PWM output to %d for device %d", pwmOutput, deviceNumber());
+                    KoCLI_CDevPWM.value(pwmOutput, DPT_Switch);
+                }
+            }
         }
     }
     if (_turnOnTimer != 0 && millis() - _turnOnTimer > 500)
@@ -291,6 +300,10 @@ void ClimateDevice::setMode(ClimateModeSelection mode)
                 KoCLI_CHDehumificationOut.value(mode == ClimateModeSelection::Dehumification, DPT_Switch);
                 KoCLI_CHFanOut.value(mode == ClimateModeSelection::Fan, DPT_Switch);
                 break;
+        }
+        if (_piController != nullptr)
+        {
+            _piController->setOperationMode(mode);
         }
     }
 }

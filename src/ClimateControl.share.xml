@@ -90,7 +90,7 @@
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
                   <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" op:headerName="Setpoint" />
-                  <Enumeration Text="Pulsweiten Modulation (TODO)" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
+                  <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
                   <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe (TODO)" Value="3" Id="%ENID%" op:headerName="FakeSetTemperature" />
                 </TypeRestriction>
               </ParameterType>

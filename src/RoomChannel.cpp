@@ -85,6 +85,7 @@ void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_
 {
     _targetTemperatureCoolingRawKnx = openknx.flash.readWord();
     _targetTemperatureHeatingRawKnx = openknx.flash.readWord();
+
     _currentMode = (ClimateModeSelection)openknx.flash.readByte();
     _currentPower = (PowerState)openknx.flash.readByte();
 }
@@ -493,6 +494,7 @@ void RoomChannel::setMode(ClimateModeSelection mode)
                     _waitForPower = false;
                 }
             }
+            setTargetTemperatureRawKnx(getTargetTemperatureRawKnx()); // Update target temperature if needed for new mode
         }
         handle();
     }
@@ -751,11 +753,13 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
     }
     if (_useCoolingTargetTemperature)
     {
-        _targetTemperatureCoolingRawKnx = limitSetTemperature(_forceSendTargetTemperature, ParamCLI_CH2TargetTemp ? "Cooling" : "", _targetTemperatureCoolingRawKnx, targetTemperatureRawKnx, ParamCLI_CHTargetMinCooling, ParamCLI_CHTargetMaxCooling, roundingParam) ;
+        targetTemperatureRawKnx = limitSetTemperature(_forceSendTargetTemperature, ParamCLI_CH2TargetTemp ? "Cooling" : "", _targetTemperatureCoolingRawKnx, targetTemperatureRawKnx, ParamCLI_CHTargetMinCooling, ParamCLI_CHTargetMaxCooling, roundingParam) ;
+        _targetTemperatureCoolingRawKnx = targetTemperatureRawKnx;
     }
     else
     {
-        _targetTemperatureHeatingRawKnx = limitSetTemperature(_forceSendTargetTemperature, ParamCLI_CH2TargetTemp ? "Heating" : "", _targetTemperatureHeatingRawKnx, targetTemperatureRawKnx, ParamCLI_CHTargetMinHeating, ParamCLI_CHTargetMaxHeating, roundingParam);
+        targetTemperatureRawKnx = limitSetTemperature(_forceSendTargetTemperature, ParamCLI_CH2TargetTemp ? "Heating" : "", _targetTemperatureHeatingRawKnx, targetTemperatureRawKnx, ParamCLI_CHTargetMinHeating, ParamCLI_CHTargetMaxHeating, roundingParam);
+        _targetTemperatureHeatingRawKnx = targetTemperatureRawKnx;
     }
     KoCLI_CTargetTempFb.valueCompare(targetTemperatureRawKnx, DPT_Value_2_Ucount);
     if (_forceSendTargetTemperature)
@@ -775,23 +779,25 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
     }
 }
 
-uint8_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType, uint8_t currentTargetTemperatureRawKnx, uint8_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam)
+uint16_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType, uint16_t currentTargetTemperatureRawKnx, uint16_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam)
 {
     float targetTemperature = getTemperatureFromRawKnx(targetTemperatureRawKnx);
     float currentTargetTemperature = getTemperatureFromRawKnx(currentTargetTemperatureRawKnx);
-    logDebugP("Set %s target temperature to %0.1f °C", tempType, getTemperatureFromRawKnx(targetTemperatureRawKnx));
+    logDebugP("Set %s target temperature to %0.2f °C", tempType, getTemperatureFromRawKnx(targetTemperatureRawKnx));
     if (roundingParam != 0)
     {
-        targetTemperature = roundTemperature(targetTemperature, roundingParam);
-        auto rawTemp = getRawKnxFromTemperature(targetTemperature);
-        if (rawTemp != targetTemperatureRawKnx)
+        auto roundedTargetTemperature = roundTemperature(targetTemperature, roundingParam);
+        auto rawRoundedTemp = getRawKnxFromTemperature(roundedTargetTemperature);
+        if (rawRoundedTemp != currentTargetTemperatureRawKnx)
         {
-            logDebugP("%s temperature rounded to %0.1f °C", tempType, targetTemperature);
-            targetTemperatureRawKnx = rawTemp;
+            logDebugP("%s temperature rounded to %0.2f °C", tempType, roundedTargetTemperature);
+            targetTemperature = roundedTargetTemperature;
+            targetTemperatureRawKnx = rawRoundedTemp;
             forceSend = true;
         }
         else
         {
+            logDebugP("check for round up or down");
             // Check for round up or down
             auto diff = targetTemperature - currentTargetTemperature;
             if (abs(diff) > 0.05f)
@@ -800,14 +806,30 @@ uint8_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType,
                 if (diff > 0)
                 {
                     targetTemperature = currentTargetTemperature + step;
-                    logDebugP("%s temperature rounded up to %0.1f °C (diff: %0.1f °C)", tempType, targetTemperature, diff);
+                    targetTemperatureRawKnx = getRawKnxFromTemperature(targetTemperature);
+                    logDebugP("%s temperature rounded up to %0.2f °C (diff: %0.2f °C)", tempType, targetTemperature, diff);
                 }
                 else
                 {
                     targetTemperature = currentTargetTemperature - step;
-                    logDebugP("%s temperature rounded down to %0.1f °C (diff: %0.1f °C)", tempType, targetTemperature, diff);
+                    targetTemperatureRawKnx = getRawKnxFromTemperature(targetTemperature);
+                    logDebugP("%s temperature rounded down to %0.2f °C (diff: %0.2f °C)", tempType, targetTemperature, diff);
                 }
                 forceSend = true;
+            }
+            else
+            {
+                if (rawRoundedTemp != targetTemperatureRawKnx)
+                {
+                    targetTemperature = currentTargetTemperature;
+                    targetTemperatureRawKnx = currentTargetTemperatureRawKnx;
+                    logDebugP("%s temperature  %0.2f °C unchanged because minimal offset %0.2f", tempType, getTemperatureFromRawKnx(targetTemperatureRawKnx), diff);
+                    forceSend = true;
+                }
+                else
+                {
+                    logDebugP("%s temperature unchanged", tempType);
+                }
             }
         }
     }
@@ -815,15 +837,15 @@ uint8_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType,
     {
         targetTemperatureRawKnx = getRawKnxFromTemperature(minTemperature);
         forceSend = true;
-        logDebugP("%s target temperature too low, set to minimum %0.1f °C", tempType, minTemperature);
+        logDebugP("%s target temperature too low, set to minimum %0.2f °C", tempType, minTemperature);
     }
-    else if (targetTemperatureRawKnx > maxTemperature)
+    else if (targetTemperature > maxTemperature)
     {
         targetTemperatureRawKnx = getRawKnxFromTemperature(maxTemperature);
         forceSend = true;
-        logDebugP("%s target temperature too high, set to maximum %0.1f °C", tempType, maxTemperature);
+        logDebugP("%s target temperature too high, set to maximum %0.2f °C", tempType, maxTemperature);
     }
-    logDebugP("Set %s target temperature to %0.1f °C", tempType, getTemperatureFromRawKnx(targetTemperatureRawKnx));
+    logDebugP("Finally set %s target temperature to %0.2f °C", tempType, getTemperatureFromRawKnx(targetTemperatureRawKnx));
     return targetTemperatureRawKnx;
 }
 

@@ -1,32 +1,32 @@
 #pragma once
 #include "OpenKNX.h"
+#include "ClimateModeSelection.h"
 /**
  * @class HeatingController
  * @brief PI (Proportional-Integral) heating controller for HVAC systems
- * 
+ *
  * This class implements a professional-grade PI controller for heating systems.
  * It calculates an actuator value (0-100%) to control heating based on the
  * difference between target and current temperature.
- * 
+ *
  * PI-Controller Theory:
  * - Proportional (P): Fast response to temperature deviation
  *   Output_P = error / Xp * 100
  * - Integral (I): Removes steady-state error over time
  *   Output_I = accumulated(error / Tn * cycleTime)
  * - Final Output = Output_P + Output_I, saturated to [0, 100]
- * 
+ *
  * Key Parameters:
  * - Xp (Proportional Range) [K]: Temperature range for 100% actuator output
- *   - Smaller Xp → more aggressive control, higher risk of oscillation
+ *   - Smaller Xp -> more aggressive control, higher risk of oscillation
  *   - Typical range: 1.0 - 6.0 K
  * - Tn (Integral Time) [s]: Time for integral part to reach P-value
- *   - Smaller Tn → faster integral accumulation
+ *   - Smaller Tn -> faster integral accumulation
  *   - Typical range: 60 - 600 s
  */
 
 class PIController
 {
- 
 
 private:
     // PI Controller Parameters
@@ -34,19 +34,20 @@ private:
     float _integralTime;       // Tn [s] - integral time constant
 
     // Temperature values
-    float _currentTemperature;  // Current room/actual temperature [°C]
-    float _targetTemperature;   // Target/setpoint temperature [°C]
+    float _currentTemperature;  // Current room/actual temperature [deg C]
+    float _targetTemperature;   // Target/setpoint temperature [deg C]
 
     // PI Algorithm State
     float _integralPart;        // Accumulated integral value
     float _lastError;           // Previous error for zero-crossings
     float _positionValue;       // Output value [0..100]
+    ClimateModeSelection _operationMode;  // Operating mode for control direction
 
     // Timing
-    unsigned long _lastCalculationTime;  // Timestamp of last loop() call
-    unsigned long _defaultCycleTimeMs;           // Default cycle time [ms]
-    const unsigned long MIN_CYCLE_TIME_MS = 50;   // Minimum safe cycle time
-    const unsigned long MAX_CYCLE_TIME_MS = 10000; // Maximum reasonable cycle time
+    unsigned long _lastCalculationTime;   // Timestamp of last loop() call
+    unsigned long _defaultCycleTimeMs;    // Default cycle time [ms]
+    const unsigned long MIN_CYCLE_TIME_MS = 50;     // Minimum safe cycle time
+    const unsigned long MAX_CYCLE_TIME_MS = 10000;  // Maximum reasonable cycle time
 
     // Limits
     const float MIN_POSITION_VALUE = 0.0f;
@@ -72,19 +73,23 @@ public:
      */
     PIController(float proportionalRange, float integralTime);
 
-
     /**
      * @brief Set current (actual) temperature
-     * @param currentTemperature Current room temperature [°C]
+     * @param currentTemperature Current room temperature [deg C]
      */
     void setCurrentTemperature(float currentTemperature);
 
     /**
      * @brief Set target (setpoint) temperature
-     * @param targetTemperature Target temperature [°C]
+     * @param targetTemperature Target temperature [deg C]
      */
     void setTargetTemperature(float targetTemperature);
 
+    /**
+     * @brief Set controller operation mode
+     * @param operationMode Heating or Cooling
+     */
+    void setOperationMode(ClimateModeSelection operationMode);
 
     /**
      * @brief Main control loop - calculates actuator value
@@ -100,6 +105,7 @@ public:
      */
     float getPositionValue() const;
 
+
     /**
      * @brief Reset controller state
      * Clears integral accumulator and error history.
@@ -109,5 +115,4 @@ public:
 
     /* Log the status to the open knx console */
     void logStatus(std::string prefix);
-
 };

@@ -51,7 +51,7 @@ class RoomChannel : public OpenKNX::Channel
     void handleWindowOpen();
     void resetWindowOpenActions();
     void handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
-    uint8_t limitSetTemperature(bool& forceSend,  const char* tempType, uint8_t currentTargetTemperatureRawKnx, uint8_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam);
+    uint16_t limitSetTemperature(bool& forceSend,  const char* tempType, uint16_t currentTargetTemperatureRawKnx, uint16_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam);
 
     void handleMode(ClimateModeSelection mode);
     void handleAuto();

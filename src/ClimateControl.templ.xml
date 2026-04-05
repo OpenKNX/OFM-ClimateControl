@@ -510,7 +510,7 @@
               <!-- Dev 1 Target Temp-->
               <ComObject Id="%AID%_O-%TT%%CC%109" Number="%K17%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1Set" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Solltemperatur" FunctionText="HVAC: Ausgang, Solltemperatur, °C" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"/>
               <!-- Dev 1 PWM -->
-              <ComObject Id="%AID%_O-%TT%%CC%110" Number="%K18%" ObjectSize="1 Bit" DatapointType="DPST-1-0" Name="C%C%Dev1PWM" Text="{{0:HVAC Kühl-/Heizsystem 1 %C%}}: Pulsweitenmodulation" FunctionText="HVAC: Ausgang, Steuerung, Aus=0 / Ein=1"  ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"/>
+              <ComObject Id="%AID%_O-%TT%%CC%110" Number="%K18%" ObjectSize="1 Bit" DatapointType="DPST-1-1" Name="C%C%Dev1PWM" Text="{{0:HVAC Kühl-/Heizsystem 1 %C%}}: Pulsweitenmodulation" FunctionText="HVAC: Ausgang, Steuerung, Aus=0 / Ein=1"  ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled"/>
               <!-- Dev 1 Target Temp Feedback --> 
               <ComObject Id="%AID%_O-%TT%%CC%111" Number="%K19%" ObjectSize="2 Bytes" DatapointType="DPST-9-1" Name="C%C%Dev1SetFb" Text="{{0:HVAC %C% Kühl-/Heizsystem 1}}: Solltemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" ReadFlag="Disabled" WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" />
               <!-- Dev 1 Room Temp -->
@@ -879,7 +879,7 @@
                              <!-- Dev 1 Room Temp -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%112_R-%TT%%CC%11201"  />
                             <!-- Target temperature rounding HVAC1 -->
-                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%108_R-%TT%%CC%10801" HelpContext="%DOC%" />
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%108_R-%TT%%CC%10801" HelpContext="%DOC%" />
                           </when>
                           <when test="1"> <!-- Stellwertvorgabe -->
                              <!-- Dev 1 Target Set Value-->
@@ -901,7 +901,7 @@
                             <!-- Dev 1 Target PWM -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%110_R-%TT%%CC%11001"  />
                             <!-- PWM 1 -->
-                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%109_R-%TT%%CC%10901" HelpContext="%DOC%" />
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%109_R-%TT%%CC%10901" HelpContext="%DOC%" />
                             <!-- PI Preset 1 -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%105_R-%TT%%CC%10501" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%105_R-%TT%%CC%10501">
@@ -1004,7 +1004,7 @@
                              <!-- Dev 2 Room Temp -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%212_R-%TT%%CC%21201"  />
                             <!-- Target temperature rounding HVAC2 -->
-                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%208_R-%TT%%CC%20801" HelpContext="%DOC%" />
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%208_R-%TT%%CC%20801" HelpContext="%DOC%" />
                           </when>
                           <when test="1"> <!-- Stellwertvorgabe -->
                              <!-- Dev 2 Target Set Value-->
@@ -1026,7 +1026,7 @@
                             <!-- Dev 2 Target PWM -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%210_R-%TT%%CC%21001"  />
                             <!-- PWM 2 -->
-                            <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%209_R-%TT%%CC%20901" HelpContext="%DOC%" />
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%209_R-%TT%%CC%20901" HelpContext="%DOC%" />
                              <!-- PI Preset 2 -->
                             <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%205_R-%TT%%CC%20501" HelpContext="%DOC%" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%205_R-%TT%%CC%20501">

@@ -13,8 +13,9 @@ PIController::PIController(float proportionalRange, float integralTime)
       _integralPart(0.0f),
       _lastError(0.0f),
       _positionValue(0.0f),
+      _operationMode(ClimateModeSelection::Off),
       _lastCalculationTime(0),
-      _defaultCycleTimeMs(1000.0f)
+      _defaultCycleTimeMs(1000)
 {
     // Validate parameters on construction
     _proportionalRange = std::max(proportionalRange, 0.1f);
@@ -45,6 +46,16 @@ void PIController::setTargetTemperature(float targetTemperature)
     }
 }
 
+void PIController::setOperationMode(ClimateModeSelection operationMode)
+{
+    if (_operationMode != operationMode)
+    {
+        _operationMode = operationMode;
+        // Reset state to avoid integral carry-over when changing direction.
+        reset();
+    }
+}
+
 /**
  * Main loop function - call as frequently as possible
  */
@@ -64,12 +75,19 @@ bool PIController::loop()
  */
 void PIController::calculateControlValue()
 {
+    if (_operationMode != ClimateModeSelection::Heating && _operationMode != ClimateModeSelection::Cooling)
+    {
+        _positionValue = 0.0f;
+        return;
+    }
     // Get elapsed time since last call and update timestamp
     float elapsedSeconds = getElapsedTimeSeconds();
-    _lastCalculationTime = millis();
+    _lastCalculationTime = max(1UL, millis());
 
     // Calculate current error
-    float currentError = _targetTemperature - _currentTemperature;
+    float currentError = (_operationMode == ClimateModeSelection::Heating)
+                             ? (_targetTemperature - _currentTemperature)
+                             : (_currentTemperature - _targetTemperature);
 
     // --- Proportional Component ---
     // P = error / Xp * 100
@@ -110,16 +128,18 @@ float PIController::getElapsedTimeSeconds()
 {
     unsigned long currentTime = millis();
     unsigned long elapsedMs = 0;
-
-    // Handle millis() overflow (wraps every ~49 days on 32-bit systems)
-    if (currentTime >= _lastCalculationTime)
+    if (_lastCalculationTime != 0)
     {
-        elapsedMs = currentTime - _lastCalculationTime;
-    }
-    else
-    {
-        // Overflow occurred - assume a default cycle time
-        elapsedMs = (unsigned long)_defaultCycleTimeMs;
+        // Handle millis() overflow (wraps every ~49 days on 32-bit systems)
+        if (currentTime >= _lastCalculationTime)
+        {
+            elapsedMs = currentTime - _lastCalculationTime;
+        }
+        else
+        {
+            // Overflow occurred - assume a default cycle time
+            elapsedMs = (unsigned long)_defaultCycleTimeMs;
+        }
     }
 
     // Clamp to reasonable boundaries to avoid numerical issues
@@ -151,13 +171,19 @@ void PIController::reset()
     _integralPart = 0.0f;
     _lastError = 0.0f;
     _positionValue = 0.0f;
-    _lastCalculationTime = millis();
+    _lastCalculationTime = 0;
 }
 
 void PIController::logStatus(std::string prefix)
 {
-    logInfo(prefix, "PI: Current=%.2f°C, Target=%.2f°C, Output=%.1f%%, P=%.1f%%, I=%.1f%%",
+    const char* modeText = ClimateModeSelectionHelper::toString(_operationMode);
+    float currentError = (_operationMode == ClimateModeSelection::Heating)
+                             ? (_targetTemperature - _currentTemperature)
+                             : (_currentTemperature - _targetTemperature);
+
+    logInfo(prefix, "PI(%s): Current=%.2f°C, Target=%.2f°C, Output=%.1f%%, P=%.1f%%, I=%.1f%%",
+             modeText,
              _currentTemperature, _targetTemperature, _positionValue,
-             (_targetTemperature - _currentTemperature) / _proportionalRange * 100.0f,
+             currentError / _proportionalRange * 100.0f,
              _integralPart);
 }
