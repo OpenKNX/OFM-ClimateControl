@@ -287,7 +287,7 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 ### Rükfall auf Automatik nach
 
 <!-- DOC -->
-### Rundung der Solltemperatur
+### Maximale Genauigkeit der Solltemperatur
 
 <!-- DOC -->
 ### Bei falscher Zieltemperatur
@@ -305,4 +305,13 @@ Anzahl der Tage bis die Umschaltung erfolgt.
 
 <!-- DOC -->
 ### Nachstellzeit
+
+<!-- DOC -->
+### Pulsweitenmodulation Periode
+
+<!-- DOC -->
+### Hysterese Heizen
+
+<!-- DOC -->
+### Hysterese Kühlen
 

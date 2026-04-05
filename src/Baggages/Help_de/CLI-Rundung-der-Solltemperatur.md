@@ -1,2 +1,0 @@
-﻿### Rundung der Solltemperatur
-

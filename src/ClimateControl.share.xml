@@ -70,6 +70,13 @@
                 </TypeRestriction>
 							</ParameterType>
             
+              <ParameterType Id="%AID%_PT-CLIHysteresis" Name="CLIHysteresis" >
+                <TypeRestriction Base="Value" SizeInBit="4" >
+                  <Enumeration Text="0,5°" Value="0" Id="%ENID%" />
+                  <Enumeration Text="1°" Value="1" Id="%ENID%" />
+                  <Enumeration Text="2°" Value="2" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
 
               <ParameterType Id="%AID%_PT-CLIControlMode" Name="CLIControlMode" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" >
@@ -122,6 +129,15 @@
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
                   <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
                   <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
+                </TypeRestriction>
+              </ParameterType>
+
+               <ParameterType Id="%AID%_PT-CLIDeviceSelectionForAuto" Name="CLIDeviceSelectionForAuto" op:headerExport="base" op:headerName="CLIDeviceSelection">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
+                  <Enumeration Text="OpenKNX" Value="3" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
 
@@ -198,9 +214,9 @@
                <ParameterType Id="%AID%_PT-CLITargetTempRounding" Name="CLITargetTempRounding">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="0,1° (TODO)" Value="1" Id="%ENID%" />
-                  <Enumeration Text="0,5° (TODO)" Value="5" Id="%ENID%" />
-                  <Enumeration Text="1° (TODO)" Value="10" Id="%ENID%" />
+                  <Enumeration Text="0,1°" Value="1" Id="%ENID%" />
+                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" />
+                  <Enumeration Text="1°" Value="10" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -217,8 +233,12 @@
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="22" />
 							</ParameterType>  
 
-               <ParameterType Id="%AID%_PT-CLIPID" Name="CLIPID">
+              <ParameterType Id="%AID%_PT-CLIPID" Name="CLIPID">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="10" maxInclusive="250" />
+							</ParameterType>  
+
+              <ParameterType Id="%AID%_PT-CLIPWM" Name="CLIPWM">
+								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="30" />
 							</ParameterType>  
 
               <ParameterType Id="%AID%_PT-CLITargetLimitHandling" Name="CLITargetLimitHandling" op:headerExport="enum">
@@ -228,6 +248,7 @@
                 </TypeRestriction>
               </ParameterType>
 
+           
 
               <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
@@ -238,7 +259,7 @@
               </ParameterType>
 
               <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDeviceWithoutAuto" op:headerExport="none">
-                <TypeRestriction Base="Value" SizeInBit="4">
+                <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
                   <Enumeration Text="Anforderung durch Gruppenobjekt (TODO)" Value="2" Id="%ENID%" />
                 </TypeRestriction>

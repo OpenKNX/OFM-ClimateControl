@@ -2,6 +2,7 @@
 #include "ClimateControlModule.h"
 #include "RoomChannel.h"
 #include "PIController.h"
+#include "PWMController.h"
 
 #define DeviceKoOffset (CLI_KoCDev2Power - CLI_KoCDev1Power)
 #undef CLI_KoCalcNumber
@@ -57,6 +58,9 @@
 #define KoCLI_CDevSet KoCLI_CDev1Set
 #define CLI_KoCDevSet (CLI_KoCDev1Set + _deviceIndex * DeviceKoOffset)
 
+#define KoCLI_CDevPWM KoCLI_CDev1PWM
+#define CLI_KoCDevPWM (CLI_KoCDev1PWM + _deviceIndex * DeviceKoOffset)
+
 #define KoCLI_CDevSetFb KoCLI_CDev1SetFb
 #define CLI_KoCDevSetFb (CLI_KoCDev1SetFb + _deviceIndex * DeviceKoOffset)
 
@@ -81,7 +85,7 @@ ClimateDevice::ClimateDevice(
     _supportFan(supportFan)
 {
     _name = openknx.logger.buildPrefix(roomChannel.name(), _channelIndex + 1) + "Dev" + std::to_string(deviceIndex + 1);
-    if  (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::Setpoint)
+    if  (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::Setpoint || ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::PulseWidthModulation)
     {
         // <Enumeration Text="Fußbodenheizung (5K / 160min)" Value="0" Id="%ENID%" op:headerName="FloorHeating" />
         // <Enumeration Text="Radiator (3K / 80min)" Value="1" Id="%ENID%" op:headerName="Radiator" />
@@ -104,6 +108,11 @@ ClimateDevice::ClimateDevice(
                 break;
                  
         }
+    }
+    if (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::PulseWidthModulation)
+    {
+        _pwmController = new PWMController(ParamCLI_CHPWM1 * 60);
+        KoCLI_CDevPWM.value(false, DPT_Switch);
     }
 
 }
@@ -214,6 +223,13 @@ void ClimateDevice::loop()
             {
                 logDebugP("Setting position value to %.1f%% for device %d", positionValue, deviceNumber());
             }
+            if (_pwmController != nullptr)
+            {
+                _pwmController->setPositionValue(positionValue);
+                KoCLI_CDevPWM.value(_pwmController->getPWMOutput(), DPT_Scaling);
+            }
+        
+           
         }
     }
     if (_turnOnTimer != 0 && millis() - _turnOnTimer > 500)
@@ -298,6 +314,10 @@ void ClimateDevice::logStatus()
     {
         _piController->logStatus(logPrefix());
     }
+    if (_pwmController != nullptr)
+    {
+        _pwmController->logStatus(logPrefix());
+    }
 }
 
 bool ClimateDevice::supportMode(ClimateModeSelection mode)
@@ -314,5 +334,16 @@ bool ClimateDevice::supportMode(ClimateModeSelection mode)
             return _supportFan;
         default:
             return false;
+    }
+}
+
+uint8_t ClimateDevice::getRoundingParameter()
+{
+    switch (ParamCLI_CHControlTemperature1)
+    {
+        case PT_CLIControlTemperature::TargetTemperature:
+            return ParamCLI_CHTargetTempRounding1;
+        default:
+            return 0;
     }
 }

@@ -1,0 +1,2 @@
+﻿### Maximale Genauigkeit der Solltemperatur
+
