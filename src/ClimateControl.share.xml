@@ -14,7 +14,7 @@
               <!-- Status LEDs-->
 							<ParameterType Id="%AID%_PT-SLEDFunc" Name="SLEDFunc">
 								<TypeRestriction Base="Value" SizeInBit="16" UIHint="DropDown">
-									<Enumeration Text="Sommer/Winterbetrieb" Value="404" Id="%ENID%" />
+									<Enumeration Text="HVAC: Sommer/Winterbetrieb" Value="404" Id="%ENID%" />
 								</TypeRestriction>
 							</ParameterType>
 
