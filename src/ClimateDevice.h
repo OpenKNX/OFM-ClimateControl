@@ -18,6 +18,8 @@ class ClimateDevice
         volatile bool _inReceiveModeFeedbackKo = false;
         bool _waitForSettingTargetTemperature = false;
         uint16_t _targetTemperatureRawKnx = std::numeric_limits<uint16_t>::max();
+        bool _needSendTargetTemperaturFromDevice = false;
+        unsigned long _blockForwardTemperatureFeedbackFromDevice = 0;
         uint16_t _roomTemperatureRawKnx = std::numeric_limits<uint16_t>::max();
         ClimateModeSelection _mode = ClimateModeSelection::Undefined;
         const std::string& logPrefix();

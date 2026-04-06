@@ -23,6 +23,27 @@ void PWMController::reset()
  */
 void PWMController::setPositionValue(float positionValue)
 {
+    const float minSwitchTimeSeconds = 3.0f; // Shortest ON or OFF phase
+    float onePercentTimeMs = _periodSeconds / 100.0f;
+    float minPeriodInPercantage = minSwitchTimeSeconds / onePercentTimeMs;
+
+    // Prevent to short ON of OFF phase
+    if (positionValue < 1.f)
+    {
+        positionValue = 0.f;
+    }
+    else if (positionValue > 99.f)
+    {
+        positionValue = 100.0f;
+    }
+    else if (positionValue < minPeriodInPercantage)
+    {
+        positionValue = minPeriodInPercantage;
+    }
+    else if (positionValue > 100.f - minPeriodInPercantage)
+    {
+        positionValue = 100.f - minPeriodInPercantage;
+    }
     _positionValue = std::clamp(positionValue, 0.0f, 100.0f);
 }
 

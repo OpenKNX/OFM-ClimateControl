@@ -88,9 +88,9 @@
 
               <ParameterType Id="%AID%_PT-CLIControlTemperature" Name="CLIControlTemperature" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
-                  <Enumeration Text="Solltemperaturvorgabe" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
-                  <Enumeration Text="Stellwertvorgabe" Value="1" Id="%ENID%" op:headerName="Setpoint" />
-                  <Enumeration Text="Pulsweiten Modulation" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
+                  <Enumeration Text="Solltemperaturvorgabe (Regelung über Aktor)" Value="0" Id="%ENID%" op:headerName="TargetTemperature" />
+                  <Enumeration Text="Stellwertvorgabe (Motorventil, Aktor)" Value="1" Id="%ENID%" op:headerName="Setpoint" />
+                  <Enumeration Text="Pulsweiten Modulation (thermoelektrisches Ventil)" Value="2" Id="%ENID%" op:headerName="PulseWidthModulation" />
                   <Enumeration Text="Regelung durch OpenKNX über angepasste Solltemperaturvorgabe (TODO)" Value="3" Id="%ENID%" op:headerName="FakeSetTemperature" />
                 </TypeRestriction>
               </ParameterType>
@@ -238,7 +238,7 @@
 							</ParameterType>  
 
               <ParameterType Id="%AID%_PT-CLIPWM" Name="CLIPWM">
-								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="30" />
+								<TypeNumber SizeInBit="16" Type="unsignedInt" minInclusive="20" maxInclusive="1200" />
 							</ParameterType>  
 
               <ParameterType Id="%AID%_PT-CLITargetLimitHandling" Name="CLITargetLimitHandling" op:headerExport="enum">

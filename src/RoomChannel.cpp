@@ -215,6 +215,15 @@ bool RoomChannel::processCommand(const std::string cmd, bool diagnoseKo)
         logStatus();
         return true;
     }
+#ifdef OPENKNX_DEBUG
+    if (cmd == "test")
+    {
+        logInfoP("Test command received, sending test values");
+        KoCLI_CTargetTemp.value((float) 24.3, DPT_Value_Temp);
+        KoCLI_CDev1SetFb.value((float) 24, DPT_Value_Temp);
+        return true;
+    }
+#endif
     return false;
 }
 
@@ -281,7 +290,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
                 logInfoP("Received target temperature %0.1f (%d) °C from bus", getTemperatureFromRawKnx(targetTemperatureRawKnx), (int)targetTemperatureRawKnx);
             }
             _forceSendTargetTemperature = true;
-            setTargetTemperatureRawKnx(targetTemperatureRawKnx);
+            setTargetTemperatureRawKnx(targetTemperatureRawKnx, ChangeSource::User);
             break;
         }
         case CLI_KoCTargetTempRelativ:
@@ -299,7 +308,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
                 {
                     temp -= offset;
                 }
-                setTargetTemperatureRawKnx(getRawKnxFromTemperature(temp));
+                setTargetTemperatureRawKnx(getRawKnxFromTemperature(temp), ChangeSource::User);
             }
             break;
         }
@@ -392,7 +401,10 @@ void RoomChannel::setWindowOpen(bool open)
 
 void RoomChannel::resetWindowOpenActions()
 {
-    logInfoP("Reset window open actions");
+    if (_windowOpenAction1Handled || _windowOpenAction2Handled || _windowOpenAction3Handled || _windowOpenAction4Handled || _windowOpenAction5Handled)
+        logInfoP("Reset window open actions");
+    else
+        logDebugP("Reset window open actions");
     _windowOpenTimer = 0;
     _waitForRoomTemperatureStable = false;
     _windowOpenAction1Handled = false;
@@ -410,7 +422,7 @@ void RoomChannel::resetWindowOpenActions()
     if (_targetTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
     {
         logDebugP("Restore target temperature %0.1f °C after window closed", getTemperatureFromRawKnx(_targetTemperatureBeforeWindowOpen));
-        setTargetTemperatureRawKnx(_targetTemperatureBeforeWindowOpen);
+        setTargetTemperatureRawKnx(_targetTemperatureBeforeWindowOpen, ChangeSource::Internal);
         _targetTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
     }
     if (_roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
@@ -479,6 +491,7 @@ void RoomChannel::setMode(ClimateModeSelection mode)
         }
         if (mode != _currentMode && mode != ClimateModeSelection::Undefined)
         {
+            resetWindowOpenActions();
             _currentMode = mode;
             _waitForMode = false;
             if (mode == ClimateModeSelection::Off)
@@ -494,7 +507,7 @@ void RoomChannel::setMode(ClimateModeSelection mode)
                     _waitForPower = false;
                 }
             }
-            setTargetTemperatureRawKnx(getTargetTemperatureRawKnx()); // Update target temperature if needed for new mode
+            setTargetTemperatureRawKnx(getTargetTemperatureRawKnx(), ChangeSource::User); // Update target temperature if needed for new mode
         }
         handle();
     }
@@ -556,13 +569,13 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
     {
         if (_useCoolingTargetTemperature)
             _targetTemperatureHeatingRawKnx = _targetTemperatureCoolingRawKnx;
-        setTargetTemperatureRawKnx(_targetTemperatureSetWhileStartingRawKnx);
+        setTargetTemperatureRawKnx(_targetTemperatureSetWhileStartingRawKnx, ChangeSource::Internal);
         _targetTemperatureSetWhileStartingRawKnx = std::numeric_limits<uint16_t>::max();
     }
     else
     {
-        // Set new target temperature if needed
-        setTargetTemperatureRawKnx(getTargetTemperatureRawKnx());
+        // Force to update target temperature for new mode
+        setTargetTemperatureRawKnx(getTargetTemperatureRawKnx(), ChangeSource::Internal);
     }
 
     if (mode != ClimateModeSelection::Off && _currentPower == PowerState::Off)
@@ -695,17 +708,22 @@ void RoomChannel::setTargetTemperatureFromDevice(uint16_t targetTemperatureRawKn
         logInfoP("Received temperature feedback %0.1f °C from device %d while starting, ignoring", getTemperatureFromRawKnx(targetTemperatureRawKnx), device.deviceNumber());
         return;
     }
+    if (_targetTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
+    {
+        logInfoP("Received temperature feedback %0.1f °C from device %d while window open, ignoring", getTemperatureFromRawKnx(targetTemperatureRawKnx), device.deviceNumber());
+        return;
+    }
     auto deviceNumber = device.deviceNumber();
     if (_currentActiveMode == ClimateModeSelection::Cooling && device.supportMode(ClimateModeSelection::Cooling))
     {
         logInfoP("Received cooling temperature feedback %0.1f °C from active device %d", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
-        setTargetTemperatureRawKnx(targetTemperatureRawKnx);
+        setTargetTemperatureRawKnx(targetTemperatureRawKnx, ChangeSource::Device);
         return;
     }
     if (_currentActiveMode == ClimateModeSelection::Heating && device.supportMode(ClimateModeSelection::Heating))
     {
         logInfoP("Received heating temperature feedback %0.1f °C from active device %d", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
-        setTargetTemperatureRawKnx(targetTemperatureRawKnx);
+        setTargetTemperatureRawKnx(targetTemperatureRawKnx, ChangeSource::Device);
         return;
     }
     if (ParamCLI_CH2TargetTemp)
@@ -726,7 +744,7 @@ void RoomChannel::setTargetTemperatureFromDevice(uint16_t targetTemperatureRawKn
     logWarningP("Received temperature feedback %0.1f °C from device %d which will be dropped", getTemperatureFromRawKnx(targetTemperatureRawKnx), deviceNumber);
 }
 
-void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
+void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, ChangeSource changeSource)
 {
     if (!_started)
     {
@@ -734,20 +752,28 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx)
         logDebugP("Set target temperature to %0.1f °C while starting", getTemperatureFromRawKnx(targetTemperatureRawKnx));
         return;
     }
-    uint8_t roundingParam = 0;
-    ClimateModeSelection searchForMode = _currentActiveMode;
-    if (searchForMode != ClimateModeSelection::Cooling && searchForMode != ClimateModeSelection::Heating)
+    if (changeSource == ChangeSource::User)
     {
-        searchForMode = _useCoolingTargetTemperature ? ClimateModeSelection::Cooling : ClimateModeSelection::Heating;
+        resetWindowOpenActions();
     }
-    for (auto &device : _climateDevices)
+    uint8_t roundingParam = 0;
+    if (changeSource != ChangeSource::Device)
     {
-        if (device.supportMode(searchForMode))
+        // Rounding must not be used, if temperarture is cooming from device feedback
+        ClimateModeSelection searchForMode = _currentActiveMode;
+        if (searchForMode != ClimateModeSelection::Cooling && searchForMode != ClimateModeSelection::Heating)
         {
-            auto roundingParamDevice = device.getRoundingParameter();
-            if (roundingParamDevice > roundingParam)
+            searchForMode = _useCoolingTargetTemperature ? ClimateModeSelection::Cooling : ClimateModeSelection::Heating;
+        }
+        for (auto &device : _climateDevices)
+        {
+            if (device.supportMode(searchForMode))
             {
-                roundingParam = roundingParamDevice;
+                auto roundingParamDevice = device.getRoundingParameter();
+                if (roundingParamDevice > roundingParam)
+                {
+                    roundingParam = roundingParamDevice;
+                }
             }
         }
     }
@@ -1056,7 +1082,7 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_
                         float currentTargetTemp = getTemperatureFromRawKnx(tempTemperatureBeforeWindowOpen);
                         float adjustedTargetTemp = currentTargetTemp + correctionOffset;
                         logDebugP("Action %d: Change current target %0.1f °C to %0.1f °C", actionNumber, currentTargetTemp, adjustedTargetTemp);
-                        setTargetTemperatureRawKnx(getRawKnxFromTemperature(adjustedTargetTemp));
+                        setTargetTemperatureRawKnx(getRawKnxFromTemperature(adjustedTargetTemp), ChangeSource::Internal);
                         _targetTemperatureBeforeWindowOpen = tempTemperatureBeforeWindowOpen;
                     }
                     else
@@ -1069,7 +1095,7 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_
                 if (_targetTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
                 {
                     logDebugP("Action %d: Revert target temperature to %0.1f °C", actionNumber, getTemperatureFromRawKnx(_targetTemperatureBeforeWindowOpen));
-                    setTargetTemperatureRawKnx(_targetTemperatureBeforeWindowOpen);
+                    setTargetTemperatureRawKnx(_targetTemperatureBeforeWindowOpen, ChangeSource::Internal);
                     _targetTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
                 }
                 else

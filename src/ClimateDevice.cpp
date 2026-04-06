@@ -111,7 +111,7 @@ ClimateDevice::ClimateDevice(
     }
     if (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::PulseWidthModulation)
     {
-        _pwmController = new PWMController(ParamCLI_CHPWM1 * 60);
+        _pwmController = new PWMController(ParamCLI_CHPWM1);
         KoCLI_CDevPWM.value(false, DPT_Switch);
     }
 
@@ -141,9 +141,16 @@ void ClimateDevice::processInputKo(GroupObject& ko)
         logInfoP("Device %d received ko %d (%d)", deviceNumber(), (int)ko.asap(), koNr);
         if (ParamCLI_CHControlTemperature1 != PT_CLIControlTemperature::FakeSetTemperature)
         {
-            _inReceiveTempFeedbackKo = true;
-            _roomChannel.setTargetTemperatureFromDevice(ko.value(DPT_Value_2_Ucount), *this);
-            _inReceiveTempFeedbackKo = false;
+            if (_blockForwardTemperatureFeedbackFromDevice != 0)
+            {
+                _needSendTargetTemperaturFromDevice = true;
+            }
+            else
+            {
+                _inReceiveTempFeedbackKo = true;
+                _roomChannel.setTargetTemperatureFromDevice(ko.value(DPT_Value_2_Ucount), *this);
+                _inReceiveTempFeedbackKo = false;
+            }
         }
         else
         {
@@ -185,6 +192,8 @@ void ClimateDevice::processInputKo(GroupObject& ko)
 void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
 {
     _targetTemperatureRawKnx = targetTemperatureRawKnx;
+    if (!_inReceiveTempFeedbackKo)
+        _blockForwardTemperatureFeedbackFromDevice = max(1UL, millis());
     auto targetTemperature = _roomChannel.getTemperatureFromRawKnx(targetTemperatureRawKnx);
     logInfoP("Set target temperature to %0.1f °C", targetTemperature);
     if (_piController != nullptr)
@@ -214,6 +223,18 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
 
 void ClimateDevice::loop()
 {
+    if (_blockForwardTemperatureFeedbackFromDevice != 0 && millis() - _blockForwardTemperatureFeedbackFromDevice > 5000)
+    {
+        _blockForwardTemperatureFeedbackFromDevice = 0;
+        if (_needSendTargetTemperaturFromDevice)
+        {
+            _needSendTargetTemperaturFromDevice = false;
+            _inReceiveTempFeedbackKo = true;
+            _roomChannel.setTargetTemperatureFromDevice(KoCLI_CDevSetFb.value(DPT_Value_2_Ucount), *this);
+            _inReceiveTempFeedbackKo = false;
+
+        }
+    }
     if (_piController != nullptr && _roomTemperatureRawKnx != std::numeric_limits<uint16_t>::max() && _targetTemperatureRawKnx != std::numeric_limits<uint16_t>::max())
     {
         if (_piController->loop())

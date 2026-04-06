@@ -7,13 +7,18 @@
 
 class RoomChannel : public OpenKNX::Channel
 {
-  enum class PowerState : uint8_t
-  {
-      On = 0,
-      Off = 1,
-      Undefined =255 
-  };
-  private:
+    enum class ChangeSource
+    {
+        User,
+        Internal,
+        Device
+    };
+    enum class PowerState : uint8_t
+    {
+        On = 0,
+        Off = 1,
+        Undefined =255 
+    };
     const static ClimateModeSelection DefaultMode = ClimateModeSelection::Auto;
     int _channelIndex;
     bool _waitForTargetTemperature = true;
@@ -59,7 +64,7 @@ class RoomChannel : public OpenKNX::Channel
     void setPower(PowerState power);
     void setInitTargetTemperatur();
     uint16_t getTargetTemperatureRawKnx();
-    void setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx);
+    void setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, ChangeSource changeSource);
     float roundTemperature(float temperature, uint8_t roundingParam);
   public:
     RoomChannel(int channelIndex);
