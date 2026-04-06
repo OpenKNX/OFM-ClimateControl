@@ -6,10 +6,11 @@
 #include "OpenKNX.h"
 #include "ChannelOwnerModule.h"
 #include "ClimateModeSelection.h"
-
+#include "LedFunctionSummerWinterOperation.h"
 
 class ClimateControlModule : public ClimateControlChannelOwnerModule
 {
+    LedFunctionSummerWinterOperation _ledFunctionSummerWinterOperation;
     bool _started = false;
     bool _waitForValidDate = false;
     bool _waitForIsWinterValid = false;

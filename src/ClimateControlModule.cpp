@@ -369,6 +369,7 @@ void ClimateControlModule::loop()
         _timeStampIsSummerPossibleForCurrentAverageTemperature = 0;
         setIsWinter(false, "average temperature");
     }
+    _ledFunctionSummerWinterOperation.loop();
 }
 
 void ClimateControlModule::showHelp()

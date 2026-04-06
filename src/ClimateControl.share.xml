@@ -11,6 +11,13 @@
         <ApplicationProgram>
           <Static>
             <ParameterTypes>
+              <!-- Status LEDs-->
+							<ParameterType Id="%AID%_PT-SLEDFunc" Name="SLEDFunc">
+								<TypeRestriction Base="Value" SizeInBit="16" UIHint="DropDown">
+									<Enumeration Text="Sommer/Winterbetrieb" Value="404" Id="%ENID%" />
+								</TypeRestriction>
+							</ParameterType>
+
               <ParameterType Id="%AID%_PT-CLINumChannels" Name="CLINumChannels">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>  
