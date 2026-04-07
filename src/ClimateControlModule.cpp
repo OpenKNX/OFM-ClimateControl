@@ -37,7 +37,7 @@ void ClimateControlModule::writeFlash()
         return;
     }
     logDebugP("Write data to flash");
-    openknx.flash.writeByte(1); // Version
+    openknx.flash.writeByte(2); // Version
     openknx.flash.writeByte(_hourlyTemperaturesWithValidTime ? 1 : 0);
     openknx.flash.write((uint8_t*)_hourlyTemperaturesRawKnx, sizeof(_hourlyTemperaturesRawKnx));
     openknx.flash.writeByte(_isWinterFallbackActive ? 0 : _isWinter ? 2 : 1);
@@ -72,7 +72,7 @@ void ClimateControlModule::readFlash(const uint8_t* iBuffer, const uint16_t iSiz
     if (iSize != 0)
     {
         _versionReadFromFlash = openknx.flash.readByte(); // Version
-        if (_versionReadFromFlash < 1 || _versionReadFromFlash > 1)
+        if (_versionReadFromFlash < 1 || _versionReadFromFlash > 2)
         {
             logWarningP("Unknown flash version %d, ignoring flash data", _versionReadFromFlash);
         }

@@ -34,6 +34,7 @@ class RoomChannel : public OpenKNX::Channel
     uint16_t _targetTemperatureCoolingRawKnx = std::numeric_limits<uint16_t>::max();
     uint16_t _targetTemperatureHeatingRawKnx = std::numeric_limits<uint16_t>::max();
     ClimateModeSelection _currentMode = ClimateModeSelection::Undefined;
+    ClimateModeSelection _lastActiveMode = ClimateModeSelection::Undefined;
     ClimateModeSelection _currentActiveMode = ClimateModeSelection::Undefined;
     PowerState _currentPower= PowerState::Undefined;
     std::vector<ClimateDevice> _climateDevices;

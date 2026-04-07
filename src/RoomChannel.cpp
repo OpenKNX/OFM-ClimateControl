@@ -3,8 +3,10 @@
 #include <cmath>
 
 RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
-                                             _name("RoomChannel")
+                                             _name("RoomChannel"),
+                                             _lastActiveMode(DefaultMode)
 {
+    
     _climateDevices.push_back(ClimateDevice(channelIndex, 0, *this,
                                             ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
@@ -73,12 +75,13 @@ void RoomChannel::writeFlash()
     {
         openknx.flash.writeByte((uint8_t)_currentMode);
     }
+    openknx.flash.writeByte((uint8_t)_lastActiveMode);
     openknx.flash.writeByte((uint8_t)_currentPower);
 }
 
 uint16_t RoomChannel::flashSize()
 {
-    return 2 /* _targetTemperatureCooling */ + 2 /* _targetTemperatureHeating */ + 1 /* _currentMode */ + 1 /* power */;
+    return 2 /* _targetTemperatureCooling */ + 2 /* _targetTemperatureHeating */ + 1 /* _currentMode */ + 1 /* power */ + 1 /* _lastActiveMode */;
 }
 
 void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_t version)
@@ -87,6 +90,10 @@ void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_
     _targetTemperatureHeatingRawKnx = openknx.flash.readWord();
 
     _currentMode = (ClimateModeSelection)openknx.flash.readByte();
+    if (version >= 2)
+        _lastActiveMode = (ClimateModeSelection)openknx.flash.readByte();
+    else if (_currentMode != ClimateModeSelection::Off)
+        _lastActiveMode = _currentMode;
     _currentPower = (PowerState)openknx.flash.readByte();
 }
 
@@ -363,6 +370,8 @@ void RoomChannel::setPower(PowerState power)
         _currentPower = power;
         if (power == PowerState::Off)
             setMode(ClimateModeSelection::Off);
+        else 
+            setMode(_lastActiveMode);
         handle();
     }
 }
@@ -494,6 +503,8 @@ void RoomChannel::setMode(ClimateModeSelection mode)
         {
             resetWindowOpenActions();
             _currentMode = mode;
+            if (mode != ClimateModeSelection::Off)
+                _lastActiveMode = mode;
             _waitForMode = false;
             if (mode == ClimateModeSelection::Off)
             {
@@ -617,7 +628,7 @@ void RoomChannel::logStatus()
 {
     logInfoP("Power: %s", ((bool) KoCLI_CPowerFb.value(DPT_Switch)) ? "On" : "Off");
     logInfoP("Current mode: %s", ClimateModeSelectionHelper::toString(_currentMode));
-    logInfoP("Last mode: %s", ClimateModeSelectionHelper::toString((ClimateModeSelection)(uint8_t)KoCLI_CModeSelection.value(DPT_DecimalFactor)));
+    logInfoP("Last activemode: %s", ClimateModeSelectionHelper::toString(_lastActiveMode));
     logInfoP("Active mode: %s", ClimateModeSelectionHelper::toString(_currentActiveMode));
     if (ParamCLI_CH2TargetTemp)
     {

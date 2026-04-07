@@ -299,33 +299,30 @@ void ClimateDevice::loop()
 void ClimateDevice::setMode(ClimateModeSelection mode)
 {
     logInfoP("Mode: %s", ClimateModeSelectionHelper::toString(mode));
-    if (_mode != mode)
+    if (mode != _mode && (_mode == ClimateModeSelection::Undefined || _mode == ClimateModeSelection::Off))
     {
-        if (_mode == ClimateModeSelection::Undefined || mode == ClimateModeSelection::Off)
-        {
-            _turnOnTimer = max(1UL, millis());
-        }
-        _mode = mode;
-        switch (ParamCLI_CHControlMode1)
-        {
-            case PT_CLIControlMode::HVAC:
-                KoCLI_CHAVCOut.value((uint8_t)mode, DPT_DecimalFactor);
-                break;
-            case PT_CLIControlMode::HVAC_AND_POWER:
-                KoCLI_CHAVCOut.value((uint8_t)mode, DPT_DecimalFactor);
-                KoCLI_CHPowerOut.value(mode != ClimateModeSelection::Off, DPT_Switch);
-                break;
-            case PT_CLIControlMode::ONE_OBJECT_PER_MODE:
-                KoCLI_CHCoolingOut.value(mode == ClimateModeSelection::Cooling, DPT_Switch);
-                KoCLI_CHHeatinOut.value(mode == ClimateModeSelection::Heating, DPT_Switch);
-                KoCLI_CHDehumificationOut.value(mode == ClimateModeSelection::Dehumification, DPT_Switch);
-                KoCLI_CHFanOut.value(mode == ClimateModeSelection::Fan, DPT_Switch);
-                break;
-        }
-        if (_piController != nullptr)
-        {
-            _piController->setOperationMode(mode);
-        }
+        _turnOnTimer = max(1UL, millis());
+    }
+    _mode = mode;
+    switch (ParamCLI_CHControlMode1)
+    {
+        case PT_CLIControlMode::HVAC:
+            KoCLI_CHAVCOut.value((uint8_t)mode, DPT_DecimalFactor);
+            break;
+        case PT_CLIControlMode::HVAC_AND_POWER:
+            KoCLI_CHAVCOut.value((uint8_t)mode, DPT_DecimalFactor);
+            KoCLI_CHPowerOut.value(mode != ClimateModeSelection::Off, DPT_Switch);
+            break;
+        case PT_CLIControlMode::ONE_OBJECT_PER_MODE:
+            KoCLI_CHCoolingOut.value(mode == ClimateModeSelection::Cooling, DPT_Switch);
+            KoCLI_CHHeatinOut.value(mode == ClimateModeSelection::Heating, DPT_Switch);
+            KoCLI_CHDehumificationOut.value(mode == ClimateModeSelection::Dehumification, DPT_Switch);
+            KoCLI_CHFanOut.value(mode == ClimateModeSelection::Fan, DPT_Switch);
+            break;
+    }
+    if (_piController != nullptr)
+    {
+        _piController->setOperationMode(mode);
     }
 }
 
