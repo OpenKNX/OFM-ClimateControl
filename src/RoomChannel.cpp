@@ -427,6 +427,7 @@ void RoomChannel::resetWindowOpenActions()
     }
     if (_roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
     {
+         _roomTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
         auto currentRoomTemperatureRawKnx = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
         logDebugP("Restore room temperature %0.1f °C after window closed", getTemperatureFromRawKnx(currentRoomTemperatureRawKnx));
         for (auto &device : _climateDevices)
