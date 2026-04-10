@@ -502,9 +502,7 @@ void RoomChannel::setMode(ClimateModeSelection mode)
         if (mode != _currentMode && mode != ClimateModeSelection::Undefined)
         {
             resetWindowOpenActions();
-            _currentMode = mode;
-            if (mode != ClimateModeSelection::Off)
-                _lastActiveMode = mode;
+        
             _waitForMode = false;
             if (mode == ClimateModeSelection::Off)
             {
@@ -518,6 +516,15 @@ void RoomChannel::setMode(ClimateModeSelection mode)
                     _currentPower = PowerState::On;
                     _waitForPower = false;
                 }
+            }
+            if (_currentPower == PowerState::Off)
+            {
+                _currentMode = ClimateModeSelection::Off;
+            }
+            else
+            {
+                _currentMode = mode;
+                _lastActiveMode = mode;
             }
             setTargetTemperatureRawKnx(getTargetTemperatureRawKnx(), ChangeSource::User); // Update target temperature if needed for new mode
         }
@@ -539,7 +546,10 @@ void RoomChannel::handle()
         KoCLI_CPowerFb.objectWritten();
         _forceSendPower = false;
     }
-    KoCLI_CModeSelectionFb.valueCompare((uint8_t)_currentMode, DPT_DecimalFactor);
+    if (ParamCLI_CHModeFeedbackReturnOff == PT_CLIModeFeedback::ReturnOff)
+         KoCLI_CModeSelectionFb.valueCompare((uint8_t)_currentMode, DPT_DecimalFactor);
+    else
+        KoCLI_CModeSelectionFb.valueCompare((uint8_t)_lastActiveMode, DPT_DecimalFactor);
     if (_forceSendMode)
     {
         KoCLI_CModeSelectionFb.objectWritten();
@@ -885,6 +895,38 @@ uint16_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType
     }
     logDebugP("Finally set %s target temperature to %0.2f °C", tempType, getTemperatureFromRawKnx(targetTemperatureRawKnx));
     return targetTemperatureRawKnx;
+}
+
+uint16_t RoomChannel::roundTemperatureAndLimit(float targetTemperature, uint8_t roundingParam)
+{
+    float roundedTargetTemperature = roundTemperature(targetTemperature, roundingParam);
+    if (_useCoolingTargetTemperature)
+    {
+        if (roundedTargetTemperature < ParamCLI_CHTargetMinCooling)
+        {
+            roundedTargetTemperature = ParamCLI_CHTargetMinCooling;
+            logDebugP("Cooling target temperature too low after rounding, set to minimum %0.2f °C", roundedTargetTemperature);
+        }
+        else if (roundedTargetTemperature > ParamCLI_CHTargetMaxCooling)
+        {
+            roundedTargetTemperature = ParamCLI_CHTargetMaxCooling;
+            logDebugP("Cooling target temperature too high after rounding, set to maximum %0.2f °C", roundedTargetTemperature);
+        }
+    }
+    else
+    {
+        if (roundedTargetTemperature < ParamCLI_CHTargetMinHeating)
+        {
+            roundedTargetTemperature = ParamCLI_CHTargetMinHeating;
+            logDebugP("Heating target temperature too low after rounding, set to minimum %0.2f °C", roundedTargetTemperature);
+        }
+        else if (roundedTargetTemperature > ParamCLI_CHTargetMaxHeating)
+        {
+            roundedTargetTemperature = ParamCLI_CHTargetMaxHeating;
+            logDebugP("Heating target temperature too high after rounding, set to maximum %0.2f °C", roundedTargetTemperature);
+        }
+    }
+    return roundedTargetTemperature;
 }
 
 float RoomChannel::roundTemperature(float temperature, uint8_t roundingParam)

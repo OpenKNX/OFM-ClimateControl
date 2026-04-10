@@ -17,10 +17,12 @@
                 <!-- KO for relativ Temperature change -->
                 <Parameter Offset="0" BitOffset="1" Id="%AID%_UP-%TT%%CC%002" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%KOForRelativTempChange" Text="Objekt für relative Solltemperaturänderung" Value="0" />
                 <!-- Mode selection turn on -->
-                <Parameter Offset="0" BitOffset="2" Id="%AID%_UP-%TT%%CC%004" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%ModeSelectionTurnOn" Text="Modusauswahl schaltet ein" Value="1" />
+                <Parameter Offset="0" BitOffset="2" Id="%AID%_UP-%TT%%CC%004" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%ModeSelectionTurnOn" Text="Modus Auswahl schaltet EIN" Value="1" />
                 <!-- Wrong target temperature handling -->
                 <Parameter Offset="0" BitOffset="3" Id="%AID%_UP-%TT%%CC%018" ParameterType="%AID%_PT-CLITargetLimitHandling" Name="CH%C%TargetLimitHandling" Text="Bei falscher Zieltemperatur" Value="0" />
-                <!-- 4 Bits free-->
+                <!-- Mode feedback return off -->
+                <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%019" ParameterType="%AID%_PT-CLIModeFeedback" Name="CH%C%ModeFeedbackReturnOff" Text="Modus Auswahl Aktueller Status bei AUS" Value="0" />
+                <!-- 3 Bits free-->
                 <!-- Relativ temperature change heating value --> 
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeHeating" Text="Erhöhren / Verrringern um" Value="10" />   
                 <!-- Min heating temperature -->
@@ -58,7 +60,7 @@
                 <!-- 3 bits free-->
                 <!-- Relativ temperature change cooling value --> 
                 <Parameter Offset="18" BitOffset="0" Id="%AID%_UP-%TT%%CC%017" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeCooling" Text="Erhöhren / Verrringern um" Value="10" />                
-                <!-- Next Id "%AID%_UP-%TT%%CC%019" -->
+                <!-- Next Id "%AID%_UP-%TT%%CC%020" -->
               </Union>
               <!-- 1 byte free -->
 
@@ -319,6 +321,8 @@
               <ParameterRef Id="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601" RefId="%AID%_UP-%TT%%CC%016" />
               <!-- Wrong target temperature handling -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" RefId="%AID%_UP-%TT%%CC%018" />
+              <!-- Mode feedback return off -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" RefId="%AID%_UP-%TT%%CC%019" />
            
                <!-- HVAC Name 1 -->
               <ParameterRef Id="%AID%_P-%TT%%CC%100_R-%TT%%CC%10001" RefId="%AID%_P-%TT%%CC%100" />
@@ -772,6 +776,9 @@
 
                         <!-- Mode selection turn on -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%004_R-%TT%%CC%00401" HelpContext="%DOC%"/>
+
+                        <!-- Mode feedback return off -->
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" HelpContext="%DOC%" />
                  
                         <!-- Mode restore mode -->
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" HelpContext="%DOC%" />

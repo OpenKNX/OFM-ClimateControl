@@ -142,7 +142,10 @@ Alle für den Raum notwendigen Einstellungen werden in diesem Abschnitt vorgenom
   Wurden keine gespeicherten Werte gefunden, werden die Initialwerte verwendet.
       
 <!-- DOC -->
-### Modusauswahl schaltet ein
+### Modus Auswahl schaltet EIN
+
+<!-- DOC -->
+### Modus Auswahl Aktueller Status bei AUS
 
 <!-- DOC HelpContext="Kuehl-Heizsystemname" -->
 ### Kühl-/Heizsystemname

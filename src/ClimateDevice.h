@@ -5,6 +5,7 @@
 class RoomChannel;
 class PIController;
 class PWMController;
+class TargetTemperatureManipulationController;
 
 class ClimateDevice
 {
@@ -30,6 +31,7 @@ class ClimateDevice
         unsigned long _waitForSingeModeKosTimer = 0;
         PIController* _piController = nullptr;
         PWMController* _pwmController = nullptr;
+        TargetTemperatureManipulationController* _targetTemperatureManipulationController = nullptr;
     public:
         ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel, bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan);
         bool supportMode(ClimateModeSelection mode);

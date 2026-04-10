@@ -57,8 +57,7 @@ class RoomChannel : public OpenKNX::Channel
     void handleWindowOpen();
     void resetWindowOpenActions();
     void handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
-    uint16_t limitSetTemperature(bool& forceSend,  const char* tempType, uint16_t currentTargetTemperatureRawKnx, uint16_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam);
-
+   
     void handleMode(ClimateModeSelection mode);
     void handleAuto();
     void setMode(ClimateModeSelection mode);
@@ -67,6 +66,8 @@ class RoomChannel : public OpenKNX::Channel
     uint16_t getTargetTemperatureRawKnx();
     void setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, ChangeSource changeSource);
     float roundTemperature(float temperature, uint8_t roundingParam);
+    uint16_t limitSetTemperature(bool& forceSend,  const char* tempType, uint16_t currentTargetTemperatureRawKnx, uint16_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam);
+
   public:
     RoomChannel(int channelIndex);
     const std::string name() override;
@@ -83,9 +84,13 @@ class RoomChannel : public OpenKNX::Channel
     void handle();
     bool isWaiting();
     void loop() override;
+    bool useCollingTargetTemperature();
     void setTargetTemperatureFromDevice(uint16_t targetTemperatureRawKnx, ClimateDevice& device);
     void setModeFromDevice(ClimateModeSelection mode, ClimateDevice& device);
     float getTemperatureFromRawKnx(uint16_t rawKnx);
     uint16_t getRawKnxFromTemperature(float temperature);
+    uint16_t roundTemperatureAndLimit(float targetTemperature, uint8_t roundingParam);
+
+   
  
 };
