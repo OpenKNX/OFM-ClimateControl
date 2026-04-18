@@ -118,6 +118,14 @@ ClimateDevice::ClimateDevice(
     if (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::FakeSetTemperature)
     {
         _targetTemperatureManipulationController = new TargetTemperatureManipulationController();
+        if (KoCLI_CDevRoomTemp.initialized())
+        {
+            _targetTemperatureManipulationController->setRoomTemperatureFromDevice(KoCLI_CDevRoomTemp.value(DPT_Value_Temp));
+        }
+        else
+        {
+            KoCLI_CDevRoomTemp.requestObjectRead();
+        }
     }
 
 }
@@ -194,7 +202,11 @@ void ClimateDevice::processInputKo(GroupObject& ko)
     }
     else if (_targetTemperatureManipulationController != nullptr && koNr == CLI_KoCDevRoomTemp)
     {
-        _targetTemperatureManipulationController->setRoomTemperatureFromDevice(ko.value(DPT_Value_Temp));
+        float roomTemperatureFromDevice = ko.value(DPT_Value_Temp);
+        logInfoP("Device %d received ko %d (%d)", deviceNumber(), (int)ko.asap(), koNr);
+  
+        logInfoP("Device %d received room temperature feedback %0.1f °C from device", deviceNumber(), roomTemperatureFromDevice);
+        _targetTemperatureManipulationController->setRoomTemperatureFromDevice(roomTemperatureFromDevice);
     }
 }
 
@@ -212,8 +224,7 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
     }
     else if (_targetTemperatureManipulationController != nullptr)
     {
-        if (_turnOnTimer != 0)
-            _waitForSettingTargetTemperature = true;
+        _waitForSettingTargetTemperature = true;
         _targetTemperatureManipulationController->setTargetTemperature(targetTemperature);
     }
     else if (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::TargetTemperature)
@@ -287,7 +298,7 @@ void ClimateDevice::loop()
                 _targetTemperatureManipulationController->setTargetTemperature(targetTemperature);
                 float adjustedTargetTemperature;
                 _targetTemperatureManipulationController->loop(adjustedTargetTemperature);
-                uint16_t limitedTargetTemperature = _roomChannel.roundTemperatureAndLimit(adjustedTargetTemperature, getRoundingParameter());
+                uint16_t limitedTargetTemperature = _roomChannel.roundTemperatureAndLimit(adjustedTargetTemperature, ParamCLI_CHTargetTempRounding1);
                 logDebugP("Turn on delay passed, ajusted target temperature %0.1f °C (original %0.1f °C) to device %d", _roomChannel.getTemperatureFromRawKnx(limitedTargetTemperature), _roomChannel.getTemperatureFromRawKnx(_targetTemperatureRawKnx), deviceNumber());
                 KoCLI_CDevSet.value(limitedTargetTemperature, DPT_Value_2_Ucount);
              
@@ -304,8 +315,9 @@ void ClimateDevice::loop()
         float adjustedTargetTemperature;
         if (_targetTemperatureManipulationController->loop(adjustedTargetTemperature))
         {
-            uint16_t limitedTargetTemperature = _roomChannel.roundTemperatureAndLimit(adjustedTargetTemperature, getRoundingParameter());
-            logInfoP("Adjusted target temperature to %0.1f °C (original %0.1f °C) for device %d", _roomChannel.getTemperatureFromRawKnx(limitedTargetTemperature), _roomChannel.getTemperatureFromRawKnx(_targetTemperatureRawKnx), deviceNumber());
+            logInfoP("Adjusted target temperature to %0.1f °C for device %d", adjustedTargetTemperature, deviceNumber());
+            uint16_t limitedTargetTemperature = _roomChannel.roundTemperatureAndLimit(adjustedTargetTemperature, ParamCLI_CHTargetTempRounding1);
+            logInfoP("Rounding target temperature to %0.1f °C (original %0.1f °C) for device %d", _roomChannel.getTemperatureFromRawKnx(limitedTargetTemperature), _roomChannel.getTemperatureFromRawKnx(_targetTemperatureRawKnx), deviceNumber());
             if (KoCLI_CDevSet.valueCompare(limitedTargetTemperature, DPT_Value_2_Ucount))
                 logDebugP("Send target temperature %0.1f °C for device %d", _roomChannel.getTemperatureFromRawKnx(limitedTargetTemperature), deviceNumber());
         }
@@ -373,14 +385,17 @@ void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
     _roomTemperatureRawKnx = roomTemperatureRawKnx;
     auto roomTemperature = _roomChannel.getTemperatureFromRawKnx(roomTemperatureRawKnx);
     logInfoP("Set room temperature: %0.1f °C", roomTemperature);
-    KoCLI_CDevRoomTemp.value(roomTemperatureRawKnx, DPT_Value_2_Ucount);
-    if (_piController != nullptr)
-    {
-        _piController->setCurrentTemperature(roomTemperature);
-    }
-    else if (_targetTemperatureManipulationController != nullptr)
+    if (_targetTemperatureManipulationController != nullptr)
     {
         _targetTemperatureManipulationController->setCurrentRoomTemperature(roomTemperature);
+    }
+    else
+    {
+        KoCLI_CDevRoomTemp.value(roomTemperatureRawKnx, DPT_Value_2_Ucount);
+        if (_piController != nullptr)
+        {
+            _piController->setCurrentTemperature(roomTemperature);
+        }
     }
 }
 
@@ -394,6 +409,10 @@ void ClimateDevice::logStatus()
     if (_pwmController != nullptr)
     {
         _pwmController->logStatus(logPrefix());
+    }
+    if (_targetTemperatureManipulationController != nullptr)
+    {
+        _targetTemperatureManipulationController->logStatus(logPrefix());
     }
 }
 

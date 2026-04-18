@@ -19,5 +19,6 @@ class TargetTemperatureManipulationController
 		void setRoomTemperatureFromDevice(float roomTemperatureFromDevice);
 		void setOperationMode(ClimateModeSelection mode);
     	bool loop(float& adjustedTargetTemperature);
+		void logStatus(const std::string& logPrefix);
 
 };

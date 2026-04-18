@@ -654,9 +654,9 @@
               <ComObjectRef Id="%AID%_O-%TT%%CC%211_R-%TT%%CC%21100" RefId="%AID%_O-%TT%%CC%211" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" />
               
               <!-- Dev 2 Room Temp Feedback -->
-              <ComObjectRef Id="%AID%_O-%TT%%CC%212_R-%TT%%CC%21200" RefId="%AID%_O-%TT%%CC%212" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" Text="{{0:HVAC Kühl-/Heizsystem 2 %C%}}: Raumtemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" UpdateFlag="Enabled" WriteFlag="Enabled"  />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%212_R-%TT%%CC%21200" RefId="%AID%_O-%TT%%CC%212" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" Text="{{0:HVAC %C%: Kühl-/Heizsystem 2}}: Raumtemperatur Rückmeldung" FunctionText="HVAC: Eingang, Rückmeldung, °C" UpdateFlag="Enabled" WriteFlag="Enabled"  />
                <!-- Dev 2 Room Temp -->
-              <ComObjectRef Id="%AID%_O-%TT%%CC%212_R-%TT%%CC%21201" RefId="%AID%_O-%TT%%CC%212" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" Text="{{0:HVAC Kühl-/Heizsystem 2 %C%}}: Raumtemperatur Vorgabe" FunctionText="HVAC: Ausgang, Vorgabe, °C" ReadFlag="Enabled" TransmitFlag="Enabled" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%212_R-%TT%%CC%21201" RefId="%AID%_O-%TT%%CC%212" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" Text="{{0:HVAC %C%: Kühl-/Heizsystem 2}}: Raumtemperatur Vorgabe" FunctionText="HVAC: Ausgang, Vorgabe, °C" ReadFlag="Enabled" TransmitFlag="Enabled" />
               
 
               <!-- Window open -->
@@ -929,6 +929,8 @@
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%109_R-%TT%%CC%10900"  />       
                             <!-- Dev 1 Room Temp Feedback -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%112_R-%TT%%CC%11200"  />
+                             <!-- Target temperature rounding HVAC1 -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%108_R-%TT%%CC%10801" HelpContext="%DOC%" />
                           </when>
                         </choose>
                         <!-- Full power off 1 -->
@@ -1054,6 +1056,8 @@
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%209_R-%TT%%CC%20900"  />       
                             <!-- Dev 2 Room Temp Feedback -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%212_R-%TT%%CC%21200"  />
+                            <!-- Target temperature rounding HVAC2 -->
+                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%208_R-%TT%%CC%20801" HelpContext="%DOC%" />
                           </when>
                         </choose>
                         <!-- Full power off 2 -->

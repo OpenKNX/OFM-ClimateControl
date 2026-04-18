@@ -926,7 +926,7 @@ uint16_t RoomChannel::roundTemperatureAndLimit(float targetTemperature, uint8_t 
             logDebugP("Heating target temperature too high after rounding, set to maximum %0.2f °C", roundedTargetTemperature);
         }
     }
-    return roundedTargetTemperature;
+    return getRawKnxFromTemperature(roundedTargetTemperature);
 }
 
 float RoomChannel::roundTemperature(float temperature, uint8_t roundingParam)

@@ -53,6 +53,7 @@ float TargetTemperatureManipulationController::getOffset() const
 
 bool TargetTemperatureManipulationController::loop(float& adjustedTargetTemperature)
 {
+    bool changed = _recalc;
     _recalc = false;
     if (_currentRoomTemperature < -50.0f || _roomTemperatureFromDevice < -50.0f)
     {
@@ -60,5 +61,10 @@ bool TargetTemperatureManipulationController::loop(float& adjustedTargetTemperat
         return false;
     }
     adjustedTargetTemperature = _targetTemperature + getOffset();
-    return true;
+    return changed;
 }
+
+void TargetTemperatureManipulationController::logStatus(const std::string& logPrefix)
+{
+    logInfo(logPrefix.c_str(), "Manipulation: Target=%.2f, Room=%.2f, Room from Devide=%.2f, Offset=%.2f, Mode=%s", _targetTemperature, _currentRoomTemperature, _roomTemperatureFromDevice, getOffset(), ClimateModeSelectionHelper::toString(_operationMode));
+}   
