@@ -18,44 +18,43 @@ void TargetTemperatureManipulationController::setCurrentRoomTemperature(float cu
     }
 }
 
-void TargetTemperatureManipulationController::setCorrectionRoomTemperature(float correctionRoomTemperature)
+void TargetTemperatureManipulationController::setRoomTemperatureFromDevice(float roomTemperatureFromDevice)
 {
-    if (abs(_correctionRoomTemperature - correctionRoomTemperature) > 0.05f)
+    if (abs(_roomTemperatureFromDevice - roomTemperatureFromDevice) > 0.05f)
     {
-        _correctionRoomTemperature = correctionRoomTemperature;
+        _roomTemperatureFromDevice = roomTemperatureFromDevice;
         _recalc = true;
     }
 }
 
-void TargetTemperatureManipulationController::setMode(ClimateModeSelection mode)
+void TargetTemperatureManipulationController::setOperationMode(ClimateModeSelection mode)
 {
-    if (_mode != mode)
+    if (_operationMode != mode)
     {
-        _mode = mode;
+        _operationMode = mode;
         _recalc = true;
     }
 }
 
 float TargetTemperatureManipulationController::getOffset() const
 {
-    auto baseOffset = _correctionRoomTemperature - _currentRoomTemperature;
+    auto baseOffset = _roomTemperatureFromDevice - _currentRoomTemperature;
 
-    if (_mode == ClimateModeSelection::Cooling)
+    if (_operationMode == ClimateModeSelection::Cooling)
     {
         return baseOffset;
     }
-    if (_mode == ClimateModeSelection::Heating)
+    if (_operationMode == ClimateModeSelection::Heating)
     {
         return -baseOffset;
     }
-
     return 0.0f;
 }
 
 bool TargetTemperatureManipulationController::loop(float& adjustedTargetTemperature)
 {
     _recalc = false;
-    if (_currentRoomTemperature < -50.0f || _correctionRoomTemperature < -50.0f)
+    if (_currentRoomTemperature < -50.0f || _roomTemperatureFromDevice < -50.0f)
     {
         adjustedTargetTemperature = _targetTemperature;
         return false;

@@ -192,6 +192,10 @@ void ClimateDevice::processInputKo(GroupObject& ko)
     {
         _waitForSingeModeKosTimer = millis();
     }
+    else if (_targetTemperatureManipulationController != nullptr && koNr == CLI_KoCDevRoomTemp)
+    {
+        _targetTemperatureManipulationController->setRoomTemperatureFromDevice(ko.value(DPT_Value_Temp));
+    }
 }
 
 void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
@@ -358,6 +362,10 @@ void ClimateDevice::setMode(ClimateModeSelection mode)
     {
         _piController->setOperationMode(mode);
     }
+    else if (_targetTemperatureManipulationController != nullptr)
+    {
+        _targetTemperatureManipulationController->setOperationMode(mode);
+    }
 }
 
 void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
@@ -369,6 +377,10 @@ void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
     if (_piController != nullptr)
     {
         _piController->setCurrentTemperature(roomTemperature);
+    }
+    else if (_targetTemperatureManipulationController != nullptr)
+    {
+        _targetTemperatureManipulationController->setCurrentRoomTemperature(roomTemperature);
     }
 }
 

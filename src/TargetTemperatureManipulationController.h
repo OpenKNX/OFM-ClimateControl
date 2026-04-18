@@ -11,13 +11,13 @@ class TargetTemperatureManipulationController
         bool _recalc = true; 
 		float _targetTemperature = 0.0f;
 		float _currentRoomTemperature = -100.0f;
-		float _correctionRoomTemperature = -100.0f;
-		ClimateModeSelection _mode = ClimateModeSelection::Undefined;
+		float _roomTemperatureFromDevice = -100.0f;
+		ClimateModeSelection _operationMode = ClimateModeSelection::Undefined;
 	public:
 		void setTargetTemperature(float targetTemperature);
 		void setCurrentRoomTemperature(float currentRoomTemperature);
-		void setCorrectionRoomTemperature(float correctionRoomTemperature);
-		void setMode(ClimateModeSelection mode);
+		void setRoomTemperatureFromDevice(float roomTemperatureFromDevice);
+		void setOperationMode(ClimateModeSelection mode);
     	bool loop(float& adjustedTargetTemperature);
 
 };
