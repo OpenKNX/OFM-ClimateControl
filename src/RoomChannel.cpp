@@ -6,20 +6,34 @@ RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
                                              _name("RoomChannel"),
                                              _lastActiveMode(DefaultMode)
 {
-    
+    isActiveChangedFromDevice();
     _climateDevices.push_back(ClimateDevice(channelIndex, 0, *this,
                                             ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
+                                            ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+                                            ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
     _climateDevices.push_back(ClimateDevice(channelIndex, 1, *this,
 
                                             ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
-}
+                                            ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+                                            ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
 
+    for (ClimateDevice& device : _climateDevices)
+    {
+        if (device.supportMode(ClimateModeSelection::Cooling))
+        {
+            _coolingSupported = true;
+        }
+        if (device.supportMode(ClimateModeSelection::Heating))
+        {
+            _heatingSupported = true;
+        }
+    }
+
+}
 const std::string RoomChannel::name()
 {
     return _name;
@@ -39,16 +53,40 @@ void RoomChannel::setup()
 {
     _name = "RoomChannel" + std::to_string(_channelIndex + 1);
     _waitForPower = !ParamCLI_CHModeSelectionTurnOn;
-
-    KoCLI_CRoomTemp.requestObjectRead();
+    if (KoCLI_CRoomTemp.initialized())
+    {
+        _roomTemperature = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
+    }
+    else
+    {
+        KoCLI_CRoomTemp.requestObjectRead();
+    }   
     if (ParamCLI_CHWindowOpenEnabled)
     {
         KoCLI_CWindowOpenAlarm.value(false, DPT_Switch);
     }
+    if (ParamCLI_CHAutoHeatDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject && !KoCLI_CAutoReqHeat.initialized())
+    {
+        KoCLI_CAutoReqHeat.requestObjectRead();
+    }
+    if (ParamCLI_CHAutoCoolDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject && !KoCLI_CAutoReqCool.initialized())
+    {
+        KoCLI_CAutoReqCool.requestObjectRead();  
+    }   
+    if (ParamCLI_CHAutoDehumDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject && !KoCLI_CAutoReqDehum.initialized())
+    {
+        KoCLI_CAutoReqDehum.requestObjectRead();
+    }
+    if (ParamCLI_CHAutoFanDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject && !KoCLI_CAutoReqFan.initialized())
+    {
+        KoCLI_CAutoReqFan.requestObjectRead();  
+    }
+   
 }
 
 void RoomChannel::writeFlash()
 {
+    openknx.flash.write((uint8_t *)&_roomTemperature, sizeof(uint16_t));
     if (_targetTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
     {
         if (_useCoolingTargetTemperature)
@@ -81,11 +119,15 @@ void RoomChannel::writeFlash()
 
 uint16_t RoomChannel::flashSize()
 {
-    return 2 /* _targetTemperatureCooling */ + 2 /* _targetTemperatureHeating */ + 1 /* _currentMode */ + 1 /* power */ + 1 /* _lastActiveMode */;
+    return 2 /* _roomTemperature */ + 2 /* _targetTemperatureCooling */ + 2 /* _targetTemperatureHeating */ + 1 /* _currentMode */ + 1 /* power */ + 1 /* _lastActiveMode */;
 }
 
 void RoomChannel::readFlash(const uint8_t *iBuffer, const uint16_t iSize, uint8_t version)
 {
+    if (version >= 3)
+    {
+        _roomTemperature = openknx.flash.readWord();
+    }
     _targetTemperatureCoolingRawKnx = openknx.flash.readWord();
     _targetTemperatureHeatingRawKnx = openknx.flash.readWord();
 
@@ -242,6 +284,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
         case CLI_KoCRoomTemp:
         {
             auto roomTemperatureRawKnx = (uint16_t)ko.value(DPT_Value_2_Ucount);
+            _roomTemperature = roomTemperatureRawKnx;
             if (_roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
             {
                 logInfoP("Received room temperature %0.1f °C from bus, but forward stored %0.1f", getTemperatureFromRawKnx(roomTemperatureRawKnx), getTemperatureFromRawKnx(_roomTemperatureBeforeWindowOpen));
@@ -258,6 +301,8 @@ void RoomChannel::processInputKo(GroupObject &ko)
                     device.setRoomTemperature(roomTemperatureRawKnx);
                 }
             }
+            if (_currentActiveMode == ClimateModeSelection::Auto)
+                handleAuto();
             break;
         }
         case CLI_KoCModeSelection:
@@ -269,6 +314,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
                 logInfoP("Received initial mode %s from bus", ClimateModeSelectionHelper::toString(mode));
                 _waitForMode = false;
             }
+            _autoModeFallbackTimer = 0;
             setMode(mode);
             break;
         }
@@ -368,6 +414,7 @@ void RoomChannel::setPower(PowerState power)
     if (power != _currentPower && power != PowerState::Undefined)
     {
         _currentPower = power;
+        _autoModeFallbackTimer = 0;
         if (power == PowerState::Off)
             setMode(ClimateModeSelection::Off);
         else 
@@ -437,11 +484,14 @@ void RoomChannel::resetWindowOpenActions()
     if (_roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
     {
          _roomTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
-        auto currentRoomTemperatureRawKnx = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
-        logDebugP("Restore room temperature %0.1f °C after window closed", getTemperatureFromRawKnx(currentRoomTemperatureRawKnx));
+        logDebugP("Restore room temperature %0.1f °C after window closed", getTemperatureFromRawKnx(_roomTemperature));
         for (auto &device : _climateDevices)
         {
-            device.setRoomTemperature(currentRoomTemperatureRawKnx);
+            device.setRoomTemperature(_roomTemperature);
+        }
+        if (_currentActiveMode == ClimateModeSelection::Auto)
+        {
+            handleAuto();
         }
     }
     if (KoCLI_CWindowOpenAlarm.valueCompare(false, DPT_Switch))
@@ -458,7 +508,15 @@ void RoomChannel::setMode(ClimateModeSelection mode)
         switch (mode)
         {
             case ClimateModeSelection::Auto:
-                logInfoP("Mode changed to 'Auto'");
+                if (ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::Disabled)
+                {
+                    logInfoP("Auto mode not supported, keep current mode %s", ClimateModeSelectionHelper::toString(_currentMode));
+                    mode = _currentMode;
+                }
+                else
+                {
+                    logInfoP("Mode changed to 'Auto'");
+                }
                 break;
             case ClimateModeSelection::Heating:
                 if (ParamCLI_CHHeatDeactiveInSummer && openknxClimateControlModule.isSummer())
@@ -555,7 +613,7 @@ void RoomChannel::handle()
         KoCLI_CModeSelectionFb.objectWritten();
         _forceSendMode = false;
     }
-    if (_currentMode == ClimateModeSelection::Auto)
+    if (_currentMode == ClimateModeSelection::Auto && ParamCLI_CHAutoDeviceSelection == RoomChannel::OpenKNX)
     {
         handleAuto();
     }
@@ -607,6 +665,7 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
         {
             device.setMode(ClimateModeSelection::Off);
         }
+        isActiveChangedFromDevice();
         return;
     }
     bool supported = false;
@@ -617,13 +676,14 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
             supported = true;
             device.setMode(mode);
             if (needTargetTemperature)
-                device.setTargetTemperature(getTargetTemperatureRawKnx());
+                device.setTargetTemperature(getTargetTemperatureRawKnx());     
         }
         else
         {
             device.setMode(ClimateModeSelection::Off);
         }
     }
+    isActiveChangedFromDevice();
     if (!supported)
     {
         logWarningP("No device supports mode %s", ClimateModeSelectionHelper::toString(mode));
@@ -632,14 +692,135 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
 
 void RoomChannel::handleAuto()
 {
+    uint16_t roomTemperatureRawKnx = _roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max() ? _roomTemperatureBeforeWindowOpen : _roomTemperature;
+    if (roomTemperatureRawKnx == std::numeric_limits<uint16_t>::max())
+    {
+        logDebugP("Room temperature not yet received, cannot handle auto mode, use target temperature as fallback");
+        roomTemperatureRawKnx = _useCoolingTargetTemperature ? _targetTemperatureCoolingRawKnx : _targetTemperatureHeatingRawKnx; // Use target temperature as fallback to avoid not working if room temperature is not yet received
+    }
+    float roomTemperature = getTemperatureFromRawKnx(roomTemperatureRawKnx);
+    float targetTemperature = getTemperatureFromRawKnx(getTargetTemperatureRawKnx());
+    float hysteresis = 0.0f;
+    if (ParamCLI_CHHeatingSummerAllowed || openknxClimateControlModule.isWinter())
+    {
+        if (ParamCLI_CHAutoHeatDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject)
+        {
+            if (KoCLI_CAutoReqHeat.value(DPT_Switch))
+            {
+                logDebugP("Auto mode: Request heating by group object");
+                handleMode(ClimateModeSelection::Heating);
+                return;
+            }
+        }  
+        else  if (_currentActiveMode == ClimateModeSelection::Heating)
+        {  
+            // Hystersis Heating
+            switch (ParamCLI_CHHysteresisHeating)
+            {
+                case PT_CLIHysteresis::Hysteresis0_5:
+                    hysteresis = -0.5f;
+                    break;
+                case PT_CLIHysteresis::Hysteresis1_0:
+                    hysteresis = -1.0f;
+                    break;
+                case PT_CLIHysteresis::Hysteresis2_0:
+                    hysteresis = -2.0f;
+                    break;
+            }
+            if (roomTemperature + hysteresis < targetTemperature)
+            {
+                logDebugP("Room %0.1f °C is below %0.1f °C with hysteresis %0.1f °C, keep heating", roomTemperature, targetTemperature, hysteresis);
+                handleMode(ClimateModeSelection::Heating);
+                return;
+            }
+        }
+    }
+    if (ParamCLI_CHCoolingWinterAllowed || openknxClimateControlModule.isSummer())
+    {
+        if (ParamCLI_CHAutoCoolDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject)
+        {
+            if (KoCLI_CAutoReqCool.value(DPT_Switch))
+            {
+                logDebugP("Auto mode: Request cooling by group object");
+                handleMode(ClimateModeSelection::Cooling);
+                return;
+            }
+        }   
+        else if (_currentActiveMode == ClimateModeSelection::Cooling)
+        {
+            // Hystersis Cooling
+            switch (ParamCLI_CHHysteresisCooling)
+            {
+                case PT_CLIHysteresis::Hysteresis0_5:
+                    hysteresis = 0.5f;
+                    break;
+                case PT_CLIHysteresis::Hysteresis1_0:
+                    hysteresis = 1.0f;
+                    break;
+                case PT_CLIHysteresis::Hysteresis2_0:
+                    hysteresis = 2.0f;
+                    break;
+            }
+            if (roomTemperature + hysteresis > targetTemperature)
+            {
+                logDebugP("Room %0.1f °C is above %0.1f °C with hysteresis %0.1f °C, keep cooling", roomTemperature, targetTemperature, hysteresis);
+                handleMode(ClimateModeSelection::Cooling);
+                return;
+            }
+        }
+    }
+    if (_heatingSupported && 
+        ParamCLI_CHAutoHeatDeviceSelection == PT_CLIAutomaticDevice::OpenKNXAutomatic && 
+        (ParamCLI_CHHeatingSummerAllowed || openknxClimateControlModule.isWinter()))
+    {
+        float heatingTemperature = getTemperatureFromRawKnx(_targetTemperatureHeatingRawKnx);
+        if (roomTemperature < heatingTemperature)
+        {
+            logDebugP("Room %0.1f °C is below %0.1f °C, switch to heating", roomTemperature, heatingTemperature);
+            handleMode(ClimateModeSelection::Heating);
+            return;
+        }
+    }
+    if (_coolingSupported && 
+        ParamCLI_CHAutoCoolDeviceSelection == PT_CLIAutomaticDevice::OpenKNXAutomatic && 
+        (ParamCLI_CHCoolingWinterAllowed || openknxClimateControlModule.isSummer()))
+    {
+        float coolingTemperature = getTemperatureFromRawKnx(_useCoolingTargetTemperature ? _targetTemperatureCoolingRawKnx : _targetTemperatureHeatingRawKnx);
+        if (roomTemperature > coolingTemperature)
+        {
+            logDebugP("Room %0.1f °C is above %0.1f °C, switch to cooling", roomTemperature, coolingTemperature);
+            handleMode(ClimateModeSelection::Cooling);
+            return;
+        }
+    }
+    if (ParamCLI_CHAutoDehumDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject)
+    {
+        if (KoCLI_CAutoReqDehum.value(DPT_Switch))
+        {
+            logDebugP("Auto mode: Request dehumification by group object");
+            handleMode(ClimateModeSelection::Dehumification);
+            return;
+        }
+    }
+    if (ParamCLI_CHAutoFanDeviceSelection == PT_CLIAutomaticDevice::RequestByGroupObject)
+    {
+        if (KoCLI_CAutoReqFan.value(DPT_Switch))
+        {
+            logDebugP("Auto mode: Request fan by group object");
+            handleMode(ClimateModeSelection::Fan);
+            return;
+        }
+    }
+    logDebugP("Fall back to auto mode 'Off'");
+    handleMode(ClimateModeSelection::Off);  
 }
-
 void RoomChannel::logStatus()
 {
     logInfoP("Power: %s", ((bool) KoCLI_CPowerFb.value(DPT_Switch)) ? "On" : "Off");
     logInfoP("Current mode: %s", ClimateModeSelectionHelper::toString(_currentMode));
     logInfoP("Last activemode: %s", ClimateModeSelectionHelper::toString(_lastActiveMode));
     logInfoP("Active mode: %s", ClimateModeSelectionHelper::toString(_currentActiveMode));
+    logInfoP("Room temperature: %0.1f °C", getTemperatureFromRawKnx(_roomTemperature));
     if (ParamCLI_CH2TargetTemp)
     {
         logInfoP("Target temperature for heating: %0.1f °C", getTemperatureFromRawKnx(_targetTemperatureHeatingRawKnx));
@@ -705,14 +886,51 @@ void RoomChannel::setModeFromDevice(ClimateModeSelection mode, ClimateDevice &de
         logInfoP("Received mode %s from device %d while starting, ignoring", ClimateModeSelectionHelper::toString(mode), device.deviceNumber());
         return;
     }
+    
+
     if (mode == ClimateModeSelection::Off && device.supportMode(_currentActiveMode))
     {
+        // handle override
+        if (_currentMode == ClimateModeSelection::Auto && ParamCLI_CHAutoDeviceSelection == OpenKNX)
+        {
+            switch (ParamCLI_CHBehaviorOnDeviceChange)
+            {
+                case PT_CLIBehaviorDeviceChange::OpenKNXOverridesSelection:
+                    logInfoP("Auto mode overides device mode %s from device %d", ClimateModeSelectionHelper::toString(mode), device.deviceNumber());
+                    handle();
+                    return;
+                case PT_CLIBehaviorDeviceChange::LeavesAutomaticModeTemp:
+                    _autoModeFallbackTimer = max(1UL, millis());
+                    logInfoP("Device %d changed mode to %s, will fallback to auto mode after %lu seconds", device.deviceNumber(), ClimateModeSelectionHelper::toString(mode), ParamCLI_CHFallbackAutoWaitTimeDelayTimeMS / 1000);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         logInfoP("Set mode 'Off' through device %d", device.deviceNumber());
         setMode(mode);
         return;
     }
     if (device.supportMode(mode))
     {
+        // handle override
+        if (_currentMode == ClimateModeSelection::Auto && ParamCLI_CHAutoDeviceSelection == OpenKNX)
+        {
+            switch (ParamCLI_CHBehaviorOnDeviceChange)
+            {
+                case PT_CLIBehaviorDeviceChange::OpenKNXOverridesSelection:
+                    logInfoP("Auto mode overides device mode %s from device %d", ClimateModeSelectionHelper::toString(mode), device.deviceNumber());
+                    handle();
+                    return;
+                case PT_CLIBehaviorDeviceChange::LeavesAutomaticModeTemp:
+                    _autoModeFallbackTimer = max(1UL, millis());
+                    logInfoP("Device %d changed mode to %s, will fallback to auto mode after %lu seconds", device.deviceNumber(), ClimateModeSelectionHelper::toString(mode), ParamCLI_CHFallbackAutoWaitTimeDelayTimeMS / 1000);
+                    break;
+                default:
+                    break;
+            }
+        }
         logInfoP("Set mode %s through device %d", ClimateModeSelectionHelper::toString(mode), device.deviceNumber());
         setMode(mode);
         return;
@@ -825,6 +1043,30 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, C
             }
         }
     }
+    if (_currentActiveMode == ClimateModeSelection::Auto)
+    {
+        handleAuto();
+    }
+}
+
+void RoomChannel::isActiveChangedFromDevice()
+{
+    bool isActive = false;
+    if (_currentActiveMode != ClimateModeSelection::Off)
+    {
+        for (auto &device : _climateDevices)
+        {
+            if (device.isActive() && device.supportMode(_currentActiveMode))
+            {
+                isActive = true;
+                break;
+            }
+        }
+    }
+    if (isActive)
+        KoCLI_CActiveMode.valueCompare((uint8_t)_currentActiveMode, DPT_DecimalFactor);
+    else
+        KoCLI_CActiveMode.valueCompare((uint8_t) ClimateModeSelection::Off, DPT_DecimalFactor);   
 }
 
 uint16_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType, uint16_t currentTargetTemperatureRawKnx, uint16_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam)
@@ -883,13 +1125,19 @@ uint16_t RoomChannel::limitSetTemperature(bool& forceSend,  const char* tempType
     }
     if (targetTemperature < minTemperature)
     {
-        targetTemperatureRawKnx = getRawKnxFromTemperature(minTemperature);
+        if (ParamCLI_CHTargetLimitHandling == PT_CLITargetLimitHandling::MinMax)
+           targetTemperatureRawKnx = getRawKnxFromTemperature(minTemperature);
+        else
+            targetTemperatureRawKnx = currentTargetTemperatureRawKnx;
         forceSend = true;
         logDebugP("%s target temperature too low, set to minimum %0.2f °C", tempType, minTemperature);
     }
     else if (targetTemperature > maxTemperature)
     {
-        targetTemperatureRawKnx = getRawKnxFromTemperature(maxTemperature);
+        if (ParamCLI_CHTargetLimitHandling == PT_CLITargetLimitHandling::MinMax)
+            targetTemperatureRawKnx = getRawKnxFromTemperature(maxTemperature);
+        else
+            targetTemperatureRawKnx = currentTargetTemperatureRawKnx;
         forceSend = true;
         logDebugP("%s target temperature too high, set to maximum %0.2f °C", tempType, maxTemperature);
     }
@@ -942,6 +1190,12 @@ float RoomChannel::roundTemperature(float temperature, uint8_t roundingParam)
 
 void RoomChannel::loop()
 {
+    if (_autoModeFallbackTimer != 0 && millis() - _autoModeFallbackTimer >= ParamCLI_CHFallbackAutoWaitTimeDelayTimeMS)
+    {
+        logInfoP("Fallback to auto mode after device change");
+        _autoModeFallbackTimer = 0;
+        setMode(ClimateModeSelection::Auto);
+    }
     for (auto &device : _climateDevices)
     {
         device.loop();
@@ -1098,11 +1352,12 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_
         switch (action)
         {
             case PT_CLIWindowOpenAction::DisableHeatingCooling:
+            case PT_CLIWindowOpenAction::DisableHeatingCoolingOnlyInAuto:
                 if (_modeLockedWhileOpenWindow != ClimateModeSelection::Undefined)
                 {
                     logDebugP("Action %d: Mode already locked to %s, no action taken", actionNumber, ClimateModeSelectionHelper::toString(_modeLockedWhileOpenWindow));
                 }
-                else if (_currentActiveMode == ClimateModeSelection::Cooling || _currentActiveMode == ClimateModeSelection::Heating)
+                else if ((_currentActiveMode == ClimateModeSelection::Cooling || _currentActiveMode == ClimateModeSelection::Heating) && (action == PT_CLIWindowOpenAction::DisableHeatingCooling || _currentMode == ClimateModeSelection::Auto))
                 {
                     auto tempMode = _currentActiveMode;
                     logDebugP("Action %d: Heating/Cooling disabled", actionNumber);
@@ -1160,7 +1415,7 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_
             case PT_CLIWindowOpenAction::DoNotForwardRoomTemperatureChange:
                 if (KoCLI_CRoomTemp.initialized())
                 {
-                    _roomTemperatureBeforeWindowOpen = KoCLI_CRoomTemp.value(DPT_Value_2_Ucount);
+                    _roomTemperatureBeforeWindowOpen = _roomTemperature;
                     logDebugP("Action %d: Store current room temperature %0.1f °C", actionNumber, getTemperatureFromRawKnx(_roomTemperatureBeforeWindowOpen));
                 }
                 else
@@ -1171,12 +1426,16 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_
             case PT_CLIWindowOpenAction::ForwardRoomTemperatureChange:
                 if (_roomTemperatureBeforeWindowOpen != std::numeric_limits<uint16_t>::max())
                 {
+                    _roomTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
                     logDebugP("Action %d: Forward room temperature change, set room temperature to %0.1f °C", actionNumber, getTemperatureFromRawKnx(_roomTemperatureBeforeWindowOpen));
                     for (auto &device : _climateDevices)
                     {
-                        device.setRoomTemperature(_roomTemperatureBeforeWindowOpen);
+                        device.setRoomTemperature(_roomTemperature);
                     }
-                    _roomTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
+                    if (_currentActiveMode == ClimateModeSelection::Auto)
+                    {
+                        handleAuto();
+                    }
                 }
                 else
                 {

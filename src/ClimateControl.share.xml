@@ -18,6 +18,13 @@
 								</TypeRestriction>
 							</ParameterType>
 
+              <ParameterType Id="%AID%_PT-CLIDelayBaseMin" Name="CLIDelayBaseMin">
+                <TypeRestriction Base="Value" SizeInBit="2" UIHint="DropDown">
+                  <Enumeration Text="Minute(n)" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Stunde(n)" Value="2" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+
               <ParameterType Id="%AID%_PT-CLINumChannels" Name="CLINumChannels">
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>  
@@ -77,11 +84,11 @@
                 </TypeRestriction>
 							</ParameterType>
             
-              <ParameterType Id="%AID%_PT-CLIHysteresis" Name="CLIHysteresis" >
+              <ParameterType Id="%AID%_PT-CLIHysteresis" Name="CLIHysteresis"  op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" >
-                  <Enumeration Text="0,5°" Value="0" Id="%ENID%" />
-                  <Enumeration Text="1°" Value="1" Id="%ENID%" />
-                  <Enumeration Text="2°" Value="2" Id="%ENID%" />
+                  <Enumeration Text="0,5°" Value="0" Id="%ENID%" op:headerName="Hysteresis0_5" />
+                  <Enumeration Text="1°" Value="1" Id="%ENID%" op:headerName="Hysteresis1_0" />
+                  <Enumeration Text="2°" Value="2" Id="%ENID%" op:headerName="Hysteresis2_0" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -117,10 +124,9 @@
                   <Enumeration Text="Jede Stunde" Value="0" Id="%ENID%" op:headerName="EveryHour" />
                   <Enumeration Text="Mannheimer Stunden (T7+T14+T21*2)/4" Value="1" Id="%ENID%" op:headerName="MannheimHours" />
                   <Enumeration Text="Minimum-Maximum-Mittel" Value="2" Id="%ENID%" op:headerName="MinMaxAverage" />
-                  <Enumeration Text="24h Durchschnittstemperatur Gruppenobjekt" Value="3" Id="%ENID%" op:headerName="GroupObjectDailyAverage" />
+                  <Enumeration Text="24h Durchschnittstemperatur Objekt" Value="3" Id="%ENID%" op:headerName="GroupObjectDailyAverage" />
                 </TypeRestriction>
               </ParameterType>
-
 
               <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
@@ -182,9 +188,9 @@
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Solltemperaturanpassung" Value="0" Id="%ENID%" op:headerName="SetpointAdjustment" />   
                   <Enumeration Text="Solltemperaturanpassung rückgängig" Value="1" Id="%ENID%" op:headerName="RevertSetpointAdjustment" />   
-                  <Enumeration Text="Heizen und Kühlen deaktivieren" Value="2" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
-                  <Enumeration Text="Heizen und Kühlen nur in Automatikbetrieb deaktivieren (TODO)" Value="3" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
-                  <Enumeration Text="Heizen und Kühlen wieder aktivieren" Value="4" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
+                  <Enumeration Text="Heizen/Kühlen deaktivieren" Value="2" Id="%ENID%" op:headerName="DisableHeatingCooling" />     
+                  <Enumeration Text="Heizen/Kühlen nur in Automatikbetrieb deaktivieren" Value="3" Id="%ENID%" op:headerName="DisableHeatingCoolingOnlyInAuto" />     
+                  <Enumeration Text="Heizen/Kühlen wieder aktivieren" Value="4" Id="%ENID%" op:headerName="EnableHeatingCooling" />     
                   <Enumeration Text="Raumtemperaturänderung nicht weiterleiten" Value="5" Id="%ENID%" op:headerName="DoNotForwardRoomTemperatureChange" />   
                   <Enumeration Text="Raumtemperaturänderung weiterleiten" Value="6" Id="%ENID%" op:headerName="ForwardRoomTemperatureChange" />   
                   <Enumeration Text="Fenster offen Alarm" Value="7" Id="%ENID%" op:headerName="WindowOpenAlarm" />
@@ -192,7 +198,7 @@
                 </TypeRestriction>
               </ParameterType>
               
-              <ParameterType Id="%AID%_PT-YesDoToNo" Name="YesDoToNo">
+              <ParameterType Id="%AID%_PT-YesToDoNo" Name="YesToDoNo">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Text="Nein" Value="0" Id="%ENID%" />
                   <Enumeration Text="Ja (TODO)" Value="1" Id="%ENID%" />
@@ -251,33 +257,38 @@
               <ParameterType Id="%AID%_PT-CLITargetLimitHandling" Name="CLITargetLimitHandling" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Text="Auf Minimal-/Maximalwert korrigieren" Value="0" Id="%ENID%" op:headerName="MinMax" />
-                  <Enumeration Text="Ignorieren (TODO)" Value="1" Id="%ENID%" op:headerName="Ignore" />
+                  <Enumeration Text="Ignorieren" Value="1" Id="%ENID%" op:headerName="Ignore" />
                 </TypeRestriction>
               </ParameterType>
-
-           
 
               <ParameterType Id="%AID%_PT-CLIAutomaticDevice" Name="CLIAutomaticDevice" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
-                  <Enumeration Text="OpenKNX Automatik (TODO)" Value="1" Id="%ENID%" op:headerName="OpenKNXAutomatic" />
-                  <Enumeration Text="Anforderung durch Gruppenobjekt (TODO)" Value="2" Id="%ENID%" op:headerName="RequestByGroupObject" />
+                  <Enumeration Text="OpenKNX Automatik" Value="1" Id="%ENID%" op:headerName="OpenKNXAutomatic" />
+                  <Enumeration Text="Anforderung durch Objekt" Value="2" Id="%ENID%" op:headerName="RequestByGroupObject" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDeviceWithoutAuto" op:headerExport="none">
+              <ParameterType Id="%AID%_PT-CLIAutomaticDeviceWithoutAuto" Name="CLIAutomaticDeviceWithoutAuto"  op:headerExport="base" op:headerName="CLIAutomaticDevice">
                 <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Anforderung durch Gruppenobjekt (TODO)" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Anforderung durch Objekt" Value="2" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
-
+            
+              <ParameterType Id="%AID%_PT-CLIIsActive" Name="CLIIsActive"  op:headerExport="enum">
+                <TypeRestriction Base="Value" SizeInBit="2" UIHint="DropDown">
+                  <Enumeration Text="Intern berechnet" Value="0" Id="%ENID%" op:headerName="Calculated" />
+                  <Enumeration Text="Rückmeldung Objekt EIN/AUS" Value="1" Id="%ENID%" op:headerName="FeedbackOnOff" />
+                  <Enumeration Text="Rückmeldung Objekt Prozent" Value="2" Id="%ENID%" op:headerName="FeedbackPercent" />
+                </TypeRestriction>
+              </ParameterType>
 
               <ParameterType Id="%AID%_PT-CLIBehaviorDeviceChange" Name="CLIBehaviorDeviceChange" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown">
-                  <Enumeration Text="Verlässt Automatikbetrieb für (TODO)" Value="0" Id="%ENID%" op:headerName="LeavesAutomaticModeTemp" />
-                  <Enumeration Text="Verlässt Automatikbetrieb (TODO)" Value="1" Id="%ENID%" op:headerName="LeavesAutomaticMode" />
-                  <Enumeration Text="OpenKNX überschreibt die Auswahl (TODO)" Value="2" Id="%ENID%" op:headerName="OpenKNXOverridesSelection" />
+                  <Enumeration Text="Verlässt Automatikbetrieb für" Value="0" Id="%ENID%" op:headerName="LeavesAutomaticModeTemp" />
+                  <Enumeration Text="Verlässt Automatikbetrieb" Value="1" Id="%ENID%" op:headerName="LeavesAutomaticMode" />
+                  <Enumeration Text="OpenKNX überschreibt die Auswahl" Value="2" Id="%ENID%" op:headerName="OpenKNXOverridesSelection" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -295,7 +306,7 @@
                 <!-- Number of channels -->
                 <Parameter Offset="0" BitOffset="0" Id="%AID%_UP-%TT%00000" Name="VisibleChannels" ParameterType="%AID%_PT-CLINumChannels" Text="Anzahl der Räume" Value="%CLI_NumChannelsDefault%" SuffixText=" von %N%" />
                 <!-- Summer Winter KO-->
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%00001" Name="SummerWinterKo" ParameterType="%AID%_PT-OnOffYesNo" Text="Gruppenobjekt" Value="0" />
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%00001" Name="SummerWinterKo" ParameterType="%AID%_PT-OnOffYesNo" Text="Objekt" Value="0" />
                 <!-- Summer Winter Date-->
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%00002" Name="SummerWinterDate" ParameterType="%AID%_PT-OnOffYesNo" Text="Datum" Value="0" />
                 <!-- Summer Winter Day Temp-->
@@ -439,7 +450,7 @@
                         <!-- Send read request -->
                         <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%00005_R-%TT%0000501" HelpContext="%DOC%" />
                       </when>
-                      <when test="3"> <!-- 24h Durchschnitt Temperatur Gruppenobjekt -->
+                      <when test="3"> <!-- 24h Durchschnitt Temperatur Objekt -->
                         <!-- Average Temperature -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%00003_R-%TT%0000300" />
                       </when>

@@ -28,12 +28,16 @@ class ClimateDevice
         bool _supportCooling;
         bool _supportDehumification;
         bool _supportFan;
+        bool _supportAuto;
+        bool _isActive = false;
         unsigned long _waitForSingeModeKosTimer = 0;
         PIController* _piController = nullptr;
         PWMController* _pwmController = nullptr;
         TargetTemperatureManipulationController* _targetTemperatureManipulationController = nullptr;
+        void setIsActive(bool active);
+        void calculateIsActive();
     public:
-        ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel, bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan);
+        ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel, bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan, bool supportAuto);
         bool supportMode(ClimateModeSelection mode);
         int deviceNumber() const;
         void loop();
@@ -43,6 +47,7 @@ class ClimateDevice
         void logStatus();
         void processInputKo(GroupObject &ko);
         uint8_t getRoundingParameter();
+        bool isActive();
         ClimateModeSelection currentMode();
 };
 

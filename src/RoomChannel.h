@@ -19,6 +19,7 @@ class RoomChannel : public OpenKNX::Channel
         Off = 1,
         Undefined =255 
     };
+    const static PT_CLIDeviceSelection OpenKNX = PT_CLIDeviceSelection::CoolingHeatingSystem1And2;
     const static ClimateModeSelection DefaultMode = ClimateModeSelection::Auto;
     int _channelIndex;
     bool _waitForTargetTemperature = true;
@@ -28,8 +29,11 @@ class RoomChannel : public OpenKNX::Channel
     bool _forceSendPower = true;
     bool _forceSendMode = true;
     bool _useCoolingTargetTemperature = false;
+    bool _coolingSupported = false;
+    bool _heatingSupported = false;
     std::string _name;
     bool _forceSendTargetTemperature = false;
+    uint16_t _roomTemperature = std::numeric_limits<uint16_t>::max();
     uint16_t _targetTemperatureSetWhileStartingRawKnx = std::numeric_limits<uint16_t>::max();
     uint16_t _targetTemperatureCoolingRawKnx = std::numeric_limits<uint16_t>::max();
     uint16_t _targetTemperatureHeatingRawKnx = std::numeric_limits<uint16_t>::max();
@@ -38,6 +42,7 @@ class RoomChannel : public OpenKNX::Channel
     ClimateModeSelection _currentActiveMode = ClimateModeSelection::Undefined;
     PowerState _currentPower= PowerState::Undefined;
     std::vector<ClimateDevice> _climateDevices;
+    unsigned long _autoModeFallbackTimer = 0;
 
     bool _windowOpen = false;
     bool _waitForGradientRoomTemperatureChange = false;
@@ -87,6 +92,7 @@ class RoomChannel : public OpenKNX::Channel
     bool useCollingTargetTemperature();
     void setTargetTemperatureFromDevice(uint16_t targetTemperatureRawKnx, ClimateDevice& device);
     void setModeFromDevice(ClimateModeSelection mode, ClimateDevice& device);
+    void isActiveChangedFromDevice();
     float getTemperatureFromRawKnx(uint16_t rawKnx);
     uint16_t getRawKnxFromTemperature(float temperature);
     uint16_t roundTemperatureAndLimit(float targetTemperature, uint8_t roundingParam);

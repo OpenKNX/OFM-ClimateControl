@@ -17,41 +17,41 @@
 #undef CLI_ParamCalcIndex
 #define CLI_ParamCalcIndex(index) (index + CLI_ParamBlockOffset + _channelIndex * CLI_ParamBlockSize + _deviceIndex * DeviceParameterOffset)
 
-#define KoCLI_CHAVCOut KoCLI_CKo8
-#define CLI_KoCHVACOut (CLI_KoCKo8 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHAVCOut KoCLI_CKo13
+#define CLI_KoCHVACOut (CLI_KoCKo13 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHAVCOutFeedback KoCLI_CKo9
-#define CLI_KoCHVACOutFeedback (CLI_KoCKo9 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHAVCOutFeedback KoCLI_CKo14
+#define CLI_KoCHVACOutFeedback (CLI_KoCKo14 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHPowerOut KoCLI_CKo10
-#define CLI_KoCHPowerOut (CLI_KoCKo10 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHPowerOut KoCLI_CKo15
+#define CLI_KoCHPowerOut (CLI_KoCKo15 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHPowerOutFeedback KoCLI_CKo11
-#define CLI_KoCHPowerOutFeedback (CLI_KoCKo11 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHPowerOutFeedback KoCLI_CKo16
+#define CLI_KoCHPowerOutFeedback (CLI_KoCKo16 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHCoolingOut KoCLI_CKo8
-#define CLI_KoCHCoolingOut (CLI_KoCKo8 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHCoolingOut KoCLI_CKo13
+#define CLI_KoCHCoolingOut (CLI_KoCKo13 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHCoolingOutFeedback KoCLI_CKo9
-#define CLI_KoCHCoolingOutFeedback (CLI_KoCKo9 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHCoolingOutFeedback KoCLI_CKo14
+#define CLI_KoCHCoolingOutFeedback (CLI_KoCKo14 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHHeatinOut KoCLI_CKo10
-#define CLI_KoCHHeatingOut (CLI_KoCKo10 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHHeatinOut KoCLI_CKo15
+#define CLI_KoCHHeatingOut (CLI_KoCKo16 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHHeatingOutFeedback KoCLI_CKo11
-#define CLI_KoCHHeatingOutFeedback (CLI_KoCKo11 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHHeatingOutFeedback KoCLI_CKo16
+#define CLI_KoCHHeatingOutFeedback (CLI_KoCKo16 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHDehumificationOut KoCLI_CKo12
-#define CLI_KoCHDehumificationOut (CLI_KoCKo12 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHDehumificationOut KoCLI_CKo17
+#define CLI_KoCHDehumificationOut (CLI_KoCKo17 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHDehumificationOutFeedback KoCLI_CKo13
-#define CLI_KoCHDehumificationOutFeedback (CLI_KoCKo13 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHDehumificationOutFeedback KoCLI_CKo18
+#define CLI_KoCHDehumificationOutFeedback (CLI_KoCKo18 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHFanOut KoCLI_CKo14
-#define CLI_KoCHFanOut (CLI_KoCKo14 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHFanOut KoCLI_CKo19
+#define CLI_KoCHFanOut (CLI_KoCKo19 + _deviceIndex * DeviceKoOffset)
 
-#define KoCLI_CHFanOutFeedback KoCLI_CKo15
-#define CLI_KoCHFanOutFeedback (CLI_KoCKo15 + _deviceIndex * DeviceKoOffset)
+#define KoCLI_CHFanOutFeedback KoCLI_CKo20
+#define CLI_KoCHFanOutFeedback (CLI_KoCKo20 + _deviceIndex * DeviceKoOffset)
 
 #define KoCLI_CDevPower KoCLI_CDev1Power
 #define CLI_KoCDevPower (CLI_KoCDev1Power + _deviceIndex * DeviceKoOffset)
@@ -68,6 +68,9 @@
 #define KoCLI_CDevRoomTemp KoCLI_CDev1RoomTemp
 #define CLI_KoCDevRoomTemp (CLI_KoCDev1RoomTemp + _deviceIndex * DeviceKoOffset)
 
+#define KoCLI_CDevIsActive KoCLI_CDev1IsActive
+#define CLI_KoCDevIsActive (CLI_KoCDev1IsActive + _deviceIndex * DeviceKoOffset)
+
 
 ClimateDevice::ClimateDevice(
     int channelIndex, 
@@ -76,16 +79,25 @@ ClimateDevice::ClimateDevice(
     bool supportHeating, 
     bool supportCooling, 
     bool supportDehumification, 
-    bool supportFan) : 
+    bool supportFan,
+    bool supportAuto) : 
     _channelIndex(channelIndex),
     _deviceIndex(deviceIndex),
     _roomChannel(roomChannel),
     _supportHeating(supportHeating),
     _supportCooling(supportCooling),
     _supportDehumification(supportDehumification),
-    _supportFan(supportFan)
+    _supportFan(supportFan),
+    _supportAuto(supportAuto)
 {
     _name = openknx.logger.buildPrefix(roomChannel.name(), _channelIndex + 1) + "Dev" + std::to_string(deviceIndex + 1);
+    switch (ParamCLI_CHIsActive1)
+    {
+        case PT_CLIIsActive::FeedbackOnOff:
+        case PT_CLIIsActive::FeedbackPercent:
+            KoCLI_CDevIsActive.requestObjectRead();
+            break;
+    }
     if  (ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::Setpoint || ParamCLI_CHControlTemperature1 == PT_CLIControlTemperature::PulseWidthModulation)
     {
         // <Enumeration Text="Fußbodenheizung (5K / 160min)" Value="0" Id="%ENID%" op:headerName="FloorHeating" />
@@ -208,6 +220,45 @@ void ClimateDevice::processInputKo(GroupObject& ko)
         logInfoP("Device %d received room temperature feedback %0.1f °C from device", deviceNumber(), roomTemperatureFromDevice);
         _targetTemperatureManipulationController->setRoomTemperatureFromDevice(roomTemperatureFromDevice);
     }
+    else if (koNr == CLI_KoCDevIsActive)
+    {
+        switch (ParamCLI_CHIsActive1)
+        {
+            case PT_CLIIsActive::FeedbackOnOff:
+                setIsActive(ko.value(DPT_Switch));
+                break;
+            case PT_CLIIsActive::FeedbackPercent:
+                setIsActive(((float) ko.value(DPT_Scaling)) > 0.001);
+                break;
+        }
+    }
+}
+
+void ClimateDevice::calculateIsActive()
+{
+    if (ParamCLI_CHIsActive1 == PT_CLIIsActive::Calculated && _piController == nullptr && _roomTemperatureRawKnx != std::numeric_limits<uint16_t>::max() && _targetTemperatureRawKnx != std::numeric_limits<uint16_t>::max())
+    {
+        float targetTemperature = _roomChannel.getTemperatureFromRawKnx(_targetTemperatureRawKnx);
+        float roomTemperature = _roomChannel.getTemperatureFromRawKnx(_roomTemperatureRawKnx);
+        switch (_mode)
+        {
+            case ClimateModeSelection::Heating:
+                setIsActive(targetTemperature - roomTemperature > 0.01f);
+                break;
+            case ClimateModeSelection::Cooling:
+                setIsActive(targetTemperature - roomTemperature < -0.01f);
+                break;
+            case ClimateModeSelection::Auto:
+                setIsActive (abs(targetTemperature - roomTemperature) > 0.01f);
+                break;
+            case ClimateModeSelection::Fan:
+            case ClimateModeSelection::Dehumification:
+                setIsActive(true);
+                break;
+            default:
+                setIsActive(false);
+        }
+    }
 }
 
 void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
@@ -215,9 +266,10 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
     _targetTemperatureRawKnx = targetTemperatureRawKnx;
     if (!_inReceiveTempFeedbackKo)
         _blockForwardTemperatureFeedbackFromDevice = max(1UL, millis());
-    auto targetTemperature = _roomChannel.getTemperatureFromRawKnx(targetTemperatureRawKnx);
+    auto targetTemperature = _roomChannel.getTemperatureFromRawKnx(targetTemperatureRawKnx);   
     logInfoP("Set target temperature to %0.1f °C", targetTemperature);
-    
+    calculateIsActive();
+ 
     if (_piController != nullptr)
     {
         _piController->setTargetTemperature(targetTemperature);
@@ -244,6 +296,16 @@ void ClimateDevice::setTargetTemperature(uint16_t targetTemperatureRawKnx)
     }
 }
 
+void ClimateDevice::setIsActive(bool active)
+{
+    if (_isActive != active)
+    {
+        _isActive = active;
+        logInfoP("Device %d is now %s", deviceNumber(), active ? "active" : "inactive");
+        _roomChannel.isActiveChangedFromDevice();
+    }
+}
+
 void ClimateDevice::loop()
 {
     if (_blockForwardTemperatureFeedbackFromDevice != 0 && millis() - _blockForwardTemperatureFeedbackFromDevice > 5000)
@@ -267,6 +329,8 @@ void ClimateDevice::loop()
             {
                 logDebugP("Setting position value to %d for device %d", (uint8_t) positionValue, deviceNumber());
             }
+            bool isActive = positionValue > 0.001;
+            setIsActive(isActive);
             if (_pwmController != nullptr)
             {
                 _pwmController->setPositionValue(positionValue);
@@ -364,8 +428,16 @@ void ClimateDevice::setMode(ClimateModeSelection mode)
             KoCLI_CHPowerOut.value(mode != ClimateModeSelection::Off, DPT_Switch);
             break;
         case PT_CLIControlMode::ONE_OBJECT_PER_MODE:
-            KoCLI_CHCoolingOut.value(mode == ClimateModeSelection::Cooling, DPT_Switch);
-            KoCLI_CHHeatinOut.value(mode == ClimateModeSelection::Heating, DPT_Switch);
+            if (mode == ClimateModeSelection::Auto)
+            {
+                KoCLI_CHCoolingOut.value(true, DPT_Switch);
+                KoCLI_CHHeatinOut.value(true, DPT_Switch);
+            }
+            else
+            {
+                KoCLI_CHCoolingOut.value(mode == ClimateModeSelection::Cooling, DPT_Switch);
+                KoCLI_CHHeatinOut.value(mode == ClimateModeSelection::Heating, DPT_Switch);
+            }
             KoCLI_CHDehumificationOut.value(mode == ClimateModeSelection::Dehumification, DPT_Switch);
             KoCLI_CHFanOut.value(mode == ClimateModeSelection::Fan, DPT_Switch);
             break;
@@ -385,6 +457,7 @@ void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
     _roomTemperatureRawKnx = roomTemperatureRawKnx;
     auto roomTemperature = _roomChannel.getTemperatureFromRawKnx(roomTemperatureRawKnx);
     logInfoP("Set room temperature: %0.1f °C", roomTemperature);
+    calculateIsActive();
     if (_targetTemperatureManipulationController != nullptr)
     {
         _targetTemperatureManipulationController->setCurrentRoomTemperature(roomTemperature);
@@ -399,9 +472,15 @@ void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
     }
 }
 
+bool ClimateDevice::isActive()
+{
+    return _isActive;
+}
+
 void ClimateDevice::logStatus()
 {
     logInfoP("Mode %s", ClimateModeSelectionHelper::toString(_mode));
+    logInfoP("Is active: %s", _isActive ? "yes" : "no");
     if (_piController != nullptr)
     {
         _piController->logStatus(logPrefix());
@@ -428,6 +507,8 @@ bool ClimateDevice::supportMode(ClimateModeSelection mode)
             return _supportDehumification;
         case ClimateModeSelection::Fan:
             return _supportFan;
+        case ClimateModeSelection::Auto:
+            return _supportAuto;
         default:
             return false;
     }

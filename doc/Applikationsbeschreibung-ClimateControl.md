@@ -37,7 +37,7 @@ Anzahl der Räume für die ein Kanal angezeigt wird.
 Die Umschaltung erfolgt anhand folgender Kriterien:
 
 <!-- DOC  -->
-### Gruppenobjekt
+### Objekt
 
 Umschaltung wird durch ein Gruppentelegram ausgelöst
 
@@ -330,4 +330,7 @@ Die Einstellung ist abhängig davon, wieviele thermoelektrische Stellventile am 
 
 <!-- DOC -->
 ### Hysterese Kühlen
+
+<!-- DOC -->
+### Ist Aktiv Rückmeldung
 

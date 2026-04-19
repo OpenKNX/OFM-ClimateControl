@@ -37,7 +37,7 @@ void ClimateControlModule::writeFlash()
         return;
     }
     logDebugP("Write data to flash");
-    openknx.flash.writeByte(2); // Version
+    openknx.flash.writeByte(3); // Version
     openknx.flash.writeByte(_hourlyTemperaturesWithValidTime ? 1 : 0);
     openknx.flash.write((uint8_t*)_hourlyTemperaturesRawKnx, sizeof(_hourlyTemperaturesRawKnx));
     openknx.flash.writeByte(_isWinterFallbackActive ? 0 : _isWinter ? 2 : 1);
