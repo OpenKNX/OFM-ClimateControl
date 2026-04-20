@@ -73,6 +73,7 @@ class RoomChannel : public OpenKNX::Channel
     float roundTemperature(float temperature, uint8_t roundingParam);
     uint16_t limitSetTemperature(bool& forceSend,  const char* tempType, uint16_t currentTargetTemperatureRawKnx, uint16_t targetTemperatureRawKnx, float minTemperature, float maxTemperature, uint8_t roundingParam);
 
+    void switchSaison(PT_CLIModeChange modeChange, const char* saison);
   public:
     RoomChannel(int channelIndex);
     const std::string name() override;
@@ -96,6 +97,8 @@ class RoomChannel : public OpenKNX::Channel
     float getTemperatureFromRawKnx(uint16_t rawKnx);
     uint16_t getRawKnxFromTemperature(float temperature);
     uint16_t roundTemperatureAndLimit(float targetTemperature, uint8_t roundingParam);
+    void switchToWinter();
+    void switchToSummer();
 
    
  

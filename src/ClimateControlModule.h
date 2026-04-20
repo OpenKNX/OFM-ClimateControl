@@ -10,10 +10,12 @@
 
 class ClimateControlModule : public ClimateControlChannelOwnerModule
 {
+    static const uint8_t CurrentFlashVersion;
     LedFunctionSummerWinterOperation _ledFunctionSummerWinterOperation;
     bool _started = false;
     bool _waitForValidDate = false;
     bool _waitForIsWinterValid = false;
+    bool _winterReadFromFlash = false;
     bool _clearFlash = false;
     unsigned long _waitForInitialized = 0;
     uint8_t _versionReadFromFlash = 0;
@@ -29,9 +31,8 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     unsigned long _waitForTemperatureResponse = 0;
     int getCurrentHourlyTemperatureIndex();
     void handleWinterSummerMode(OpenKNX::Time::TimeChangedArgs args);
-    void initializeIsWinterFromDate();
     void handleAverageTemperatureCalculation(OpenKNX::Time::TimeChangedArgs args);
-    void setIsWinter(bool isWinter, const char* diagnosticMessage);
+    void setIsWinter(bool isWinter, const char* diagnosticMessage, bool start);
     void processOutsideTemperatureChange(uint16_t outsideTempRawKnx);
     void recalculateDayAverageTemperature();
     void setAverageTemperature(float averageTemp, const char* calculationMethod);

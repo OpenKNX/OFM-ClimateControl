@@ -1188,6 +1188,53 @@ float RoomChannel::roundTemperature(float temperature, uint8_t roundingParam)
     return std::round(temperature / step) * step;
 }
 
+void RoomChannel::switchToWinter()
+{
+    switchSaison(ParamCLI_WinterModeChange, "winter");
+}
+
+void RoomChannel::switchToSummer()
+{
+    switchSaison(ParamCLI_SummerModeChange, "summer");
+}
+
+void RoomChannel::switchSaison(PT_CLIModeChange modeChange, const char* saison)
+{
+    switch (modeChange)
+    {
+        case PT_CLIModeChange::Deactivated:
+            logInfoP("No mode change due to %s season", saison);
+            break;
+        case PT_CLIModeChange::Off:
+            logInfoP("Switch to 'Off' mode due to %s season", saison);
+            setMode(ClimateModeSelection::Off);
+            break;
+        case PT_CLIModeChange::Auto:
+            logInfoP("Switch to 'Auto' mode due to %s season", saison);
+            setMode(ClimateModeSelection::Auto);
+            break;
+        case PT_CLIModeChange::Heating:
+            logInfoP("Switch to heating mode due to %s season", saison);
+            setMode(ClimateModeSelection::Heating);
+            break;
+        case PT_CLIModeChange::Cooling:
+            logInfoP("Switch to cooling mode due to %s season", saison);
+            setMode(ClimateModeSelection::Cooling);
+            break;
+        case PT_CLIModeChange::Dehumification:
+            logInfoP("Switch to dehumification mode due to %s season", saison);
+            setMode(ClimateModeSelection::Dehumification);
+            break;
+        case PT_CLIModeChange::Fan:
+            logInfoP("Switch to fan mode due to %s season", saison);
+            setMode(ClimateModeSelection::Fan);
+            break;
+        default:
+            logErrorP("Invalid %s mode change option %d", saison, modeChange);
+            break;
+    }
+}
+
 void RoomChannel::loop()
 {
     if (_autoModeFallbackTimer != 0 && millis() - _autoModeFallbackTimer >= ParamCLI_CHFallbackAutoWaitTimeDelayTimeMS)
