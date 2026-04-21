@@ -258,6 +258,7 @@ void ClimateDevice::calculateIsActive()
             default:
                 setIsActive(false);
         }
+        logDebugP("Calculate isActive to %s with room %0.1f °C and target %0.1f °C for mode %d", _isActive ? "active" : "inactive", roomTemperature, targetTemperature, (int)_mode);
     }
 }
 
@@ -450,6 +451,7 @@ void ClimateDevice::setMode(ClimateModeSelection mode)
     {
         _targetTemperatureManipulationController->setOperationMode(mode);
     }
+    calculateIsActive();
 }
 
 void ClimateDevice::setRoomTemperature(uint16_t roomTemperatureRawKnx)
@@ -481,6 +483,10 @@ void ClimateDevice::logStatus()
 {
     logInfoP("Mode %s", ClimateModeSelectionHelper::toString(_mode));
     logInfoP("Is active: %s", _isActive ? "yes" : "no");
+    if (_targetTemperatureRawKnx != std::numeric_limits<uint16_t>::max())
+        logInfoP("Target temperature: %0.1f°C", _roomChannel.getTemperatureFromRawKnx(_targetTemperatureRawKnx));
+    if (_roomTemperatureRawKnx != std::numeric_limits<uint16_t>::max())
+        logInfoP("Room temperature: %0.1f°C", _roomChannel.getTemperatureFromRawKnx(_roomTemperatureRawKnx));
     if (_piController != nullptr)
     {
         _piController->logStatus(logPrefix());

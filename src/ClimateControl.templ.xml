@@ -1041,16 +1041,16 @@
                           </when>
                         </choose>
                         <!-- Full power off 1 -->
-                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" HelpContext="%DOC%" />
-                        <choose ParamRefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301">
-                          <when test="1">
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" />
+                        <!-- <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" HelpContext="%DOC%" /> -->
+                        <!-- <choose ParamRefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301"> -->
+                          <!-- <when test="1"> -->
+                            <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" /> -->
                             <!-- Dev 1 Power -->
-							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%108_R-%TT%%CC%10800" />
+							              <!-- <ComObjectRefRef RefId="%AID%_O-%TT%%CC%108_R-%TT%%CC%10800" /> -->
                             <!-- Wait Time after Power Up 1 -->
-                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" HelpContext="%DOC%" />
-                          </when>
-                        </choose>
+                            <!-- <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%104_R-%TT%%CC%10401" HelpContext="%DOC%" /> -->
+                          <!-- </when> -->
+                        <!-- </choose> -->
                       </ParameterBlock>
 
                       <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="2: {{0:Kühl-/Heizsystem 2}}" Icon="air-conditioner" TextParameterRefId="%AID%_P-%TT%%CC%200_R-%TT%%CC%20001" HelpContext="CLI-KlimaSteuerung" ShowInComObjectTree="true" >
@@ -1192,16 +1192,16 @@
                           </when>
                         </choose>
                         <!-- Full power off 2 -->
-                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" HelpContext="%DOC%" />
-                        <choose ParamRefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301">
-                          <when test="1">
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" />
+                        <!-- <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" HelpContext="%DOC%" /> -->
+                        <!-- <choose ParamRefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301"> -->
+                          <!-- <when test="1"> -->
+                            <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" /> -->
                             <!-- Dev 2 Power -->
-							              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%208_R-%TT%%CC%20800" />
+							              <!-- <ComObjectRefRef RefId="%AID%_O-%TT%%CC%208_R-%TT%%CC%20800" /> -->
                             <!-- Wait Time after Power Up 2 -->
-                            <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%204_R-%TT%%CC%20401" HelpContext="%DOC%" />
-                          </when>
-                        </choose>
+                            <!-- <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%TT%%CC%204_R-%TT%%CC%20401" HelpContext="%DOC%" /> -->
+                          <!-- </when> -->
+                        <!-- </choose> -->
                       </ParameterBlock>
 
                       <ParameterBlock Id="%AID%_PB-%C%2" Name="Control" Text="Modus Auswahl" Icon="sun-snowflake-variant" HelpContext="CLI-KlimaSteuerung" >

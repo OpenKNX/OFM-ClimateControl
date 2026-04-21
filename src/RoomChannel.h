@@ -31,6 +31,7 @@ class RoomChannel : public OpenKNX::Channel
     bool _useCoolingTargetTemperature = false;
     bool _coolingSupported = false;
     bool _heatingSupported = false;
+    bool _inHandleAuto = false;
     std::string _name;
     bool _forceSendTargetTemperature = false;
     uint16_t _roomTemperature = std::numeric_limits<uint16_t>::max();
@@ -64,7 +65,7 @@ class RoomChannel : public OpenKNX::Channel
     void handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
    
     void handleMode(ClimateModeSelection mode);
-    void handleAuto();
+    bool handleAuto();
     void setMode(ClimateModeSelection mode);
     void setPower(PowerState power);
     void setInitTargetTemperatur();
