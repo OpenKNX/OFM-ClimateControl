@@ -1,19 +1,27 @@
 #include "RoomChannel.h"
 #include "ClimateControlModule.h"
+#include "ClimateDeviceKnxActor.h"
 #include <cmath>
+
 
 RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
                                              _name("RoomChannel"),
                                              _lastActiveMode(DefaultMode)
 {
     isActiveChangedFromDevice();
-    _climateDevices.push_back(ClimateDevice(channelIndex, 0, *this,
+    ClimateDevice* device1;
+#ifdef CREATE_CLIMATE_DEVICE
+    device1 = CREATE_CLIMATE_DEVICE;
+#else
+    device1 = new ClimateDeviceKnxActor(channelIndex, 0, *this,
                                             ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
-    _climateDevices.push_back(ClimateDevice(channelIndex, 1, *this,
+                                            ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2);
+#endif
+    _climateDevices.push_back(device1);
+    _climateDevices.push_back(new ClimateDeviceKnxActor(channelIndex, 1, *this,
 
                                             ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
@@ -21,13 +29,13 @@ RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
                                             ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
                                             ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
 
-    for (ClimateDevice& device : _climateDevices)
+    for (ClimateDevice* device : _climateDevices)
     {
-        if (device.supportMode(ClimateModeSelection::Cooling))
+        if (device->supportMode(ClimateModeSelection::Cooling))
         {
             _coolingSupported = true;
         }
-        if (device.supportMode(ClimateModeSelection::Heating))
+        if (device->supportMode(ClimateModeSelection::Heating))
         {
             _heatingSupported = true;
         }
@@ -290,7 +298,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
                 logInfoP("Received room temperature %0.1f°C from bus, but forward stored %0.1f", getTemperatureFromRawKnx(roomTemperatureRawKnx), getTemperatureFromRawKnx(_roomTemperatureBeforeWindowOpen));
                 for (auto &device : _climateDevices)
                 {
-                    device.setRoomTemperature(_roomTemperatureBeforeWindowOpen);
+                    device->setRoomTemperature(_roomTemperatureBeforeWindowOpen);
                 }
             }
             else
@@ -298,7 +306,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
                 logInfoP("Received room temperature %0.1f°C from bus", getTemperatureFromRawKnx(roomTemperatureRawKnx));
                 for (auto &device : _climateDevices)
                 {
-                    device.setRoomTemperature(roomTemperatureRawKnx);
+                    device->setRoomTemperature(roomTemperatureRawKnx);
                 }
             }
             handleAuto();
@@ -375,7 +383,7 @@ void RoomChannel::processInputKo(GroupObject &ko)
         {
             for (auto &device : _climateDevices)
             {
-                device.processInputKo(ko);
+                device->processInputKo(ko);
             }
             break;
         }
@@ -399,12 +407,14 @@ void RoomChannel::start()
     {
         for (auto &device : _climateDevices)
         {
-            device.setRoomTemperature(_roomTemperature);
+            device->setRoomTemperature(_roomTemperature);
         }
     }
     setMode(_currentMode);
     setPower(_currentPower);
     _started = true;
+logErrorP("Start");
+logStatus();
     handle();
     if (CLI_CHWindowOpenEnabled)
     {
@@ -493,7 +503,7 @@ void RoomChannel::resetWindowOpenActions()
         logDebugP("Restore room temperature %0.1f°C after window closed", getTemperatureFromRawKnx(_roomTemperature));
         for (auto &device : _climateDevices)
         {
-            device.setRoomTemperature(_roomTemperature);
+            device->setRoomTemperature(_roomTemperature);
         }
         handleAuto();
     }
@@ -662,7 +672,7 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
         // Power is off, turn of devices
         for (auto &device : _climateDevices)
         {
-            device.setMode(ClimateModeSelection::Off);
+            device->setMode(ClimateModeSelection::Off);
         }
         isActiveChangedFromDevice();
         return;
@@ -670,16 +680,16 @@ void RoomChannel::handleMode(ClimateModeSelection mode)
     bool supported = false;
     for (auto &device : _climateDevices)
     {
-        if (device.supportMode(mode))
+        if (device->supportMode(mode))
         {
             supported = true;
-            device.setMode(mode);
+            device->setMode(mode);
             if (needTargetTemperature)
-                device.setTargetTemperature(getTargetTemperatureRawKnx());     
+                device->setTargetTemperature(getTargetTemperatureRawKnx());     
         }
         else
         {
-            device.setMode(ClimateModeSelection::Off);
+            device->setMode(ClimateModeSelection::Off);
         }
     }
     isActiveChangedFromDevice();
@@ -858,7 +868,7 @@ void RoomChannel::logStatus()
     }
     for (auto &device : _climateDevices)
     {
-        device.logStatus();
+        device->logStatus();
     }
     if (_windowOpen)
     {
@@ -1035,9 +1045,9 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, C
         }
         for (auto &device : _climateDevices)
         {
-            if (device.supportMode(searchForMode))
+            if (device->supportMode(searchForMode))
             {
-                auto roundingParamDevice = device.getRoundingParameter();
+                auto roundingParamDevice = device->getRoundingParameter();
                 if (roundingParamDevice > roundingParam)
                 {
                     roundingParam = roundingParamDevice;
@@ -1065,9 +1075,9 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, C
     {
         for (auto &device : _climateDevices)
         {
-            if (device.supportMode(_currentActiveMode))
+            if (device->supportMode(_currentActiveMode))
             {
-                device.setTargetTemperature(targetTemperatureRawKnx);
+                device->setTargetTemperature(targetTemperatureRawKnx);
             }
         }
     }
@@ -1082,7 +1092,7 @@ void RoomChannel::isActiveChangedFromDevice()
     {
         for (auto &device : _climateDevices)
         {
-            if (device.isActive() && device.supportMode(_currentActiveMode))
+            if (device->isActive() && device->supportMode(_currentActiveMode))
             {
                 isActive = true;
                 break;
@@ -1271,7 +1281,7 @@ void RoomChannel::loop()
     }
     for (auto &device : _climateDevices)
     {
-        device.loop();
+        device->loop();
     }
     if (_windowOpenTimer != 0)
     {
@@ -1503,7 +1513,7 @@ void RoomChannel::handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_
                     logDebugP("Action %d: Forward room temperature change, set room temperature to %0.1f°C", actionNumber, getTemperatureFromRawKnx(_roomTemperatureBeforeWindowOpen));
                     for (auto &device : _climateDevices)
                     {
-                        device.setRoomTemperature(_roomTemperature);
+                        device->setRoomTemperature(_roomTemperature);
                     }
                     handleAuto();
                 }

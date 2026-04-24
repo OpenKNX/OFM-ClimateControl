@@ -42,7 +42,7 @@ class RoomChannel : public OpenKNX::Channel
     ClimateModeSelection _lastActiveMode = ClimateModeSelection::Undefined;
     ClimateModeSelection _currentActiveMode = ClimateModeSelection::Undefined;
     PowerState _currentPower= PowerState::Undefined;
-    std::vector<ClimateDevice> _climateDevices;
+    std::vector<ClimateDevice*> _climateDevices;
     unsigned long _autoModeFallbackTimer = 0;
 
     bool _windowOpen = false;
