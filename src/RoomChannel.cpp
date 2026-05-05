@@ -471,12 +471,12 @@ void RoomChannel::setWindowOpen(bool open)
     }
 }
 
-void RoomChannel::resetWindowOpenActions()
+void RoomChannel::resetWindowOpenActions(const char* reason)
 {
     if (_windowOpenAction1Handled || _windowOpenAction2Handled || _windowOpenAction3Handled || _windowOpenAction4Handled || _windowOpenAction5Handled)
-        logInfoP("Reset window open actions");
+        logInfoP("%s: Reset window open actions", reason);
     else
-        logDebugP("Reset window open actions");
+        logDebugP("%s: Reset window open actions", reason);
     _windowOpenTimer = 0;
     _waitForRoomTemperatureStable = false;
     _windowOpenAction1Handled = false;
@@ -572,7 +572,7 @@ void RoomChannel::setMode(ClimateModeSelection mode)
         }
         if (mode != _currentMode && mode != ClimateModeSelection::Undefined)
         {
-            resetWindowOpenActions();
+            resetWindowOpenActions("Mode changed");
         
             _waitForMode = false;
             if (mode == ClimateModeSelection::Off)
@@ -1032,7 +1032,7 @@ void RoomChannel::setTargetTemperatureRawKnx(uint16_t targetTemperatureRawKnx, C
   
     if (changeSource == ChangeSource::User)
     {
-        resetWindowOpenActions();
+        resetWindowOpenActions("Target temperature changed");
     }
     uint8_t roundingParam = 0;
     if (changeSource != ChangeSource::Device)
@@ -1322,18 +1322,18 @@ void RoomChannel::loop()
                     if (activeMode == ClimateModeSelection::Heating && currentTemp >= originalTargetTemperature)
                     {
                         logInfoP("Current room temperature %0.1f°C already reach target %0.1f°C, reset window open actions", currentTemp, originalTargetTemperature);
-                        resetWindowOpenActions();
+                        resetWindowOpenActions("Room temperature already reach heating target");
                     }
                     else if (activeMode == ClimateModeSelection::Cooling && currentTemp <= originalTargetTemperature)
                     {
                         logInfoP("Current room temperature %0.1f°C already reach target %0.1f°C, reset window open actions", currentTemp, originalTargetTemperature);
-                        resetWindowOpenActions();
+                        resetWindowOpenActions("Room temperature already reach cooling target");
                     }
                     else if (millis() - _windowOpenTimer >= gradientWindowWaittime)
                     {
                         // Time window for room temperature changed over
                         logInfoP("Stable room temperature since %dmin, reset actions", gradientWindowWaittime / 60000);
-                        resetWindowOpenActions();
+                        resetWindowOpenActions("Stable room temperature");
                     }
                     else
                     {
@@ -1355,14 +1355,14 @@ void RoomChannel::loop()
                                 else if (offset < 0)
                                 {
                                     logInfoP("Detected room temperature %s from %0.1f°C to %0.1f°C, reset window open actiond", activeMode == ClimateModeSelection::Cooling ? "increase" : "decrease", lastTemp, currentTemp);
-                                    resetWindowOpenActions();
+                                    resetWindowOpenActions("Detect negative room temperature change");
                                 }
                             }
                         }
                         else
                         {
                             logInfoP("Current active mode is %s, no need to detect room temperature change, reset window open actions", ClimateModeSelectionHelper::toString(activeMode));
-                            resetWindowOpenActions();
+                            resetWindowOpenActions("Current mode ist not heating or cooling");
                         }
                     }
                 }
@@ -1385,7 +1385,7 @@ void RoomChannel::loop()
                 {
                     _windowOpenTimer = 0;
                     _waitForRoomTemperatureStable = false;
-                    resetWindowOpenActions();
+                    resetWindowOpenActions("Wait delay after window close");
                 }
             }
         }
