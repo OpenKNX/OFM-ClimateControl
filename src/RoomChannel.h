@@ -19,6 +19,14 @@ class RoomChannel : public OpenKNX::Channel
         Off = 1,
         Undefined =255 
     };
+    enum class WindowOpenState
+    {
+        Closed = 0,
+        Open = 1,
+        WaitDelayAfterClose = 2,
+        InitialWaitAfterClose = 3,
+        WaitForStableRoomTemperature = 4
+    };
     const static PT_CLIDeviceSelection OpenKNX = PT_CLIDeviceSelection::CoolingHeatingSystem1And2;
     const static ClimateModeSelection DefaultMode = ClimateModeSelection::Auto;
     int _channelIndex;
@@ -45,10 +53,9 @@ class RoomChannel : public OpenKNX::Channel
     std::vector<ClimateDevice*> _climateDevices;
     unsigned long _autoModeFallbackTimer = 0;
 
-    bool _windowOpen = false;
-    bool _waitForGradientRoomTemperatureChange = false;
+    WindowOpenState _windowOpenState = WindowOpenState::Closed;
+    void setWindowOpenState(WindowOpenState state);
     unsigned long _windowOpenTimer = 0;
-    bool _waitForRoomTemperatureStable = false;
     uint16_t _lastCurrentRoomTemperatureRawKnx = std::numeric_limits<uint16_t>::max();
     ClimateModeSelection _modeLockedWhileOpenWindow = ClimateModeSelection::Undefined;
     uint16_t _targetTemperatureBeforeWindowOpen = std::numeric_limits<uint16_t>::max();
@@ -61,8 +68,9 @@ class RoomChannel : public OpenKNX::Channel
 
     void setWindowOpen(bool open);
     void handleWindowOpen();
-    void resetWindowOpenActions(const char* reason);
     void handleWindowOpenAction(int actionNumber, uint32_t afterMS, PT_CLIWindowOpenCondition condition, PT_CLIWindowOpenAction action, unsigned long windowOpenSince, uint8_t setPointCorrectionParameter, bool& handled);
+    void resetWindowOpenAlarm(PT_CLIWindowOpenAction alarm, bool& handled);
+    void resetWindowOpenActions(const char* reason);
    
     void handleMode(ClimateModeSelection mode);
     bool handleAuto();

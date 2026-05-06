@@ -181,6 +181,7 @@
                   <Enumeration Text="wenn Heizen aktiv" Value="1" Id="%ENID%" op:headerName="IfHeating" />     
                   <Enumeration Text="wenn Kühlen aktiv" Value="2" Id="%ENID%" op:headerName="IfCooling" />     
                   <Enumeration Text="wenn Heizen oder Kühlen aktiv" Value="3" Id="%ENID%" op:headerName="IfHeatingOrCooling" />     
+                  <Enumeration Text="immer" Value="4" Id="%ENID%" op:headerName="Always" />     
                 </TypeRestriction>
               </ParameterType>
 
