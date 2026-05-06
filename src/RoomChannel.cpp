@@ -479,6 +479,7 @@ void RoomChannel::resetWindowOpenActions(const char* reason)
         logDebugP("%s: Reset window open actions", reason);
     _windowOpenTimer = 0;
     _waitForRoomTemperatureStable = false;
+    _waitForGradientRoomTemperatureChange = false;
     _windowOpenAction1Handled = false;
     _windowOpenAction2Handled = false;
     _windowOpenAction3Handled = false;
@@ -1383,8 +1384,6 @@ void RoomChannel::loop()
                 // Wait for delay time after window closed
                 if (millis() - _windowOpenTimer >= ParamCLI_CHWindowCloseWaitTimeDelayTimeMS)
                 {
-                    _windowOpenTimer = 0;
-                    _waitForRoomTemperatureStable = false;
                     resetWindowOpenActions("Wait delay after window close");
                 }
             }
