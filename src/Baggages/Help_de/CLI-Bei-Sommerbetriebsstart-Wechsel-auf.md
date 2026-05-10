@@ -1,4 +1,4 @@
-﻿### Bei-Sommerbetriebsstart Wechsel auf
+﻿### Bei Sommerbetriebsstart Wechsel auf
 
 Modus auf dem beim Beginn des Sommerbetriebes umgeschalten wird.
 
@@ -8,7 +8,7 @@ Auswahl:
 - Aus
   Das Heiz-/Kühlsystem wird ausgeschaltet
 - Auto
-  Es wird auf dem Automodus gewechselt
+  Es wird auf dem Automatikmodus gewechselt
 - Heizen
   Es wird der Heizbetrieb aktiviert
 - Kühlen

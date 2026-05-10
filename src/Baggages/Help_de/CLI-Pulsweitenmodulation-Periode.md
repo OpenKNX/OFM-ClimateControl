@@ -12,4 +12,4 @@ Die Einstellung ist abhängig davon, wieviele thermoelektrische Stellventile am 
   Damit wird verhindert das durch Bauteiltoleranzen einzelne Ventile mehr oder weniger öffnen.
   Die Stellwertvorgabe wird in dieser Einstellung durch die Trägheit des Heizkreises erreicht.
   Empfohlene Einstellung ist 2x die Öffnung/Schließzeit des Ventiles.
-
+    

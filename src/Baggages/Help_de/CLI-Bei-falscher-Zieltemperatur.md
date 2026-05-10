@@ -1,2 +1,0 @@
-﻿### Bei falscher Zieltemperatur
-

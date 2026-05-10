@@ -1,5 +1,9 @@
 ﻿### Modusauswahl über
 
+Legt fest, wie der Aktor für das Kühl-/Heizsystem angesteuert werden soll umd die Betriebsart auszuwählen:
+
+Optionen:
+
 - HVAC 
   HVAC mit Auto=0 / Heizen=1 / Kühlen=3 / Aus=6 / Lüfter=9 / Entfeuchten=14
 - HVAC und Power

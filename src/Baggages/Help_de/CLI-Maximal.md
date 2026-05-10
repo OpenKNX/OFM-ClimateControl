@@ -1,2 +1,4 @@
 ﻿### Maximal
 
+Maximale Solltemperatur.
+

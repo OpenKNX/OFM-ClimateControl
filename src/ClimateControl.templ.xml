@@ -19,9 +19,9 @@
                 <!-- Mode selection turn on -->
                 <Parameter Offset="0" BitOffset="2" Id="%AID%_UP-%TT%%CC%004" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%ModeSelectionTurnOn" Text="Modus Auswahl schaltet EIN" Value="1" />
                 <!-- Wrong target temperature handling -->
-                <Parameter Offset="0" BitOffset="3" Id="%AID%_UP-%TT%%CC%018" ParameterType="%AID%_PT-CLITargetLimitHandling" Name="CH%C%TargetLimitHandling" Text="Bei falscher Zieltemperatur" Value="0" />
+                <Parameter Offset="0" BitOffset="3" Id="%AID%_UP-%TT%%CC%018" ParameterType="%AID%_PT-CLITargetLimitHandling" Name="CH%C%TargetLimitHandling" Text="Bei ungültiger Solltemperaturvorgabe" Value="0" />
                 <!-- Mode feedback return off -->
-                <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%019" ParameterType="%AID%_PT-CLIModeFeedback" Name="CH%C%ModeFeedbackReturnOff" Text="Modus Auswahl Aktueller Status bei AUS" Value="0" />
+                <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%019" ParameterType="%AID%_PT-CLIModeFeedback" Name="CH%C%ModeFeedbackReturnOff" Text="'Modus Aktueller Status' bei AUS" Value="0" />
                 <!-- 3 Bits free-->
                 <!-- Relativ temperature change heating value --> 
                 <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeHeating" Text="Erhöhren / Verrringern um" Value="10" />   
@@ -861,9 +861,10 @@
                         <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" HelpContext="%DOC%" />
                  
                         <!-- Mode restore mode -->
-                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" HelpContext="%DOC%" />
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" HelpContext="CLI-StartMode" />
+                        
                         <!-- Default mode -->
-                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" HelpContext="%DOC%" />
+                        <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" HelpContext="CLI-DefaultMode" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201">
                           <when test="255"> <!-- Usage from season -->
                             <choose ParamRefId="%AID%_UP-%TT%00013_R-%TT%0001301">

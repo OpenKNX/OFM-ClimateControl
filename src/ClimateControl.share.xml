@@ -35,9 +35,9 @@
 
               <ParameterType Id="%AID%_PT-CLIInit" Name="CLIInit" op:headerExport="enum">
 								 <TypeRestriction Base="Value" SizeInBit="4" >
-                  <Enumeration Text="Gespeicherte Werte, sonst Initialwerte" Value="0" Id="%ENID%" op:headerName="Saved" />
-                  <Enumeration Text="Vom Bus lesen, sonst Initialwerte" Value="1" Id="%ENID%" op:headerName="ReadFromBus" />
-                  <Enumeration Text="Vom Bus lesen, sonst gespeicherte Werte, sonst Initialwerte" Value="2" Id="%ENID%" op:headerName="ReadFromBusOrSaved" />
+                  <Enumeration Text="Gespeicherter Wert, sonst Initialwert" Value="0" Id="%ENID%" op:headerName="Saved" />
+                  <Enumeration Text="Vom Bus lesen, sonst Initialwert" Value="1" Id="%ENID%" op:headerName="ReadFromBus" />
+                  <Enumeration Text="Vom Bus lesen, sonst gespeicherter Wert, sonst Initialwert" Value="2" Id="%ENID%" op:headerName="ReadFromBusOrSaved" />
                 </TypeRestriction>
 							</ParameterType>
 
@@ -216,21 +216,21 @@
 
               <ParameterType Id="%AID%_PT-CLITemperaturCorrection" Name="CLITemperaturCorrection">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" />
-                  <Enumeration Text="1°" Value="10" Id="%ENID%" />
-                  <Enumeration Text="2°" Value="20" Id="%ENID%" />
-                  <Enumeration Text="3°" Value="30" Id="%ENID%" />
-                  <Enumeration Text="4°" Value="40" Id="%ENID%" />
-                  <Enumeration Text="5°" Value="50" Id="%ENID%" />
+                  <Enumeration Text="0,5 K" Value="5" Id="%ENID%" />
+                  <Enumeration Text="1 K" Value="10" Id="%ENID%" />
+                  <Enumeration Text="2 K" Value="20" Id="%ENID%" />
+                  <Enumeration Text="3 K" Value="30" Id="%ENID%" />
+                  <Enumeration Text="4 K" Value="40" Id="%ENID%" />
+                  <Enumeration Text="5 K" Value="50" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
                <ParameterType Id="%AID%_PT-CLITargetTempRounding" Name="CLITargetTempRounding">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="0,1°" Value="1" Id="%ENID%" />
-                  <Enumeration Text="0,5°" Value="5" Id="%ENID%" />
-                  <Enumeration Text="1°" Value="10" Id="%ENID%" />
+                  <Enumeration Text="0,1°C" Value="1" Id="%ENID%" />
+                  <Enumeration Text="0,5°C" Value="5" Id="%ENID%" />
+                  <Enumeration Text="1°C" Value="10" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -296,7 +296,7 @@
               <ParameterType Id="%AID%_PT-CLIModeFeedback" Name="CLIModeFeedback" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Text="Gewählten Modus für eingeschaltetes Gerät" Value="0" Id="%ENID%" op:headerName="ReturnLastActiveMode" />
-                  <Enumeration Text="Liefert AUS" Value="1" Id="%ENID%" op:headerName="ReturnOff" />
+                  <Enumeration Text="Sendet AUS" Value="1" Id="%ENID%" op:headerName="ReturnOff" />
                 </TypeRestriction>
               </ParameterType>
 

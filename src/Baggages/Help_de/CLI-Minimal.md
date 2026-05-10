@@ -1,2 +1,4 @@
 ﻿### Minimal
 
+Minimale Solltemperatur.
+

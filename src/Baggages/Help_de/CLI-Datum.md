@@ -1,4 +1,4 @@
 ﻿### Datum
 
-Umschaltung anhand von einem Datumsbereich
+Umschaltung anhand von einem Datumsbereich.
 
