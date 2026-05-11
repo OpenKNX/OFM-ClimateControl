@@ -1,4 +1,4 @@
 ﻿### Winter bei ≤
 
-Temperatur unter der auf Winter geschalten wird.
+Temperatur, unter der auf Winterbetrieb umgeschaltet wird.
 

@@ -1,7 +1,7 @@
 ﻿### Durch
 
 - Deaktiviert
-  Kühlen wird nicht unterstüzt
+  Ventilatorbetrieb wird nicht unterstützt
 - Kühl-/Heizsystem 1
   Das Kühl-/Heizsystem 1 wird zum Ventilieren benutzt
 - Kühl-/Heizsystem 2

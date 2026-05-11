@@ -2,5 +2,5 @@
 
 Ist diese Option aktiv, wird ein Reiter "Fenster offen" eingeblendet. 
 Dort können Aktionen konfiguriert werden, die ausgelöst werden, wenn Fenster geöffnet werden.
-Damit kann beispielsweise der Heizbetriebt reduziert werden oder ein Alarm bei lange geöffneten Fenster ausgelöst werden.
+Damit kann beispielsweise der Heizbetrieb reduziert werden oder ein Alarm bei lange geöffnetem Fenster ausgelöst werden.
 

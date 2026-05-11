@@ -3,7 +3,7 @@
 Folgende Einstellmöglichkeiten können gewählt werden:
 
 - Auf Minimal-/Maximalwert korrigieren
-  Die Vorgabe wird auf den konfigurierten maximalen bzw. mininmalen Wert korriegiert
+  Die Vorgabe wird auf den konfigurierten maximalen bzw. minimalen Wert korrigiert
 
 - Ignorieren
   Telegramme die ungültige Werte beinhalten werden ignoriert und die aktuelle Solltemperatur wird beibehalten

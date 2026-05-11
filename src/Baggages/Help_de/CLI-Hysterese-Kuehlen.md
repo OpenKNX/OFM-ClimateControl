@@ -1,6 +1,6 @@
 ﻿### Hysterese Kühlen
 
-Einstellung wie weit die Raumtemperatur den Sollwert unterschreiten muss, damit der Kühlbetriebsmodus verlassen wird.
+Einstellung, wie weit die Raumtemperatur den Sollwert unterschreiten muss, damit der Kühlbetriebsmodus verlassen wird.
 
 - 0,5 K
 - 1 K

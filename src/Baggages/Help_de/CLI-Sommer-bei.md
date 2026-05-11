@@ -1,4 +1,4 @@
 ﻿### Sommer bei ≥
 
-Temperatur ab der auf Sommer geschalten wird.
+Temperatur, ab der auf Sommerbetrieb umgeschaltet wird.
 

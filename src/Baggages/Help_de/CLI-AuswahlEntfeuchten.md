@@ -1,9 +1,9 @@
 ﻿### Durch
 
-Auswahl welches Gerät oder welche Geräte zum Entfeuchten benutzt werden
+Auswahl, welches Gerät oder welche Geräte zum Entfeuchten benutzt werden
 
 - Deaktiviert
-  Kühlen wird nicht unterstüzt
+  Entfeuchten wird nicht unterstützt
 - Kühl-/Heizsystem 1
   Das Kühl-/Heizsystem 1 wird zum Entfeuchten benutzt
 - Kühl-/Heizsystem 2

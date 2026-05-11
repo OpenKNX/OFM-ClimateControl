@@ -1,4 +1,4 @@
 ﻿### Sommerbetrieb ab
 
-Tag, an dem auf Sommerbetrieb umgeschalten wird
+Tag, an dem auf Sommerbetrieb umgeschaltet wird
 

@@ -1,5 +1,5 @@
 ﻿### Kühlen im Winterbetrieb gesperrt
 
-Wenn aktiv, wird das Kühlen im Sommerbetrieb gesperrt  und kann auch manuell nicht gestartet werden.
+Wenn aktiv, wird das Kühlen im Winterbetrieb gesperrt und kann auch manuell nicht gestartet werden.
 
 <!-- DOCEND" -->

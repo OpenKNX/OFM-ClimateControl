@@ -1,6 +1,6 @@
 ﻿### Hysterese Heizen
 
-Einstellung wie weit die Raumtemperatur den Sollwert überschreiten muss, damit der Heizbetriebsmodus verlassen wird.
+Einstellung, wie weit die Raumtemperatur den Sollwert überschreiten muss, damit der Heizbetriebsmodus verlassen wird.
 
 - 0,5 K
 - 1 K
