@@ -86,9 +86,9 @@
             
               <ParameterType Id="%AID%_PT-CLIHysteresis" Name="CLIHysteresis"  op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4" >
-                  <Enumeration Text="0,5°" Value="0" Id="%ENID%" op:headerName="Hysteresis0_5" />
-                  <Enumeration Text="1°" Value="1" Id="%ENID%" op:headerName="Hysteresis1_0" />
-                  <Enumeration Text="2°" Value="2" Id="%ENID%" op:headerName="Hysteresis2_0" />
+                  <Enumeration Text="0,5 K" Value="0" Id="%ENID%" op:headerName="Hysteresis0_5" />
+                  <Enumeration Text="1 K" Value="1" Id="%ENID%" op:headerName="Hysteresis1_0" />
+                  <Enumeration Text="2 K" Value="2" Id="%ENID%" op:headerName="Hysteresis2_0" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -178,9 +178,9 @@
               <ParameterType Id="%AID%_PT-CLIWindowOpenCondition" Name="CLIWindowOpenCondition" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="niemals" Value="0" Id="%ENID%" op:headerName="Disabled" />
-                  <Enumeration Text="wenn Heizen aktiv" Value="1" Id="%ENID%" op:headerName="IfHeating" />     
-                  <Enumeration Text="wenn Kühlen aktiv" Value="2" Id="%ENID%" op:headerName="IfCooling" />     
-                  <Enumeration Text="wenn Heizen oder Kühlen aktiv" Value="3" Id="%ENID%" op:headerName="IfHeatingOrCooling" />     
+                  <Enumeration Text="wenn Heizen ausgewählt" Value="1" Id="%ENID%" op:headerName="IfHeating" />     
+                  <Enumeration Text="wenn Kühlen ausgewählt" Value="2" Id="%ENID%" op:headerName="IfCooling" />     
+                  <Enumeration Text="wenn Heizen oder Kühlen ausgewählt" Value="3" Id="%ENID%" op:headerName="IfHeatingOrCooling" />     
                   <Enumeration Text="immer" Value="4" Id="%ENID%" op:headerName="Always" />     
                 </TypeRestriction>
               </ParameterType>

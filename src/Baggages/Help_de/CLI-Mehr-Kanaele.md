@@ -1,3 +1,3 @@
-﻿### Mehr Kanäle
+﻿### ... (mehr)
 
-Ermöglicht weitere Kanäle hinzuzufügen.
+Ermöglicht weitere Räume hinzuzufügen.

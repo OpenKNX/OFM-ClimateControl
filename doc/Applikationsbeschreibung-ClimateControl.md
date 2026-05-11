@@ -434,112 +434,290 @@ In diesem Abschnitt wird konfiguriert welche Betriebsarten über die HVAC Modusa
 <!-- DOCEND  -->
 ### Heizen
 
-<!-- DOC   -->
+Konfiguration des HVAC Modus Heizen (1)
+
+<!-- DOC HelpContext="AuswahlHeizen" -->
 #### Durch
+
+Auswahl welches Gerät zum Heizen benutzt wird 
+
+- Deaktiviert
+  Heizen wird nicht unterstüzt
+- Kühl-/Heizsystem 1
+  Das Kühl-/Heizsystem 1 wird zum Heizen benutzt
+- Kühl-/Heizsystem 2
+  Das Kühl-/Heizsystem 2 wird zum Heizen benutzt
 
 <!-- DOC -->
 #### Heizen im Sommerbetrieb gesperrt
 
+Wenn aktiv, wird das Heizen im Sommerbetrieb gesperrt und kann auch manuell nicht gestartet werden.
+
 <!-- DOCEND  -->
 ### Kühlen
 
-<!-- DOC   -->
+Konfiguration des HVAC Modus Kühlen (3)
+
+<!-- DOC HelpContext="AuswahlKuehlen" -->
 #### Durch
+
+Auswahl welches Gerät Kühlen benutzt wird 
+
+- Deaktiviert
+  Kühlen wird nicht unterstüzt
+- Kühl-/Heizsystem 1
+  Das Kühl-/Heizsystem 1 wird zum Kühlen benutzt
+- Kühl-/Heizsystem 2
+  Das Kühl-/Heizsystem 2 wird zum Kühlen benutzt
 
 <!-- DOC -->
 ### Kühlen im Winterbetrieb gesperrt
 
-<!-- DOCEND  -->
+Wenn aktiv, wird das Kühlen im Sommerbetrieb gesperrt  und kann auch manuell nicht gestartet werden.
+
+<!-- DOCEND" -->
 ### Entfeuchten
 
-<!-- DOC   -->
+Konfiguration des HVAC Modus Entfeuchten (14)
+
+<!-- DOC HelpContext="AuswahlEntfeuchten" -->
 #### Durch
+
+Auswahl welches Gerät oder welche Geräte zum Entfeuchten benutzt werden
+
+- Deaktiviert
+  Kühlen wird nicht unterstüzt
+- Kühl-/Heizsystem 1
+  Das Kühl-/Heizsystem 1 wird zum Entfeuchten benutzt
+- Kühl-/Heizsystem 2
+  Das Kühl-/Heizsystem 2 wird zum Entfeuchten benutzt
+- Kühl-/Heizsystem 1 und 2
+  Beide Kühl-/Heizsysteme werden zum Entfeuchten benutzt und gleichzeitig aktiviert
 
 <!-- DOCEND  -->
 ### Ventilator
 
-<!-- DOC   -->
+Konfiguration des HVAC Modus Ventilator (9)
+
+<!-- DOC HelpContext="AuswahlVentilator" -->
 #### Durch
 
+- Deaktiviert
+  Kühlen wird nicht unterstüzt
+- Kühl-/Heizsystem 1
+  Das Kühl-/Heizsystem 1 wird zum Ventilieren benutzt
+- Kühl-/Heizsystem 2
+  Das Kühl-/Heizsystem 2 wird zum Ventilieren benutzt
+- Kühl-/Heizsystem 1 und 2
+  Beide Kühl-/Heizsysteme werden zum Ventilieren benutzt und gleichzeitig aktiviert
 
 <!-- DOCEND  -->
 ### Automatik
 
+Konfiguration des HVAC Modus Ventilator (0)
 
-<!-- DOC   -->
+<!-- DOC HelpContext="AuswahlAutomatik" -->
 #### Durch
+
+- Deaktiviert
+  Automatik wird nicht unterstüzt
+- Kühl-/Heizsystem 1
+  Der Automatikmodus des Kühl-/Heizsystem 1 wird benutzt
+- Kühl-/Heizsystem 2
+  Der Automatikmodus des Kühl-/Heizsystem 1 wird benutzt
+- OpenKNX 
+  OpenKNX übernimmt die Auswahl und Steuerung der Kühl-/Heizsysteme
+  Die Auswahl welche Geräte in welchem Modus aktiviert werden, wird durch die Konfiguration der jeweiligen Modus getroffen.
 
 <!-- DOC  -->
 ### Heizen Auswahl durch
 
+Über diese Konfiguration wird ausgewählt wie im Modus Automatik der Heizbetriebsmodus ausgewählt wird
+
+- Deaktiviert
+  Heizen wird durch den Automatikbetrieb nicht aktiviert
+- OpenKNX Automatik
+  OpenKNX entscheidet anhand der Solltemperatur und Raumtemperatur ob ein Heizbetrieb notwendig ist
+- Anforderung durch Objekt
+  Der Heizbetrieb kann extern durch ein Telegram Gruppenobjekt 'Anforderung Heizen für Automatik' aktiviert werden.
 
 <!-- DOC -->
 ### Heizen im Sommerbetrieb erlaubt
 
-
+Heizen wird im Sommerbetrieb durch den Automatikbetrieb nicht ausgewählt.
+Hinweis: wenn 'Heizen im Sommerbetrieb' unter den Einstellungen bei 'Heizen' aktiv ist, hat diese Einstellung keine Auswirkung. 
+Heizen wird in diesem Fall niemals im Sommerbetrieb aktiviert.
 
 <!-- DOC -->
 ### Hysterese Heizen
 
+Einstellung wie weit die Raumtemperatur den Sollwert überschreiten muss, damit der Heizbetriebsmodus verlassen wird.
 
+- 0,5 K
+- 1 K
+- 2 K
 
 <!-- DOC  -->
 ### Kühlen Auswahl durch
 
+Über diese Konfiguration wird ausgewählt wie im Modus Automatik der Kühlbetriebsmodus ausgewählt wird
+
+- Deaktiviert
+  Kühlen wird durch den Automatikbetrieb nicht aktiviert
+- OpenKNX Automatik
+  OpenKNX entscheidet anhand der Solltemperatur und Raumtemperatur ob ein Kühlbetrieb notwendig ist
+- Anforderung durch Objekt
+  Der Kühlbetrieb kann extern durch ein Telegram Gruppenobjekt 'Anforderung Kühlen für Automatik' aktiviert werden.
+
 <!-- DOC -->
 ### Kühlen im Winterbetrieb erlaubt
+
+Kühlen wird im Winterbetrieb durch den Automatikbetrieb nicht ausgewählt.
+Hinweis: wenn 'Heizen im Winterbetrieb' unter den Einstellungen bei 'Kühlen' aktiv ist, hat diese Einstellung keine Auswirkung. 
+Kühlen wird in diesem Fall niemals im Winterbetrieb aktiviert.
 
 <!-- DOC -->
 ### Hysterese Kühlen
 
+Einstellung wie weit die Raumtemperatur den Sollwert unterschreiten muss, damit der Kühlbetriebsmodus verlassen wird.
+
+- 0,5 K
+- 1 K
+- 2 K
 
 
 <!-- DOC  -->
 ### Entfeuchten Auswahl durch
 
+Über diese Konfiguration wird ausgewählt wie im Modus Automatik der Entfeuchtungsbetriebsmodus ausgewählt wird
+
+- Deaktiviert
+  Kühlen wird durch den Automatikbetrieb nicht aktiviert
+- Anforderung durch Objekt
+  Der Entfeuchtungsbetriebsmodus kann extern durch ein Telegram Gruppenobjekt 'Anforderung Entfeuchten für Automatik' aktiviert werden.
+
 <!-- DOC  -->
 ### Ventilator Auswahl durch
+
+Über diese Konfiguration wird ausgewählt wie im Modus Automatik der Ventilatorbetriebsmodus ausgewählt wird
+
+- Deaktiviert
+  Ventilatorbetrieb wird durch den Automatikbetrieb nicht aktiviert
+- Anforderung durch Objekt
+  Der Entfeuchtungsbetriebsmodus kann extern durch ein Telegram Gruppenobjekt 'Anforderung Ventilator für Automatik' aktiviert werden.
 
 <!-- DOC HelpContext="Manuelle-Aenderung-am-Kuehl-Heizsystem" -->
 ### Manuelle Änderung am Kühl-/Heizsystem
 
+- Verlässt Automatikbetrieb für
+  Der Automatikbetriebmodus wird für die unter 'Rückfall auf Automatik nach' konfigurierten Zeit verlassen
+- OpenKNX überschreibt die Auswahl      
+  OpenKNX schreibt zum Gerät den aktuell notwendigen Modus wieder zurück
+  Die manuelle Auswahl am Gerät wird daher rückgesetzt
+
 <!-- DOC -->
-### Rükfall auf Automatik nach
+### Rückfall auf Automatik nach
 
-
+Gibt die Zeit an, wie lange der manuell am Gerät ausgewählte Modus aktiv bleiben soll bis wieder automatisch in den Automatikbetrieb gewechselt wird.
 
 <!-- DOC HelpContext="FensterOffen" -->
 ## Fenster offen
 
+In diesem Abschnitt wird konfiguriert wie sich die Klimasteuerung sich bei einem geöffneten Fenster verhalten soll.
+
+Es stehen bis zu 5 Aktionsauslösungen Konfigurationen zur Verfügung.
 
 <!-- DOC -->
 ### Ausführen
 
+Gibt eine Bedingung an, bei der eine Aktion ausgeführt wird
+
+- niemals
+- wenn Heizen ausgewählt
+  Die Aktion wird nur ausgeführt wenn der Modus Heizen gewählt ist. 
+  Dabei ist nicht relevant ob gerade die Heizung tatsächlich aktiv ist.   
+- wenn Kühlen ausgewählt
+  Die Aktion wird nur ausgeführt wenn der Modus Kühlen gewählt ist. 
+  Dabei ist nicht relevant ob gerade die Kühlung tatsächlich aktiv ist.   
+- wenn Heizen oder Kühlen ausgewählt
+  Die Aktion wird nur ausgeführt wenn der Modus Kühlen oder Heizen gewählt ist. 
+  Dabei ist nicht relevant ob gerade die Kühlung/Heizung tatsächlich aktiv ist.  
+- immer
+  Die Aktion wird immer ausgeführt
+       
 <!-- DOC HelpContext="Aktionnach" -->
 ### nach
 
+Zeit die nach der Fensteröffnung vergehen muss, bis die Aktion ausgelöst wird
 
 <!-- DOC -->
 ### Aktion
 
+Folgende Aktionen stehen zur Verfügung:
 
+- Solltemperaturanpassung 
+  Die Solltemperatur wird beim Heizbetrieb verringert bzw. beim Kühlbetrieb erhöht um einen unnötigen Betrieb zu verhindern.
+- Solltemperaturanpassung rückgängig
+  Die Solltemperaturanpassung wird wieder deaktiviert
+  Dies ist sinnvoll um z.B. bei sehr lange geöffneten Fenster wird die normale Solltemperatureinstellung zu verwenden und die Kühl/Heizbetrieb wieder aufzunehmen
+- Heizen/Kühlen deaktivieren
+  Kühlen oder Heizen wird deaktiviert  
+- Heizen/Kühlen nur in Automatikbetrieb deaktivieren
+  Kühlen oder Heizen wird im Automatikbetrieb deaktiviert
+  Im manuellen Betrieb bleibt das Kühlen/Heizen aktiv.  
+- Heizen/Kühlen wieder aktivieren
+  Der Heiz/Kühlbetrieb wird wieder aufgenommen.
+  Dies ist sinnvoll um z.B. bei sehr lange geöffneten Fenster den normalen Kühl/Heizbetrieb wieder aufzunehmen
+- Raumtemperaturänderung nicht weiterleiten
+  Diese Einstellung bewirkt, dass die Regelung der Kühlung/Heizung mit dem aktuellen Stellwert weiter betrieben wird.
+  Die Einstellung ist bei trägen Heizsystem wie z.B. einer Fußbodenheizung sinnvoll um ein unnötiges schließen und öffnen der Ventile zu verhindern
+- Raumtemperaturänderung weiterleiten
+  Die Raumtemperatur wird wieder an die Regelung der Kühlung/Heizung weitergeben.
+  Dies ist sinnvoll um z.B. bei sehr lange geöffneten Fenster die Regelung der Kühlung/Heizung wieder zu aktiviern
+- Fenster offen Alarm
+  Ein Alarm auf dem Gruppenobjekt 'Fenster offen Alarm' wird ausgegeben.
+  Dieser kann z.B. bei lange geöffneten Fenster aktiviert werden um den Benutzer über ein Display zu erinnern, das Fenster wieder zu schließen.
+- Fenster offen Alarm nur bei aktiver Heizung / Kühlung
+  Wie Option 'Fenster offen Alarm' jedoch wird der Alarm nur ausgelöst, wenn die Heizung / Kühlung gerade aktiv ist.
+
+Alle Aktionen werden nach dem Fenster schließen wenn der Normalbetrieb wieder aufgenommen ist, automatisch zurückgenommen. 
+Ebenfalls werden die Aktionen zurückgenommen wenn eine manuelle Änderung erfolgt. Z.B. der Sollwert wird manuell während der Solltemperaturanpassung geändert.
 
 <!-- DOC -->
-### Kühlbetrieb plus Heizbetrieb minus
+### Kühlbetrieb plus / Heizbetrieb minus
 
+Temperaturoffset für die Einstellung 'Solltemperaturanpassung'.
+Im Kühlbetrieb wird der Sollwert um den eingestellten Wert erhöht, im Heizbetrieb verringert.
+
+- 0,5 K
+- 1 K
+- 2 K
+- 3 K
+- 4 K
+- 5 K
 
 <!-- DOC -->
 ### Aktionen rückgängig
 
+Gibt an, wann die Aktioen die bei geöffneten Fenster ausgelöst wurden, nach dem schließen des Fensters wieder rückgenommen werden.
 
-<!-- DOC -->
-### Fenster zu Behandlung
+- wenn Raumtemperatur stabil
+  Die Aktionen werden zurückgenommen wenn die Raumtemperatur wieder stabil ist oder im Heizbetrieb den aktuellen Sollwert überschreitet bzw. im Kühlbetrieb unterschreitet
+- nach
+  Die Aktionen werden nach der konfigurierten Zeit wieder zurückgenommmen
+            
+Achtung: Diese Einstellung wird für den Fenster offen Alarm nicht verwendet. 
+Dieser wird sofort beim schließen des Fenster zurückgesetzt.
 
+<!-- DOC HelpContext="Fenster-zu-Behandlung" -->
+### nach
 
+Zeit nach der die Aktionen nach dem Fensterschließen wieder zurückgenommen werden.
 
+Achtung: Diese Einstellung wird für den Fenster offen Alarm nicht verwendet. 
+Dieser wird sofort beim schließen des Fenster zurückgesetzt.
 
-
-<!-- DOCEND  -->
+<!-- DOC HelpContext="Mehr-Kanaele" -->
 ### ... (mehr)
 
 Ermöglicht weitere Räume hinzuzufügen.
