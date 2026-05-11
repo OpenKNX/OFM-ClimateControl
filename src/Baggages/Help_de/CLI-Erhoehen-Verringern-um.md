@@ -1,4 +1,4 @@
-﻿### Erhöhren / Verrringern um
+﻿### Erhöhen / Verringern um
 
 Änderung des Sollwerts über den Gruppenobjekt-Eingang "Solltemperatur erhöhen/verringern".
 Optionen:

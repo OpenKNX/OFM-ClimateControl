@@ -24,7 +24,7 @@
                 <Parameter Offset="0" BitOffset="4" Id="%AID%_UP-%TT%%CC%019" ParameterType="%AID%_PT-CLIModeFeedback" Name="CH%C%ModeFeedbackReturnOff" Text="'Modus Aktueller Status' bei AUS" Value="0" />
                 <!-- 3 Bits free-->
                 <!-- Relativ temperature change heating value --> 
-                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeHeating" Text="Erhöhren / Verrringern um" Value="10" />   
+                <Parameter Offset="1" BitOffset="0" Id="%AID%_UP-%TT%%CC%003" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeHeating" Text="Erhöhen / Verringern um" Value="10" />   
                 <!-- Min heating temperature -->
                 <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%005" ParameterType="%AID%_PT-CLITemperature" Name="CH%C%TargetMinHeating" Text="Minimal" Value="18" SuffixText="°C"  /> 
                 <!-- ^^^ Need 2 Bytes ^^^ -->
@@ -59,7 +59,7 @@
                 <Parameter Offset="17" BitOffset="5" Id="%AID%_UP-%TT%%CC%016" ParameterType="%AID%_PT-OnOffYesNo" Name="CH%C%2TargetTemp"  Text="Getrennte Solltemperatur für Heiz- und Kühlbetrieb" Value="1" />
                 <!-- 3 bits free-->
                 <!-- Relativ temperature change cooling value --> 
-                <Parameter Offset="18" BitOffset="0" Id="%AID%_UP-%TT%%CC%017" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeCooling" Text="Erhöhren / Verrringern um" Value="10" />                
+                <Parameter Offset="18" BitOffset="0" Id="%AID%_UP-%TT%%CC%017" ParameterType="%AID%_PT-CLITemperaturCorrection" Name="CH%C%RelativTempChangeCooling" Text="Erhöhen / Verringern um" Value="10" />                
                 <!-- Next Id "%AID%_UP-%TT%%CC%020" -->
               </Union>
               <!-- 1 byte free -->
@@ -78,7 +78,7 @@
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%104" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp1" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->   
                 <!-- PI Preset 1-->
-                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%105" ParameterType="%AID%_PT-CLIPIPreset" Name="CH%C%PIPreset1" Text="Heizungstype" Value="0" />
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%105" ParameterType="%AID%_PT-CLIPIPreset" Name="CH%C%PIPreset1" Text="Heizungstyp" Value="0" />
                 <!-- 4 bit free -->   
                 <!-- PI I 1 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%106" ParameterType="%AID%_PT-CLIPIP" Name="CH%C%PII1" Text="Proportional" Value="5" SuffixText="K" /> 
@@ -109,7 +109,7 @@
                 <Parameter Offset="1" BitOffset="1" Id="%AID%_UP-%TT%%CC%204" ParameterType="%AID%_PT-CLIWaitTimeAfterPowerUp" Name="CH%C%WaitTimeAfterPowerUp2" Text="Wartezeit nach Einschalten" Value="0" />
                 <!-- ^^^ Need 7 bits -->  
                 <!-- PI Preset 2-->
-                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%205" ParameterType="%AID%_PT-CLIPIPreset" Name="CH%C%PIPreset2" Text="Heizungstype" Value="0" />
+                <Parameter Offset="2" BitOffset="0" Id="%AID%_UP-%TT%%CC%205" ParameterType="%AID%_PT-CLIPIPreset" Name="CH%C%PIPreset2" Text="Heizungstyp" Value="0" />
                 <!-- 4 bit free -->   
                 <!-- PI I 2 -->
                 <Parameter Offset="3" BitOffset="0" Id="%AID%_UP-%TT%%CC%206" ParameterType="%AID%_PT-CLIPIP" Name="CH%C%PII2" Text="Proportional" Value="5" SuffixText="K" /> 
@@ -1045,7 +1045,7 @@
                         <!-- <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301" HelpContext="%DOC%" /> -->
                         <!-- <choose ParamRefId="%AID%_UP-%TT%%CC%103_R-%TT%%CC%10301"> -->
                           <!-- <when test="1"> -->
-                            <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" /> -->
+                            <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädigung des Geräts führen.&#xD;&#xA;Beispielsweise haben Klimaanlagen meist ein Heizsystem im Außengerät für das Schmiermittel, das unter 10°C aktiviert wird." UIHint="Information" /> -->
                             <!-- Dev 1 Power -->
 							              <!-- <ComObjectRefRef RefId="%AID%_O-%TT%%CC%108_R-%TT%%CC%10800" /> -->
                             <!-- Wait Time after Power Up 1 -->
@@ -1196,7 +1196,7 @@
                         <!-- <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301" HelpContext="%DOC%" /> -->
                         <!-- <choose ParamRefId="%AID%_UP-%TT%%CC%203_R-%TT%%CC%20301"> -->
                           <!-- <when test="1"> -->
-                            <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädung der Gerätes führen.&#xD;&#xA;Beispielsweise haben Klimanalagen meist ein Heizsystem im Außengerät für das Schmiermittel das unter 10°C aktiviert wird." UIHint="Information" /> -->
+                            <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="Achtung: Nicht bei jedem Kühl-Heizsystem ist ein totales Abschalten empfohlen oder kann sogar zur Beschädigung des Geräts führen.&#xD;&#xA;Beispielsweise haben Klimaanlagen meist ein Heizsystem im Außengerät für das Schmiermittel, das unter 10°C aktiviert wird." UIHint="Information" /> -->
                             <!-- Dev 2 Power -->
 							              <!-- <ComObjectRefRef RefId="%AID%_O-%TT%%CC%208_R-%TT%%CC%20800" /> -->
                             <!-- Wait Time after Power Up 2 -->
