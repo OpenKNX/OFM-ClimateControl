@@ -39,6 +39,7 @@ class ClimateControlModule : public ClimateControlChannelOwnerModule
     void start();
   public:
     ClimateControlModule();
+    void toogleWinterByButton();
     void readFlash(const uint8_t *iBuffer, const uint16_t iSize) override;
     void writeFlash() override;
     uint16_t flashSize() override;

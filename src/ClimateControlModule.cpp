@@ -292,6 +292,11 @@ void ClimateControlModule::handleWinterSummerMode(OpenKNX::Time::TimeChangedArgs
     }
 }
 
+void ClimateControlModule::toogleWinterByButton()
+{
+    setIsWinter(!_isWinter, "Button toggle", false);
+}
+
 void ClimateControlModule::setIsWinter(bool isWinter, const char* diagnosticMessage, bool start)
 {
     _isWinterFallbackActive = false;
