@@ -12,14 +12,19 @@ class ClimateDevice
         RoomChannel& _roomChannel;
         const std::string _name;
         virtual const std::string& logPrefix();
-    
+        bool _supportHeating;
+        bool _supportCooling;
+        bool _supportDehumification;
+        bool _supportFan;
+        bool _supportAuto;
     public:
         ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel);
+        void init(bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan, bool supportAuto);
         virtual ~ClimateDevice() = default;
         virtual int deviceNumber() const;
      
      
-        virtual bool supportMode(ClimateModeSelection mode) = 0;
+        virtual bool supportMode(ClimateModeSelection mode);
         virtual void loop() = 0;
         virtual void setMode(ClimateModeSelection mode) = 0;
         virtual void setTargetTemperature(uint16_t targetTemperatureRawKnx) = 0;

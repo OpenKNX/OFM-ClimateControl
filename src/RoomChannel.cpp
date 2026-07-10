@@ -1,6 +1,9 @@
 #include "RoomChannel.h"
 #include "ClimateControlModule.h"
 #include "ClimateDeviceKnxActor.h"
+#ifdef CREATE_CLIMATE_DEVICE
+#include "ClimageDeviceCustom.h"
+#endif 
 #include <cmath>
 
 
@@ -9,26 +12,27 @@ RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
                                              _lastActiveMode(DefaultMode)
 {
     isActiveChangedFromDevice();
-    ClimateDevice* device1;
+        ClimateDevice* device1;
 #ifdef CREATE_CLIMATE_DEVICE
     device1 = CREATE_CLIMATE_DEVICE;
 #else
-    device1 = new ClimateDeviceKnxActor(channelIndex, 0, *this,
-                                            ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2);
+    device1 = new ClimateDeviceKnxActor(channelIndex, 0, *this);
 #endif
+    device1->init(
+        ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2);    
     _climateDevices.push_back(device1);
-    _climateDevices.push_back(new ClimateDeviceKnxActor(channelIndex, 1, *this,
-
-                                            ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
-                                            ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2));
-
+    auto device2 = new ClimateDeviceKnxActor(channelIndex, 1, *this);
+    device2->init(
+        ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHHeatDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHCoolDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHDehumDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHFanDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2,
+        ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem2 || ParamCLI_CHAutoDeviceSelection == PT_CLIDeviceSelection::CoolingHeatingSystem1And2);
+    _climateDevices.push_back(device2);
     for (ClimateDevice* device : _climateDevices)
     {
         if (device->supportMode(ClimateModeSelection::Cooling))

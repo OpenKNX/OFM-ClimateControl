@@ -18,11 +18,6 @@ class ClimateDeviceKnxActor : public ClimateDevice
         unsigned long _blockForwardTemperatureFeedbackFromDevice = 0;
         uint16_t _roomTemperatureRawKnx = std::numeric_limits<uint16_t>::max();
         ClimateModeSelection _mode = ClimateModeSelection::Undefined;
-        bool _supportHeating;
-        bool _supportCooling;
-        bool _supportDehumification;
-        bool _supportFan;
-        bool _supportAuto;
         bool _isActive = false;
         unsigned long _waitForSingeModeKosTimer = 0;
         PIController* _piController = nullptr;
@@ -31,8 +26,7 @@ class ClimateDeviceKnxActor : public ClimateDevice
         void setIsActive(bool active);
         void calculateIsActive();
     public:
-        ClimateDeviceKnxActor(int channelIndex, int deviceIndex, RoomChannel& roomChannel, bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan, bool supportAuto);
-        bool supportMode(ClimateModeSelection mode) override;
+        ClimateDeviceKnxActor(int channelIndex, int deviceIndex, RoomChannel& roomChannel);
         int deviceNumber() const override;
         void loop() override;
         void setMode(ClimateModeSelection mode) override;

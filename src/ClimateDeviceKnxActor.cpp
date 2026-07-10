@@ -75,18 +75,8 @@
 ClimateDeviceKnxActor::ClimateDeviceKnxActor(
     int channelIndex, 
     int deviceIndex, 
-    RoomChannel& roomChannel, 
-    bool supportHeating, 
-    bool supportCooling, 
-    bool supportDehumification, 
-    bool supportFan,
-    bool supportAuto) : 
-    ClimateDevice(channelIndex, deviceIndex, roomChannel),
-    _supportHeating(supportHeating),
-    _supportCooling(supportCooling),
-    _supportDehumification(supportDehumification),
-    _supportFan(supportFan),
-    _supportAuto(supportAuto)
+    RoomChannel& roomChannel) : 
+    ClimateDevice(channelIndex, deviceIndex, roomChannel)
 {
     switch (ParamCLI_CHIsActive1)
     {
@@ -494,24 +484,7 @@ void ClimateDeviceKnxActor::logStatus()
     }
 }
 
-bool ClimateDeviceKnxActor::supportMode(ClimateModeSelection mode)
-{
-    switch (mode)
-    {
-        case ClimateModeSelection::Cooling:
-            return _supportCooling;
-        case ClimateModeSelection::Heating:
-            return _supportHeating;
-        case ClimateModeSelection::Dehumification:
-            return _supportDehumification;
-        case ClimateModeSelection::Fan:
-            return _supportFan;
-        case ClimateModeSelection::Auto:
-            return _supportAuto;
-        default:
-            return false;
-    }
-}
+
 
 uint8_t ClimateDeviceKnxActor::getRoundingParameter()
 {
