@@ -27,7 +27,6 @@ class ClimateDeviceKnxActor : public ClimateDevice
         void calculateIsActive();
     public:
         ClimateDeviceKnxActor(int channelIndex, int deviceIndex, RoomChannel& roomChannel);
-        int deviceNumber() const override;
         void loop() override;
         void setMode(ClimateModeSelection mode) override;
         void setTargetTemperature(uint16_t targetTemperatureRawKnx) override;

@@ -21,7 +21,7 @@ class ClimateDevice
         ClimateDevice(int channelIndex, int deviceIndex, RoomChannel& roomChannel);
         void init(bool supportHeating, bool supportCooling, bool supportDehumification, bool supportFan, bool supportAuto);
         virtual ~ClimateDevice() = default;
-        virtual int deviceNumber() const;
+        int deviceNumber() const;
      
      
         virtual bool supportMode(ClimateModeSelection mode);

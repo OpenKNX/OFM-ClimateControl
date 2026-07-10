@@ -126,13 +126,6 @@ ClimateDeviceKnxActor::ClimateDeviceKnxActor(
             KoCLI_CDevRoomTemp.requestObjectRead();
         }
     }
-
-}
-
-
-int ClimateDeviceKnxActor::deviceNumber() const
-{
-    return _deviceIndex + 1;
 }
 
 ClimateModeSelection ClimateDeviceKnxActor::currentMode()
