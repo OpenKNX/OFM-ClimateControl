@@ -1,8 +1,5 @@
 #pragma once
 #include "knxprod.h"
-#ifndef ParamFCB_CHFormatStringStr
-#error "OpenKNXproducer 3.12.8.0 or higher is required to compile this project. Please update your OpenKNXproducer installation."
-#endif
 #include "OpenKNX.h"
 #include "ChannelOwnerModule.h"
 #include "ClimateModeSelection.h"

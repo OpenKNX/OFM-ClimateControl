@@ -1,8 +1,8 @@
 #include "RoomChannel.h"
 #include "ClimateControlModule.h"
 #include "ClimateDeviceKnxActor.h"
-#ifdef CREATE_CLIMATE_DEVICE
-#include "ClimageDeviceCustom.h"
+#ifdef CLIMATE_DEVICE_CLASSNAME
+#include "ClimateDeviceCustom.h"
 #endif 
 #include <cmath>
 
@@ -14,7 +14,7 @@ RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
     isActiveChangedFromDevice();
         ClimateDevice* device1;
 #ifdef CLIMATE_DEVICE_CLASSNAME
-    device1 = CLIMATE_DEVICE_CLASSNAME(channelIndex, 0, *this);
+    device1 = new CLIMATE_DEVICE_CLASSNAME(channelIndex, 0, *this);
 #else
     device1 = new ClimateDeviceKnxActor(channelIndex, 0, *this);
 #endif
