@@ -4,6 +4,16 @@
   <op:minOpenKNXproducerVersion value="4.2.9" />
   <op:config name="%CLI_NumChannelsDefault%" value="0" />
   <op:config name="%CLI_DeviceName%" value="Klimaanlage" />
+  <op:config name="%CLI_ChannelName%" value="{{0:Raum %C%}}" />
+  <op:config name="%CLI_ControlTemperatureDefault%" value="0" />
+  <op:config name="%CLI_ControlTemperatureAccess%" value="ReadWrite" />
+  <op:config name="%CLI_ControlDeviceSelectionType%" value="%AID%_PT-CLIDeviceSelection" />
+  <op:config name="%CLI_ShowModeSelection%" value="1" />
+  <op:config name="%CLI_ClimateDevice1Name%" value="Kühl-/Heizsystem 1" />
+  <op:config name="%CLI_ClimateDevice2Name%" value="Kühl-/Heizsystem 2" />
+  <op:config name="%CLI_ModeCoolingDefault%" value="2" />
+  <op:config name="%CLI_ModeAutomaticDefault%" value="0" />
+  <op:config name="%CLI_ModeAutomaticHeatingCoolingDefault%" value="0" />
 
   <ManufacturerData>
     <Manufacturer>
@@ -131,8 +141,8 @@
               <ParameterType Id="%AID%_PT-CLIDeviceSelection" Name="CLIDeviceSelection" op:headerExport="enum">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" op:headerName="Disabled" />
-                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" op:headerName="CoolingHeatingSystem1" />
-                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" op:headerName="CoolingHeatingSystem2" />      
+                  <Enumeration Text="%CLI_ClimateDevice1Name%" Value="1" Id="%ENID%" op:headerName="CoolingHeatingSystem1" />
+                  <Enumeration Text="%CLI_ClimateDevice2Name%" Value="2" Id="%ENID%" op:headerName="CoolingHeatingSystem2" />      
                   <Enumeration Text="Kühl-/Heizsystem 1 und 2" Value="3" Id="%ENID%" op:headerName="CoolingHeatingSystem1And2" />     
                 </TypeRestriction>
               </ParameterType>
@@ -140,16 +150,16 @@
               <ParameterType Id="%AID%_PT-CLIDeviceSelectionWithoutBoth" Name="CLIDeviceSelectionWithoutBoth" op:headerExport="base" op:headerName="CLIDeviceSelection">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
+                  <Enumeration Text="%CLI_ClimateDevice1Name%" Value="1" Id="%ENID%" />
+                  <Enumeration Text="%CLI_ClimateDevice2Name%" Value="2" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
 
                <ParameterType Id="%AID%_PT-CLIDeviceSelectionForAuto" Name="CLIDeviceSelectionForAuto" op:headerExport="base" op:headerName="CLIDeviceSelection">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Text="Deaktiviert" Value="0" Id="%ENID%" />
-                  <Enumeration Text="Kühl-/Heizsystem 1" Value="1" Id="%ENID%" />
-                  <Enumeration Text="Kühl-/Heizsystem 2" Value="2" Id="%ENID%" />      
+                  <Enumeration Text="%CLI_ClimateDevice1Name%" Value="1" Id="%ENID%" />
+                  <Enumeration Text="%CLI_ClimateDevice2Name%" Value="2" Id="%ENID%" />      
                   <Enumeration Text="OpenKNX" Value="3" Id="%ENID%" />      
                 </TypeRestriction>
               </ParameterType>
