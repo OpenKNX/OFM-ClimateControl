@@ -1,6 +1,9 @@
 #include "RoomChannel.h"
 #include "ClimateControlModule.h"
 #include "ClimateDeviceKnxActor.h"
+#ifdef CREATE_CLIMATE_DEVICE
+#include "ClimageDeviceCustom.h"
+#endif 
 #include <cmath>
 
 
