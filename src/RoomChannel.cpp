@@ -14,7 +14,7 @@ RoomChannel::RoomChannel(int channelIndex) : _channelIndex(channelIndex),
     isActiveChangedFromDevice();
         ClimateDevice* device1;
 #ifdef CREATE_CLIMATE_DEVICE
-    device1 = CREATE_CLIMATE_DEVICE;
+    device1 = CREATE_CLIMATE_DEVICE(channelIndex, 0, *this);
 #else
     device1 = new ClimateDeviceKnxActor(channelIndex, 0, *this);
 #endif
